@@ -18,15 +18,11 @@ export const metadata: Metadata = {
   description:
     "Ανθεκτικότητα, Συμπερίληψη και Ανάπτυξη. Προς μια Δίκαιη Πράσινη και Ψηφιακή Μετάβαση των Ελληνικών Περιφερειών",
   icons: {
-    icon: '/favicon.png',
+    icon: "/favicon.png",
   },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={clsx("h-full w-full bg-gray-50 antialiased", inter.variable)}>
       <body className="h-full w-full">{children}</body>
