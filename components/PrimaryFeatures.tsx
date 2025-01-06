@@ -341,7 +341,7 @@ function InvestScreen(props: ScreenProps) {
 }
 
 function usePrevious<T>(value: T) {
-  let ref = useRef<T>();
+  let ref = useRef<T | null>(null);
 
   useEffect(() => {
     ref.current = value;
@@ -354,6 +354,7 @@ function FeaturesDesktop() {
   let [changeCount, setChangeCount] = useState(0);
   let [selectedIndex, setSelectedIndex] = useState(0);
   let prevIndex = usePrevious(selectedIndex);
+  // @ts-ignore
   let isForwards = prevIndex === undefined ? true : selectedIndex > prevIndex;
 
   let onChange = useDebouncedCallback(
@@ -462,6 +463,7 @@ function FeaturesMobile() {
         {features.map((feature, featureIndex) => (
           <div
             key={featureIndex}
+            // @ts-ignore
             ref={(ref) => ref && (slideRefs.current[featureIndex] = ref)}
             className="w-full flex-none snap-center px-4 sm:px-6"
           >

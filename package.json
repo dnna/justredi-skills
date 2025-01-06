@@ -4,7 +4,8 @@
     "dev": "next dev",
     "build": "next build",
     "lint": "next lint -d ./",
-    "lint:fix": "next lint -d ./ --fix"
+    "lint:fix": "next lint -d ./ --fix",
+    "ts-lint": "tsc --noEmit"
   },
   "dependencies": {
     "@emotion/cache": "^11.14.0",

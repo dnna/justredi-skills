@@ -14,7 +14,7 @@ const prices = [
 const maxPrice = Math.max(...prices);
 const minPrice = Math.min(...prices);
 
-function Chart({
+const Chart = ({
   className,
   activePointIndex,
   onChangeActivePointIndex,
@@ -32,7 +32,7 @@ function Chart({
   paddingX?: number;
   paddingY?: number;
   gridLines?: number;
-}) {
+}) => {
   let width = totalWidth - paddingX * 2;
   let height = totalHeight - paddingY * 2;
 
@@ -148,7 +148,7 @@ function Chart({
       )}
     </svg>
   );
-}
+};
 
 export function AppDemo() {
   let [activePointIndex, setActivePointIndex] = useState<number | null>(null);
