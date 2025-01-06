@@ -2,11 +2,30 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build"
+    "build": "next build",
+    "lint": "next lint -d ./",
+    "lint:fix": "next lint -d ./ --fix"
   },
   "dependencies": {
-    "next": "latest",
+    "@emotion/cache": "^11.14.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/icons-material": "^6.3.1",
+    "@mui/material": "^6.3.1",
+    "@mui/material-nextjs": "^6.3.1",
+    "next": "15.1.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "22.10.5",
+    "@types/react": "19.0.2",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "^15.1.3",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "prettier": "^3.4.2",
+    "prettier-eslint": "^16.3.0",
+    "typescript": "5.7.2"
   }
 }
