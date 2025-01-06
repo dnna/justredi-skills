@@ -5,24 +5,28 @@ import clsx from "clsx";
 import "@/styles/tailwind.css";
 
 const inter = Inter({
-  subsets: ["latin"],
+  subsets: ["latin", "greek"],
   display: "swap",
   variable: "--font-inter",
 });
 
 export const metadata: Metadata = {
   title: {
-    template: "%s - Pocket",
-    default: "Pocket - Invest at the perfect time.",
+    template: "%s - JustReDI Skills",
+    default: "JustReDI Skills",
   },
   description:
-    "By leveraging insights from our network of industry insiders, you’ll know exactly when to buy to maximize profit, and exactly when to sell to avoid painful losses.",
+    "Ανθεκτικότητα, Συμπερίληψη και Ανάπτυξη. Προς μια Δίκαιη Πράσινη και Ψηφιακή Μετάβαση των Ελληνικών Περιφερειών",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html lang="en" className={clsx("bg-gray-50 antialiased", inter.variable)}>
-      <body>{children}</body>
+    <html lang="en" className={clsx("h-full w-full bg-gray-50 antialiased", inter.variable)}>
+      <body className="h-full w-full">{children}</body>
     </html>
   );
 }
