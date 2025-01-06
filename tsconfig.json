@@ -17,6 +17,38 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
+    "paths": {
+      "@lib/*": [
+        "lib/*"
+      ],
+      "@pages/*": [
+        "pages/[locale]/*"
+      ],
+      "@components/*": [
+        "components/*"
+      ],
+      "@gql/*": [
+        "gql/*"
+      ],
+      "@context/*": [
+        "context/*"
+      ],
+      "@landing/*": [
+        "landing/*"
+      ],
+      "@assets/*": [
+        "assets/*"
+      ],
+      "@hooks/*": [
+        "hooks/*"
+      ],
+      "@public_assets/*": [
+        "public/assets/*"
+      ],
+      "@app/*": [
+        "app/*"
+      ],
+    },
     "plugins": [
       {
         "name": "next"
