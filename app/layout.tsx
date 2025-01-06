@@ -17,6 +17,9 @@ export const metadata: Metadata = {
   },
   description:
     "Ανθεκτικότητα, Συμπερίληψη και Ανάπτυξη. Προς μια Δίκαιη Πράσινη και Ψηφιακή Μετάβαση των Ελληνικών Περιφερειών",
+  icons: {
+    icon: '/favicon.png',
+  },
 };
 
 export default function RootLayout({
