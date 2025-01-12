@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useEffect, useId, useRef, useState } from "react";
+import React, { Fragment, useEffect, useId, useRef, useState } from "react";
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
 import clsx from "clsx";
 import { type MotionProps, type Variant, type Variants, AnimatePresence, motion } from "framer-motion";
@@ -19,7 +19,7 @@ import {
   StaticKitLogo,
   TransistorLogo,
   TupleLogo,
-} from "@/components/StockLogos";
+} from "@/components/TechLogos";
 
 const MotionAppScreenHeader = motion(AppScreen.Header);
 const MotionAppScreenBody = motion(AppScreen.Body);
@@ -31,25 +31,23 @@ interface CustomAnimationProps {
 
 const features = [
   {
-    name: "Invite friends for better returns",
-    description:
-      "For every friend you invite to Pocket, you get insider notifications 5 seconds sooner. And it’s 10 seconds if you invite an insider.",
+    name: "Cloud Computing",
+    description: "Understanding cloud platforms enables engineers to build scalable, fault-tolerant applications.",
     icon: DeviceUserIcon,
-    screen: InviteScreen,
+    screen: Top10PlatformsScreen,
   },
   {
-    name: "Notifications on stock dips",
+    name: "Version Control Systems",
     description:
-      "Get a push notification every time we find out something that’s going to lower the share price on your holdings so you can sell before the information hits the public markets.",
+      "Proficiency in tools like Git is vital for managing code changes and collaborating with other developers.",
     icon: DeviceNotificationIcon,
-    screen: StocksScreen,
+    screen: Top10TechsScreen,
   },
   {
-    name: "Invest what you want",
-    description:
-      "We hide your stock purchases behind thousands of anonymous trading accounts, so suspicious activity can never be traced back to you.",
+    name: "Database Management",
+    description: "Skills in designing and managing databases are crucial for handling data storage and retrieval.",
     icon: DeviceTouchIcon,
-    screen: InvestScreen,
+    screen: Top10DatabasesScreen,
   },
 ];
 
@@ -167,173 +165,131 @@ type ScreenProps =
   | {
       animated: true;
       custom: CustomAnimationProps;
+      data: Array<{ name?: string; amount?: string; color?: string; logo?: React.ComponentType }>;
     }
-  | { animated?: false };
+  | {
+      animated?: false;
+      data: Array<{ name?: string; amount?: string; color?: string; logo?: React.ComponentType }>;
+    };
 
-function InviteScreen(props: ScreenProps) {
-  return (
-    <AppScreen className="w-full">
-      <MotionAppScreenHeader {...(props.animated ? headerAnimation : {})}>
-        <AppScreen.Title>Invite people</AppScreen.Title>
-        <AppScreen.Subtitle>
-          Get tips <span className="text-white">5s sooner</span> for every invite.
-        </AppScreen.Subtitle>
-      </MotionAppScreenHeader>
-      <MotionAppScreenBody {...(props.animated ? { ...bodyAnimation, custom: props.custom } : {})}>
-        <div className="px-4 py-6">
-          <div className="space-y-6">
-            {[
-              { label: "Full name", value: "Albert H. Wiggin" },
-              { label: "Email address", value: "awiggin@chase.com" },
-            ].map((field) => (
-              <div key={field.label}>
-                <div className="text-sm text-gray-500">{field.label}</div>
-                <div className="mt-2 border-b border-gray-200 pb-2 text-sm text-gray-900">{field.value}</div>
-              </div>
-            ))}
-          </div>
-          <div className="mt-6 rounded-lg bg-cyan-500 px-3 py-2 text-center text-sm font-semibold text-white">
-            Invite person
-          </div>
-        </div>
-      </MotionAppScreenBody>
-    </AppScreen>
-  );
+function Top10TechsScreen(props: ScreenProps) {
+  const top10Techs = [
+    {
+      name: "Laravel",
+      amount: "15",
+      color: "#F9322C",
+      logo: LaravelLogo,
+    },
+    {
+      name: "Tuple",
+      amount: "12",
+      color: "#5A67D8",
+      logo: TupleLogo,
+    },
+    {
+      name: "Transistor",
+      amount: "11",
+      color: "#2A5B94",
+      logo: TransistorLogo,
+    },
+    {
+      name: "Diageo",
+      amount: "7",
+      color: "#3320A7",
+      logo: DiageoLogo,
+    },
+    {
+      name: "StaticKit",
+      amount: "7",
+      color: "#2A3034",
+      logo: StaticKitLogo,
+    },
+    {
+      name: "Statamic",
+      amount: "5",
+      color: "#0EA5E9",
+      logo: StatamicLogo,
+    },
+    {
+      name: "Mirage",
+      amount: "5",
+      color: "#16A34A",
+      logo: MirageLogo,
+    },
+    {
+      name: "Reversable",
+      amount: "3",
+      color: "#8D8D8D",
+      logo: ReversableLogo,
+    },
+  ];
+  return <Top10Screen {...props} data={top10Techs} />;
 }
 
-function StocksScreen(props: ScreenProps) {
+function Top10PlatformsScreen(props: ScreenProps) {
+  const data = [
+    {
+      name: "AWS",
+      amount: "15",
+      color: "#FF9900",
+      logo: LaravelLogo,
+    },
+    {
+      name: "GCP",
+      amount: "12",
+      color: "#4285F4",
+      logo: TupleLogo,
+    },
+    {
+      name: "Azure",
+      amount: "11",
+      color: "#00A2FF",
+      logo: TransistorLogo,
+    },
+  ];
+  return <Top10Screen {...props} data={data} />;
+}
+
+function Top10DatabasesScreen(props: ScreenProps) {
+  const data = [
+    {
+      name: "PostgreSQL",
+      amount: "15",
+      color: "#336791",
+      logo: LaravelLogo,
+    },
+    {
+      name: "MySQL",
+      amount: "12",
+      color: "#00758F",
+      logo: TupleLogo,
+    },
+    {
+      name: "MongoDB",
+      amount: "11",
+      color: "#13AA52",
+      logo: TransistorLogo,
+    },
+  ];
+  return <Top10Screen {...props} data={data} />;
+}
+
+function Top10Screen(props: ScreenProps) {
   return (
     <AppScreen className="w-full">
-      <MotionAppScreenHeader {...(props.animated ? headerAnimation : {})}>
-        <AppScreen.Title>Stocks</AppScreen.Title>
-        <AppScreen.Subtitle>March 9, 2022</AppScreen.Subtitle>
-      </MotionAppScreenHeader>
       <MotionAppScreenBody {...(props.animated ? { ...bodyAnimation, custom: props.custom } : {})}>
         <div className="divide-y divide-gray-100">
-          {[
-            {
-              name: "Laravel",
-              price: "4,098.01",
-              change: "+4.98%",
-              color: "#F9322C",
-              logo: LaravelLogo,
-            },
-            {
-              name: "Tuple",
-              price: "5,451.10",
-              change: "-3.38%",
-              color: "#5A67D8",
-              logo: TupleLogo,
-            },
-            {
-              name: "Transistor",
-              price: "4,098.41",
-              change: "+6.25%",
-              color: "#2A5B94",
-              logo: TransistorLogo,
-            },
-            {
-              name: "Diageo",
-              price: "250.65",
-              change: "+1.25%",
-              color: "#3320A7",
-              logo: DiageoLogo,
-            },
-            {
-              name: "StaticKit",
-              price: "250.65",
-              change: "-3.38%",
-              color: "#2A3034",
-              logo: StaticKitLogo,
-            },
-            {
-              name: "Statamic",
-              price: "5,040.85",
-              change: "-3.11%",
-              color: "#0EA5E9",
-              logo: StatamicLogo,
-            },
-            {
-              name: "Mirage",
-              price: "140.44",
-              change: "+9.09%",
-              color: "#16A34A",
-              logo: MirageLogo,
-            },
-            {
-              name: "Reversable",
-              price: "550.60",
-              change: "-1.25%",
-              color: "#8D8D8D",
-              logo: ReversableLogo,
-            },
-          ].map((stock) => (
+          {props.data.map((stock) => (
             <div key={stock.name} className="flex items-center gap-4 px-4 py-3">
               <div className="flex-none rounded-full" style={{ backgroundColor: stock.color }}>
                 <stock.logo className="h-10 w-10" />
               </div>
               <div className="flex-auto text-sm text-gray-900">{stock.name}</div>
               <div className="flex-none text-right">
-                <div className="text-sm font-medium text-gray-900">{stock.price}</div>
-                <div
-                  className={clsx(
-                    "text-xs leading-5",
-                    stock.change.startsWith("+") ? "text-cyan-500" : "text-gray-500",
-                  )}
-                >
-                  {stock.change}
-                </div>
+                <div className="text-sm font-medium text-gray-900">{stock.amount}</div>
               </div>
             </div>
           ))}
-        </div>
-      </MotionAppScreenBody>
-    </AppScreen>
-  );
-}
-
-function InvestScreen(props: ScreenProps) {
-  return (
-    <AppScreen className="w-full">
-      <MotionAppScreenHeader {...(props.animated ? headerAnimation : {})}>
-        <AppScreen.Title>Buy $LA</AppScreen.Title>
-        <AppScreen.Subtitle>
-          <span className="text-white">$34.28</span> per share
-        </AppScreen.Subtitle>
-      </MotionAppScreenHeader>
-      <MotionAppScreenBody {...(props.animated ? { ...bodyAnimation, custom: props.custom } : {})}>
-        <div className="px-4 py-6">
-          <div className="space-y-4">
-            {[
-              { label: "Number of shares", value: "100" },
-              {
-                label: "Current market price",
-                value: (
-                  <div className="flex">
-                    $34.28
-                    <svg viewBox="0 0 24 24" fill="none" className="h-6 w-6">
-                      <path
-                        d="M17 15V7H9M17 7 7 17"
-                        stroke="#06B6D4"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </div>
-                ),
-              },
-              { label: "Estimated cost", value: "$3,428.00" },
-            ].map((item) => (
-              <div key={item.label} className="flex justify-between border-b border-gray-100 pb-4">
-                <div className="text-sm text-gray-500">{item.label}</div>
-                <div className="text-sm font-semibold text-gray-900">{item.value}</div>
-              </div>
-            ))}
-            <div className="rounded-lg bg-cyan-500 px-3 py-2 text-center text-sm font-semibold text-white">
-              Buy shares
-            </div>
-          </div>
         </div>
       </MotionAppScreenBody>
     </AppScreen>
@@ -398,7 +354,7 @@ function FeaturesDesktop() {
       </TabList>
       <div className="relative col-span-6">
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-          <CircleBackground color="#13B5C8" className="animate-spin-slower" />
+          <CircleBackground color="#58a942" className="animate-spin-slower" />
         </div>
         <HeroFrame className="z-10 mx-auto w-full max-w-[366px]">
           <TabPanels as={Fragment}>
@@ -513,12 +469,9 @@ export function PrimaryFeatures() {
     <section id="features" aria-label="Features for investing all your money" className="bg-gray-900 py-20 sm:py-32">
       <Container>
         <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-3xl">
-          <h2 className="text-3xl font-medium tracking-tight text-white">
-            Most sought after skills
-          </h2>
+          <h2 className="text-3xl font-medium tracking-tight text-white">Most sought after skills</h2>
           <p className="mt-2 text-lg text-gray-400">
-            Pocket was built for investors like you who play by their own rules and aren’t going to let SEC regulations
-            get in the way of their dreams. If other investing tools are afraid to build it, Pocket has it.
+            These are the skills matching the highest number of job profiles.
           </p>
         </div>
       </Container>
