@@ -61,7 +61,7 @@ export function Hero() {
             <BackgroundIllustration className="absolute left-1/2 top-4 h-[1026px] w-[1026px] -translate-x-1/3 stroke-gray-300/70 [mask-image:linear-gradient(to_bottom,white_20%,transparent_75%)] sm:top-16 sm:-translate-x-1/2 lg:-top-16 lg:ml-12 xl:-top-14 xl:ml-0" />
           </div>
           <div className="relative z-10 mx-auto max-w-2xl lg:col-span-12 lg:max-w-none xl:col-span-12">
-            <h1 className="text-center font-bold text-2xl font-medium tracking-tight text-[#6DAB51]">
+            <h1 className="text-center text-2xl font-bold font-medium tracking-tight text-[#6DAB51]">
               Welcome to JustReDI Skills
             </h1>
           </div>
