@@ -198,7 +198,7 @@ export function Reviews() {
         <ReviewGrid />
         <div>
           <div className="mt-12 flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
-            <Button type="submit">
+            <Button type="submit" color="green">
               <span>See all</span>
             </Button>
           </div>

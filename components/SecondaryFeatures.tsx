@@ -110,7 +110,7 @@ export function SecondaryFeatures() {
         </ul>
         <div>
           <div className="mt-12 flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
-            <Button type="submit">
+            <Button type="submit" color="green">
               <span>Explore learning opportunities</span>
             </Button>
           </div>
