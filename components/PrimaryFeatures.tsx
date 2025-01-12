@@ -9,7 +9,7 @@ import { useDebouncedCallback } from "use-debounce";
 import { AppScreen } from "@/components/AppScreen";
 import { CircleBackground } from "@/components/CircleBackground";
 import { Container } from "@/components/Container";
-import { PhoneFrame } from "@/components/PhoneFrame";
+import { HeroFrame } from "@/components/HeroFrame";
 import {
   DiageoLogo,
   LaravelLogo,
@@ -400,7 +400,7 @@ function FeaturesDesktop() {
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
           <CircleBackground color="#13B5C8" className="animate-spin-slower" />
         </div>
-        <PhoneFrame className="z-10 mx-auto w-full max-w-[366px]">
+        <HeroFrame className="z-10 mx-auto w-full max-w-[366px]">
           <TabPanels as={Fragment}>
             <AnimatePresence initial={false} custom={{ isForwards, changeCount }}>
               {features.map((feature, featureIndex) =>
@@ -416,7 +416,7 @@ function FeaturesDesktop() {
               )}
             </AnimatePresence>
           </TabPanels>
-        </PhoneFrame>
+        </HeroFrame>
       </div>
     </TabGroup>
   );
@@ -471,9 +471,9 @@ function FeaturesMobile() {
               <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
                 <CircleBackground color="#13B5C8" className={featureIndex % 2 === 1 ? "rotate-180" : undefined} />
               </div>
-              <PhoneFrame className="relative mx-auto w-full max-w-[366px]">
+              <HeroFrame className="relative mx-auto w-full max-w-[366px]">
                 <feature.screen />
-              </PhoneFrame>
+              </HeroFrame>
               <div className="absolute inset-x-0 bottom-0 bg-gray-800/95 p-6 backdrop-blur sm:p-10">
                 <feature.icon className="h-8 w-8" />
                 <h3 className="mt-6 text-sm font-semibold text-white sm:text-lg">{feature.name}</h3>
