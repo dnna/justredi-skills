@@ -2,9 +2,9 @@ import Link from "next/link";
 import clsx from "clsx";
 
 const baseStyles = {
-  solid: "inline-flex justify-center rounded-lg py-2 px-3 text-sm font-semibold transition-colors",
+  solid: "inline-flex justify-center items-center rounded-lg py-2 px-3 text-sm font-semibold transition-colors",
   outline:
-    "inline-flex justify-center rounded-lg border py-[calc(theme(spacing.2)-1px)] px-[calc(theme(spacing.3)-1px)] text-sm transition-colors",
+    "inline-flex justify-center items-center rounded-lg border py-[calc(theme(spacing.2)-1px)] px-[calc(theme(spacing.3)-1px)] text-sm transition-colors",
 };
 
 const variantStyles = {

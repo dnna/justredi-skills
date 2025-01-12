@@ -8,12 +8,7 @@ export function NavLinks() {
   let [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   let timeoutRef = useRef<number | null>(null);
 
-  return [
-    ["Features", "/#features"],
-    ["Reviews", "/#reviews"],
-    ["Pricing", "/#pricing"],
-    ["FAQs", "/#faqs"],
-  ].map(([label, href], index) => (
+  return [["Categories", "/#categories"]].map(([label, href], index) => (
     <Link
       key={label}
       href={href}
