@@ -57,7 +57,7 @@ function BackgroundIllustration(props: React.ComponentPropsWithoutRef<"div">) {
 
 export function Hero() {
   return (
-    <div className="overflow-hidden py-12 sm:py-16 lg:pb-16 xl:pb-16">
+    <div className="overflow-hidden pb-32 pt-16">
       <Container>
         <div className="lg:grid lg:grid-cols-12 lg:gap-x-8 lg:gap-y-20">
           <div className="relative z-10 mx-auto max-w-2xl lg:col-span-12 lg:max-w-none xl:col-span-12">
@@ -67,12 +67,15 @@ export function Hero() {
             <h1 className="text-4xl font-medium tracking-tight text-gray-900">
               Search for job profiles, opportunities or skills
             </h1>
-            <div className="mt-8 flex w-full gap-3">
+            <div className="mt-20 flex w-full items-center gap-4">
+              <div>
+                Explore Categories<span>&#x25BC;</span>
+              </div>
               <div className="flex-grow">
                 <input
                   type="text"
                   placeholder="Search for relevant job profiles and learning opportunities to enhance your skills"
-                  className="text-md w-full rounded border border-gray-300 p-2 text-gray-600"
+                  className="text-sm w-full rounded border border-gray-300 p-2 text-gray-600"
                 />
               </div>
               <div className="flex flex-wrap gap-x-6 gap-y-4">
@@ -83,7 +86,7 @@ export function Hero() {
               </div>
             </div>
           </div>
-          <div className="relative -mt-4 lg:col-span-12 lg:mt-0 xl:col-span-12">
+          {/*<div className="relative -mt-4 lg:col-span-12 lg:mt-0 xl:col-span-12">
             <p className="mt-12 text-center text-sm font-semibold text-gray-900 lg:mt-0 lg:text-left">
               Explore categories
             </p>
@@ -106,7 +109,7 @@ export function Hero() {
                 </li>
               ))}
             </ul>
-          </div>
+          </div>*/}
         </div>
       </Container>
     </div>
