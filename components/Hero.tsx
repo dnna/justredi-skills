@@ -64,7 +64,7 @@ export function Hero() {
             <h1 className="text-4xl font-medium tracking-tight text-gray-900">
               Search for job profiles, opportunities or skills
             </h1>
-            <div className="mt-20 flex w-full items-center gap-4">
+            <div className="mt-14 flex w-full flex-col items-center gap-4 lg:mt-20 lg:flex-row">
               <div className="flex items-center justify-center">
                 Explore Categories <IoIosArrowDown className="h4 ml-1 w-4" />
               </div>
