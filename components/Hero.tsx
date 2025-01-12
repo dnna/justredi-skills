@@ -1,11 +1,8 @@
 import { useId } from "react";
-import Image from "next/image";
-import clsx from "clsx";
 
-import heroLogo from "@/images/logo_square.jpg";
+import { IoIosArrowDown } from "react-icons/io";
 import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
-import { HeroFrame } from "@/components/HeroFrame";
 import { CiSearch } from "react-icons/ci";
 
 function BackgroundIllustration(props: React.ComponentPropsWithoutRef<"div">) {
@@ -68,8 +65,8 @@ export function Hero() {
               Search for job profiles, opportunities or skills
             </h1>
             <div className="mt-20 flex w-full items-center gap-4">
-              <div>
-                Explore Categories<span>&#x25BC;</span>
+              <div className="flex items-center justify-center">
+                Explore Categories <IoIosArrowDown className="h4 ml-1 w-4" />
               </div>
               <div className="flex-grow">
                 <input
@@ -79,7 +76,7 @@ export function Hero() {
                 />
               </div>
               <div className="flex flex-wrap gap-x-6 gap-y-4">
-                <Button type="submit">
+                <Button type="submit" color="green">
                   <CiSearch className="h-6 w-6 flex-none" />
                   <span className="ml-2.5">Search</span>
                 </Button>
