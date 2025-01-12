@@ -9,11 +9,8 @@ export function CallToAction() {
       </div>
       <Container className="relative">
         <div className="mx-auto max-w-md sm:text-center">
-          <h2 className="text-3xl font-medium tracking-tight text-white sm:text-4xl">Get your first tips today</h2>
-          <p className="mt-4 text-lg text-gray-300">
-            It takes 30 seconds to sign up. Download the app and create an account today and we’ll send you a tip
-            guaranteed to double your first investment.
-          </p>
+          <h2 className="text-3xl font-medium tracking-tight text-white sm:text-4xl">Not sure where to start?</h2>
+          <p className="mt-4 text-lg text-gray-300">Check our Learning Opportunity Providers below.</p>
         </div>
       </Container>
     </section>
