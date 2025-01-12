@@ -75,7 +75,7 @@ export function Hero() {
                 <input
                   type="text"
                   placeholder="Search for relevant job profiles and learning opportunities to enhance your skills"
-                  className="text-sm w-full rounded border border-gray-300 p-2 text-gray-600"
+                  className="w-full rounded border border-gray-300 p-2 text-sm text-gray-600"
                 />
               </div>
               <div className="flex flex-wrap gap-x-6 gap-y-4">
