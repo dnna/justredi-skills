@@ -282,7 +282,10 @@ function Top10Screen(props: ScreenProps) {
           {props.data.map((stock) => (
             <div key={stock.name} className="flex items-center gap-4 px-4 py-3">
               <div className="flex-none rounded-full" style={{ backgroundColor: stock.color }}>
-                <stock.logo className="h-10 w-10" />
+                {
+                  // @ts-ignore
+                  <stock.logo className="h-10 w-10" />
+                }
               </div>
               <div className="flex-auto text-sm text-gray-900">{stock.name}</div>
               <div className="flex-none text-right">
@@ -366,7 +369,7 @@ function FeaturesDesktop() {
                     key={feature.name + changeCount}
                     className="col-start-1 row-start-1 flex focus:outline-offset-[32px] ui-not-focus-visible:outline-none"
                   >
-                    <feature.screen animated custom={{ isForwards, changeCount }} />
+                    <feature.screen animated custom={{ isForwards, changeCount }} data={[]} />
                   </TabPanel>
                 ) : null,
               )}
@@ -428,7 +431,7 @@ function FeaturesMobile() {
                 <CircleBackground color="#13B5C8" className={featureIndex % 2 === 1 ? "rotate-180" : undefined} />
               </div>
               <HeroFrame className="relative mx-auto w-full max-w-[366px]">
-                <feature.screen />
+                <feature.screen data={[]} />
               </HeroFrame>
               <div className="absolute inset-x-0 bottom-0 bg-gray-800/95 p-6 backdrop-blur sm:p-10">
                 <feature.icon className="h-8 w-8" />
