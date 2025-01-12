@@ -281,12 +281,6 @@ function Top10Screen(props: ScreenProps) {
         <div className="divide-y divide-gray-100">
           {props.data.map((stock) => (
             <div key={stock.name} className="flex items-center gap-4 px-4 py-3">
-              <div className="flex-none rounded-full" style={{ backgroundColor: stock.color }}>
-                {
-                  // @ts-ignore
-                  <stock.logo className="h-10 w-10" />
-                }
-              </div>
               <div className="flex-auto text-sm text-gray-900">{stock.name}</div>
               <div className="flex-none text-right">
                 <div className="text-sm font-medium text-gray-900">{stock.amount}</div>

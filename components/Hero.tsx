@@ -56,18 +56,20 @@ export function Hero() {
   return (
     <div className="overflow-hidden pb-32 pt-16">
       <Container>
-        <div className="lg:grid lg:grid-cols-12 lg:gap-x-8 lg:gap-y-10">
+        <div className="gap-y-10 lg:grid lg:grid-cols-12 lg:gap-x-8">
           <div className="relative z-10 mx-auto max-w-2xl lg:col-span-12 lg:max-w-none xl:col-span-12">
             <BackgroundIllustration className="absolute left-1/2 top-4 h-[1026px] w-[1026px] -translate-x-1/3 stroke-gray-300/70 [mask-image:linear-gradient(to_bottom,white_20%,transparent_75%)] sm:top-16 sm:-translate-x-1/2 lg:-top-16 lg:ml-12 xl:-top-14 xl:ml-0" />
           </div>
           <div className="relative z-10 mx-auto max-w-2xl lg:col-span-12 lg:max-w-none xl:col-span-12">
-            <h1 className="text-2xl font-medium tracking-tight text-gray-600">Welcome to JustReDI Skills</h1>
-          </div>
-          <div className="relative z-10 mx-auto max-w-2xl lg:col-span-12 lg:max-w-none xl:col-span-12">
-            <h1 className="text-center text-4xl font-medium tracking-tight text-gray-900">
-              Search for relevant job profiles and learning opportunities to enhance your skills
+            <h1 className="text-center text-2xl font-medium tracking-tight text-gray-600">
+              Welcome to JustReDI Skills
             </h1>
-            <div className="mx-auto flex w-2/3 flex-col items-center gap-4 lg:mt-8 lg:flex-row">
+          </div>
+          <div className="relative z-10 mx-auto mt-10 max-w-2xl lg:col-span-12 lg:mt-0 lg:max-w-none xl:col-span-12">
+            <h1 className="mx-auto text-center text-4xl font-medium tracking-tight text-gray-900 lg:w-4/5">
+              Search for job profiles and learning opportunities to enhance your skills
+            </h1>
+            <div className="mx-auto mt-10 flex w-2/3 flex-col items-center gap-4 lg:mt-0 lg:mt-8 lg:flex-row">
               <div className="flex items-center justify-center">
                 Explore Categories <IoIosArrowDown className="h4 ml-1 w-4" />
               </div>
