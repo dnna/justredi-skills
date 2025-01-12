@@ -31,20 +31,20 @@ interface CustomAnimationProps {
 
 const features = [
   {
-    name: "Cloud Computing",
+    name: "Cloud Engineer",
     description: "Understanding cloud platforms enables engineers to build scalable, fault-tolerant applications.",
     icon: DeviceUserIcon,
     screen: Top10PlatformsScreen,
   },
   {
-    name: "Version Control Systems",
+    name: "Software Engineer",
     description:
       "Proficiency in tools like Git is vital for managing code changes and collaborating with other developers.",
     icon: DeviceNotificationIcon,
     screen: Top10TechsScreen,
   },
   {
-    name: "Database Management",
+    name: "Database Engineer",
     description: "Skills in designing and managing databases are crucial for handling data storage and retrieval.",
     icon: DeviceTouchIcon,
     screen: Top10DatabasesScreen,
@@ -176,49 +176,49 @@ function Top10TechsScreen(props: ScreenProps) {
   const top10Techs = [
     {
       name: "Laravel",
-      amount: "15",
+      amount: "15%",
       color: "#F9322C",
       logo: LaravelLogo,
     },
     {
       name: "Tuple",
-      amount: "12",
+      amount: "12%",
       color: "#5A67D8",
       logo: TupleLogo,
     },
     {
       name: "Transistor",
-      amount: "11",
+      amount: "11%",
       color: "#2A5B94",
       logo: TransistorLogo,
     },
     {
       name: "Diageo",
-      amount: "7",
+      amount: "7%",
       color: "#3320A7",
       logo: DiageoLogo,
     },
     {
       name: "StaticKit",
-      amount: "7",
+      amount: "7%",
       color: "#2A3034",
       logo: StaticKitLogo,
     },
     {
       name: "Statamic",
-      amount: "5",
+      amount: "5%",
       color: "#0EA5E9",
       logo: StatamicLogo,
     },
     {
       name: "Mirage",
-      amount: "5",
+      amount: "5%",
       color: "#16A34A",
       logo: MirageLogo,
     },
     {
       name: "Reversable",
-      amount: "3",
+      amount: "3%",
       color: "#8D8D8D",
       logo: ReversableLogo,
     },
@@ -230,19 +230,19 @@ function Top10PlatformsScreen(props: ScreenProps) {
   const data = [
     {
       name: "AWS",
-      amount: "15",
+      amount: "40%",
       color: "#FF9900",
       logo: LaravelLogo,
     },
     {
       name: "GCP",
-      amount: "12",
+      amount: "30%",
       color: "#4285F4",
       logo: TupleLogo,
     },
     {
       name: "Azure",
-      amount: "11",
+      amount: "30%",
       color: "#00A2FF",
       logo: TransistorLogo,
     },
@@ -254,19 +254,19 @@ function Top10DatabasesScreen(props: ScreenProps) {
   const data = [
     {
       name: "PostgreSQL",
-      amount: "15",
+      amount: "15%",
       color: "#336791",
       logo: LaravelLogo,
     },
     {
       name: "MySQL",
-      amount: "12",
+      amount: "12%",
       color: "#00758F",
       logo: TupleLogo,
     },
     {
       name: "MongoDB",
-      amount: "11",
+      amount: "11%",
       color: "#13AA52",
       logo: TransistorLogo,
     },
@@ -472,10 +472,8 @@ export function PrimaryFeatures() {
     <section id="features" aria-label="Features for investing all your money" className="bg-gray-900 py-20 sm:py-32">
       <Container>
         <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-3xl">
-          <h2 className="text-3xl font-medium tracking-tight text-white">Most sought after skills</h2>
-          <p className="mt-2 text-lg text-gray-400">
-            These are the skills matching the highest number of job profiles.
-          </p>
+          <h2 className="text-3xl font-medium tracking-tight text-white">Top job profiles</h2>
+          <p className="mt-2 text-lg text-gray-400">These are the most searched job profiles.</p>
         </div>
       </Container>
       <div className="mt-16 md:hidden">

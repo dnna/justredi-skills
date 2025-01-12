@@ -111,7 +111,7 @@ export function SecondaryFeatures() {
         <div>
           <div className="mt-12 flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
             <Button type="submit">
-              <span className="ml-2.5">Explore learning opportunities</span>
+              <span>Explore learning opportunities</span>
             </Button>
           </div>
         </div>
