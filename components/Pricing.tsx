@@ -8,42 +8,6 @@ import { Button } from '@/components/Button';
 import { Container } from '@/components/Container';
 import { Logomark } from '@/components/Logo';
 
-const defaultCourses = [
-  {
-    name: 'Cloud Computing Course',
-    featured: true,
-    description: 'Learn cloud platforms to build scalable, fault-tolerant applications.',
-    button: {
-      label: 'Explore',
-      href: '/courses',
-    },
-    features: ['Matches 40 job profiles'],
-    logomarkClassName: 'fill-gray-300',
-  },
-  {
-    name: 'Version Control Systems',
-    featured: true,
-    description:
-      'Master Git and other tools for managing code changes and collaborating with other developers.',
-    button: {
-      label: 'Explore',
-      href: '/courses',
-    },
-    features: ['Matches 35 job profiles'],
-    logomarkClassName: 'fill-gray-500',
-  },
-  {
-    name: 'Database Management',
-    featured: true,
-    description: 'Learn to design and manage databases for efficient data storage and retrieval.',
-    button: {
-      label: 'Explore',
-      href: '/courses',
-    },
-    features: ['Matches 30 job profiles'],
-    logomarkClassName: 'fill-cyan-500',
-  },
-];
 
 function CheckIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   return (
@@ -133,22 +97,21 @@ function CourseCard({
 export function FeaturedCourses({ courses = [] }: { courses?: any[] }) {
   let [activePeriod, setActivePeriod] = useState<'Monthly' | 'Annually'>('Monthly');
 
-  // Create course items from database data, fallback to defaults if no courses
-  const courseItems =
-    courses.length >= 3
-      ? courses.slice(0, 3).map((course, index) => ({
-          name: course.courseName || 'Course',
-          featured: index === 0, // First course is featured
-          description: `Course offered by ${course.institutionName || 'Unknown Institution'}`,
-          button: {
-            label: 'Explore',
-            href: `/courses/${course.id}`,
-          },
-          features: [`Course ID: ${course.id}`],
-          logomarkClassName:
-            index === 0 ? 'fill-gray-300' : index === 1 ? 'fill-gray-500' : 'fill-cyan-500',
-        }))
-      : defaultCourses;
+  // Create course items from database data
+  const courseItems = courses.length > 0
+    ? courses.slice(0, 3).map((course, index) => ({
+        name: course.courseName || 'Course',
+        featured: index === 0, // First course is featured
+        description: `Course offered by ${course.institutionName || 'Unknown Institution'}`,
+        button: {
+          label: 'Explore',
+          href: `/courses/${course.id}`,
+        },
+        features: [`Course ID: ${course.id}`],
+        logomarkClassName:
+          index === 0 ? 'fill-gray-300' : index === 1 ? 'fill-gray-500' : 'fill-cyan-500',
+      }))
+    : [];
 
   return (
     <section
@@ -166,11 +129,17 @@ export function FeaturedCourses({ courses = [] }: { courses?: any[] }) {
           </p>
         </div>
 
-        <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 items-start gap-x-8 gap-y-10 sm:mt-20 lg:max-w-none lg:grid-cols-3">
-          {courseItems.map((course) => (
-            <CourseCard key={course.name} {...course} />
-          ))}
-        </div>
+        {courseItems.length > 0 ? (
+          <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 items-start gap-x-8 gap-y-10 sm:mt-20 lg:max-w-none lg:grid-cols-3">
+            {courseItems.map((course) => (
+              <CourseCard key={course.name} {...course} />
+            ))}
+          </div>
+        ) : (
+          <div className="mx-auto mt-16 max-w-2xl text-center">
+            <p className="text-lg text-gray-300">No courses available. Please check back later.</p>
+          </div>
+        )}
 
         <div className="mt-12 flex justify-center">
           <Button href="/courses" color="green">
