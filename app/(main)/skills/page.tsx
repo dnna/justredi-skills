@@ -2,6 +2,9 @@ import Link from 'next/link';
 import { getAllSkills } from '@/lib/db';
 import { Container } from '@/components/Container';
 
+// Force dynamic rendering to ensure data is fetched at runtime, not build time
+export const dynamic = 'force-dynamic';
+
 export default async function SkillsPage() {
   const skillsResult = await getAllSkills(100, 0);
   const skills = Array.isArray(skillsResult) ? skillsResult : [];

@@ -2,6 +2,9 @@ import Link from 'next/link';
 import { getAllInstitutions } from '@/lib/db';
 import { Container } from '@/components/Container';
 
+// Force dynamic rendering to ensure data is fetched at runtime, not build time
+export const dynamic = 'force-dynamic';
+
 export default async function InstitutionsPage() {
   const institutionsResult = await getAllInstitutions(100, 0);
   const institutions = Array.isArray(institutionsResult) ? institutionsResult : [];

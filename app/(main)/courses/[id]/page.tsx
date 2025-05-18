@@ -5,6 +5,9 @@ import { Container } from '@/components/Container';
 import { Button } from '@/components/Button';
 import { CourseContent } from '@/components/CourseContent';
 
+// Force dynamic rendering to ensure data is fetched at runtime, not build time
+export const dynamic = 'force-dynamic';
+
 // Define the type for course page params
 type CourseParams = {
   id: string;

@@ -2,6 +2,9 @@ import Link from 'next/link';
 import { getAllCourses } from '@/lib/db';
 import { Container } from '@/components/Container';
 
+// Force dynamic rendering to ensure data is fetched at runtime, not build time
+export const dynamic = 'force-dynamic';
+
 export default async function CoursesPage() {
   const coursesResult = await getAllCourses(100, 0);
   const courses = Array.isArray(coursesResult) ? coursesResult : [];

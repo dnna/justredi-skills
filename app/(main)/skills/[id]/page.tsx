@@ -4,6 +4,9 @@ import { getSkill, getRelatedSkills, getRelatedJobProfiles } from '@/lib/db';
 import { Container } from '@/components/Container';
 import { Button } from '@/components/Button';
 
+// Force dynamic rendering to ensure data is fetched at runtime, not build time
+export const dynamic = 'force-dynamic';
+
 // Define the type for skill page params
 type SkillParams = {
   id: string;

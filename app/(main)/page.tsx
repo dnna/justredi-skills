@@ -17,6 +17,9 @@ import {
 } from '@/lib/db';
 import { getCategoryHierarchy } from '@/lib/categories';
 
+// Force dynamic rendering to ensure data is fetched at runtime, not build time
+export const dynamic = 'force-dynamic';
+
 export default async function Home() {
   // Fetch data from database
   const [

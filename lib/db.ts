@@ -17,22 +17,15 @@ let pool: mysql.Pool;
 try {
   pool = mysql.createPool(dbConfig);
 } catch (error) {
-  console.warn('Could not create MySQL connection pool:', error);
+  console.error('Could not create MySQL connection pool:', error);
+  throw new Error(`Failed to establish MySQL connection: ${error}`);
 }
 
 export async function query(sql: string, params: any[] = []) {
   try {
-    // Check if we're in a build environment or if the pool is not available
-    if (
-      !pool ||
-      process.env.NODE_ENV === 'production' ||
-      process.env.NEXT_PHASE === 'phase-production-build'
-    ) {
-      // Return empty results for different query types to enable build to proceed
-      if (sql.trim().toLowerCase().startsWith('select')) {
-        return [];
-      }
-      return { affectedRows: 0 };
+    // If pool is not initialized, throw an error - connection failed
+    if (!pool) {
+      throw new Error('MySQL connection pool not initialized. Connection failed.');
     }
 
     const [results] = await pool.execute(sql, params);
@@ -41,17 +34,7 @@ export async function query(sql: string, params: any[] = []) {
     // eslint-disable-next-line no-console
     console.error('Database query error:', error);
 
-    // Return empty results to prevent build failures
-    if (
-      process.env.NODE_ENV === 'production' ||
-      process.env.NEXT_PHASE === 'phase-production-build'
-    ) {
-      if (sql.trim().toLowerCase().startsWith('select')) {
-        return [];
-      }
-      return { affectedRows: 0 };
-    }
-
+    // Throw the error to be handled by the caller
     throw error;
   }
 }
