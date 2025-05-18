@@ -8,7 +8,6 @@ import { Button } from '@/components/Button';
 import { Container } from '@/components/Container';
 import { Logomark } from '@/components/Logo';
 
-
 function CheckIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true" {...props}>
@@ -98,20 +97,21 @@ export function FeaturedCourses({ courses = [] }: { courses?: any[] }) {
   let [activePeriod, setActivePeriod] = useState<'Monthly' | 'Annually'>('Monthly');
 
   // Create course items from database data
-  const courseItems = courses.length > 0
-    ? courses.slice(0, 3).map((course, index) => ({
-        name: course.courseName || 'Course',
-        featured: index === 0, // First course is featured
-        description: `Course offered by ${course.institutionName || 'Unknown Institution'}`,
-        button: {
-          label: 'Explore',
-          href: `/courses/${course.id}`,
-        },
-        features: [`Course ID: ${course.id}`],
-        logomarkClassName:
-          index === 0 ? 'fill-gray-300' : index === 1 ? 'fill-gray-500' : 'fill-cyan-500',
-      }))
-    : [];
+  const courseItems =
+    courses.length > 0
+      ? courses.slice(0, 3).map((course, index) => ({
+          name: course.courseName || 'Course',
+          featured: index === 0, // First course is featured
+          description: `Course offered by ${course.institutionName || 'Unknown Institution'}`,
+          button: {
+            label: 'Explore',
+            href: `/courses/${course.id}`,
+          },
+          features: [`Course ID: ${course.id}`],
+          logomarkClassName:
+            index === 0 ? 'fill-gray-300' : index === 1 ? 'fill-gray-500' : 'fill-cyan-500',
+        }))
+      : [];
 
   return (
     <section
