@@ -13,6 +13,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 type CategoryItem = {
   id: string;
   name: string;
+  skill_type?: 'knowledge' | 'skill/competence';
   children?: CategoryItem[];
 };
 
@@ -186,6 +187,16 @@ export function CategoryModal({ isOpen, onClose, categories }: CategoryModalProp
                                 onMouseEnter={() => handleSkillSelect(skill)}
                               >
                                 {skill.name}
+                                {skill.skill_type === 'knowledge' && (
+                                  <span className="ml-2 rounded-full bg-blue-50 px-2 py-0.5 text-xs text-blue-700">
+                                    Knowledge
+                                  </span>
+                                )}
+                                {skill.skill_type === 'skill/competence' && (
+                                  <span className="ml-2 rounded-full bg-green-50 px-2 py-0.5 text-xs text-green-700">
+                                    Skill
+                                  </span>
+                                )}
                               </li>
                             ))}
                         </motion.ul>
