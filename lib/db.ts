@@ -600,3 +600,20 @@ export async function getSkillsByGroup(skillId: string, limit: number = 8) {
 
   return relatedSkills;
 }
+
+/**
+ * Get popular skills based on course relationships
+ */
+export async function getPopularSkills(limit: number = 6) {
+  const popularSkillsQuery = `
+    SELECT s.id, s.preferred_label, s.skill_type, s.skill_group, s.skill_category,
+           COUNT(cs.course_id) as course_count 
+    FROM skills s
+    JOIN course_skills cs ON s.id = cs.skill_id
+    GROUP BY s.id
+    ORDER BY course_count DESC
+    LIMIT ${Number(limit)}
+  `;
+
+  return await query(popularSkillsQuery, []);
+}

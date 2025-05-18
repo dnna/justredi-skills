@@ -4,7 +4,7 @@ import { Hero } from '@/components/Hero';
 import { FeaturedCourses } from '@/components/Pricing';
 import { TopSkills } from '@/components/PrimaryFeatures';
 import { InstitutionsList } from '@/components/Reviews';
-import { CourseHighlights } from '@/components/SecondaryFeatures';
+import { FeaturedSkills } from '@/components/SecondaryFeatures';
 import { HomePageWrapper } from './HomePageWrapper';
 import {
   getAllCourses,
@@ -13,17 +13,19 @@ import {
   getRelatedJobProfiles,
   getSkillsByGroup,
   getAllJobProfiles,
+  getPopularSkills,
 } from '@/lib/db';
 import { getCategoryHierarchy } from '@/lib/categories';
 
 export default async function Home() {
   // Fetch data from database
-  const [courses, skills, institutions, jobProfiles, categories] = await Promise.all([
+  const [courses, skills, institutions, jobProfiles, categories, popularSkills] = await Promise.all([
     getAllCourses(6, 0),
     getAllSkills(6, 0),
     getAllInstitutions(10, 0),
     getAllJobProfiles(6, 0),
     getCategoryHierarchy(),
+    getPopularSkills(6),
   ]);
 
   // Extract skill IDs and fetch related data for each skill
@@ -54,7 +56,7 @@ export default async function Home() {
     <HomePageWrapper categories={categories}>
       <Hero />
       <FeaturedCourses courses={courses} />
-      <CourseHighlights courses={courses} />
+      <FeaturedSkills skills={popularSkills} />
       <CallToAction />
       <InstitutionsList institutions={institutions} />
       <TopSkills skills={enrichedSkills} />

@@ -4,20 +4,20 @@ import { Container } from '@/components/Container';
 import { Button } from '@/components/Button';
 import { CiSearch } from 'react-icons/ci';
 
-const features = [
+const defaultSkills = [
   {
     name: 'Python Programming',
-    description: 'Intermediate Level',
+    description: 'Digital Skill',
     icon: DeviceArrowIcon,
   },
   {
     name: 'SEO Fundamentals',
-    description: 'Beginner Level',
+    description: 'Digital Marketing',
     icon: DeviceCardsIcon,
   },
   {
     name: 'Data Visualization',
-    description: 'Advanced Level',
+    description: 'Data Analysis',
     icon: DeviceClockIcon,
   },
 ];
@@ -93,17 +93,17 @@ function DeviceClockIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   );
 }
 
-export function CourseHighlights({ courses = [] }: { courses?: any[] }) {
-  // If we have courses, use them; otherwise use the default features
+export function FeaturedSkills({ skills = [] }: { skills?: any[] }) {
+  // If we have skills from props, use them; otherwise use the default skills
   const itemsToDisplay =
-    courses.length > 0
-      ? courses.slice(0, 3).map((course, index) => ({
-          name: course.courseName || 'Course',
-          description: course.language || 'Unknown Language',
+    skills.length > 0
+      ? skills.slice(0, 6).map((skill, index) => ({
+          name: skill.preferred_label || 'Skill',
+          description: skill.skill_group || skill.skill_type || 'Skill',
           icon: [DeviceArrowIcon, DeviceCardsIcon, DeviceClockIcon][index % 3],
-          id: course.id,
+          id: skill.id,
         }))
-      : features;
+      : defaultSkills;
 
   return (
     <section
@@ -117,7 +117,7 @@ export function CourseHighlights({ courses = [] }: { courses?: any[] }) {
             Featured Learning Opportunities
           </h2>
           <p className="mt-2 text-lg text-gray-600">
-            Explore learning opportunities providing the most sought-after skills.
+            Explore the most in-demand skills across learning opportunities.
           </p>
         </div>
         <ul
@@ -130,7 +130,7 @@ export function CourseHighlights({ courses = [] }: { courses?: any[] }) {
               <h3 className="mt-6 font-semibold text-gray-900">
                 {'id' in item ? (
                   <a
-                    href={`/courses/${item.id}`}
+                    href={`/skills/${item.id}`}
                     className="hover:text-green-600 transition-colors"
                   >
                     {item.name}
@@ -139,13 +139,14 @@ export function CourseHighlights({ courses = [] }: { courses?: any[] }) {
                   item.name
                 )}
               </h3>
+              <p className="mt-2 text-gray-700">{item.description}</p>
             </li>
           ))}
         </ul>
         <div>
           <div className="mt-12 flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
-            <Button href="/courses" color="green">
-              <span>Explore all learning opportunities</span>
+            <Button href="/skills" color="green">
+              <span>Explore all skills</span>
             </Button>
           </div>
         </div>
