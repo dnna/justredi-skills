@@ -3,11 +3,14 @@
 import Link from "next/link";
 import { Popover, PopoverButton, PopoverBackdrop, PopoverPanel } from "@headlessui/react";
 import { AnimatePresence, motion } from "framer-motion";
+import { useState, useEffect } from "react";
 
 import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
 import { Logo } from "@/components/Logo";
 import { NavLinks } from "@/components/NavLinks";
+import { CategoryModal } from "@/components/CategoryModal";
+import type { CategoryItem } from "@/lib/categories";
 
 function MenuIcon(props: React.ComponentPropsWithoutRef<"svg">) {
   return (
@@ -32,6 +35,34 @@ function MobileNavLink(
 }
 
 export function Header() {
+  const [categories, setCategories] = useState<CategoryItem[]>([]);
+  const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
+
+  const openCategoryModal = () => {
+    setIsCategoryModalOpen(true);
+  };
+
+  const closeCategoryModal = () => {
+    setIsCategoryModalOpen(false);
+  };
+
+  // Fetch categories on component mount
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch('/api/categories');
+        if (response.ok) {
+          const data = await response.json();
+          setCategories(data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch categories:", error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
   return (
     <header>
       <nav>
@@ -41,7 +72,10 @@ export function Header() {
               <Logo className="h-10 w-auto" />
             </Link>
             <div className="hidden lg:flex lg:gap-10">
-              <NavLinks />
+              <NavLinks 
+                categories={categories} 
+                onOpenCategoryModal={openCategoryModal}
+              />
             </div>
           </div>
           <div className="flex items-center gap-6">
@@ -78,7 +112,12 @@ export function Header() {
                           className="absolute inset-x-0 top-0 z-0 origin-top rounded-b-2xl bg-gray-50 px-6 pb-6 pt-32 shadow-2xl shadow-gray-900/20"
                         >
                           <div className="space-y-4">
-                            <MobileNavLink href="/#categories">Categories</MobileNavLink>
+                            <button 
+                              className="block text-base leading-7 tracking-tight text-gray-700"
+                              onClick={openCategoryModal}
+                            >
+                              Categories
+                            </button>
                           </div>
                           <div className="mt-8 flex flex-col gap-4">
                             {/*<Button href="/login" variant="outline">*/}
@@ -98,6 +137,13 @@ export function Header() {
           </div>
         </Container>
       </nav>
+
+      {/* Category modal - shown for both mobile and desktop */}
+      <CategoryModal 
+        isOpen={isCategoryModalOpen}
+        onClose={closeCategoryModal}
+        categories={categories}
+      />
     </header>
   );
 }

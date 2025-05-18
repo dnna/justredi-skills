@@ -25,10 +25,6 @@ export default async function CoursesPage() {
               </h3>
 
               <p className="mt-2 text-sm text-gray-500">{course.institutionName}</p>
-
-              {course.language && (
-                <p className="mt-1 text-sm text-gray-500">Language: {course.language}</p>
-              )}
             </div>
           ))
         ) : (

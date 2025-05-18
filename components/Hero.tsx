@@ -1,5 +1,6 @@
-import { useId } from "react";
+"use client";
 
+import { useId } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
@@ -52,7 +53,17 @@ function BackgroundIllustration(props: React.ComponentPropsWithoutRef<"div">) {
   );
 }
 
-export function Hero() {
+type HeroProps = {
+  onOpenCategoryModal?: () => void;
+};
+
+export function Hero({ onOpenCategoryModal }: HeroProps) {
+  const handleCategoryClick = () => {
+    console.log('Category button clicked in Hero');
+    if (onOpenCategoryModal) {
+      onOpenCategoryModal();
+    }
+  };
   return (
     <div className="overflow-hidden pb-32 pt-16">
       <Container>
@@ -70,9 +81,12 @@ export function Hero() {
               Search for job profiles and learning opportunities to enhance your skills
             </h1>
             <div className="mx-auto mt-10 flex w-2/3 flex-col items-center gap-4 lg:mt-0 lg:mt-8 lg:flex-row">
-              <div className="flex items-center justify-center">
-                Explore Categories <IoIosArrowDown className="h4 ml-1 w-4" />
-              </div>
+              <button 
+                onClick={handleCategoryClick}
+                className="flex cursor-pointer items-center justify-center text-gray-700 hover:text-gray-900 font-medium transition-colors px-4 py-2 rounded-md hover:bg-gray-100 shadow-sm"
+              >
+                Explore Categories <IoIosArrowDown className="h-4 ml-1 w-4" />
+              </button>
               <div className="flex-grow">
                 <input
                   type="text"

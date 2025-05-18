@@ -12,7 +12,9 @@ interface CoursePageProps {
 }
 
 export default async function CoursePage({ params }: CoursePageProps) {
-  const courseId = params.id;
+  // Await the params object before accessing properties
+  const resolvedParams = await params;
+  const courseId = resolvedParams.id;
   const course = await getCourse(courseId);
 
   if (!course) {
