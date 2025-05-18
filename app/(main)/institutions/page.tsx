@@ -3,10 +3,11 @@ import { getAllInstitutions } from '@/lib/db';
 import { Container } from '@/components/Container';
 
 export default async function InstitutionsPage() {
-  const institutions = await getAllInstitutions(100, 0);
+  const institutionsResult = await getAllInstitutions(100, 0);
+  const institutions = Array.isArray(institutionsResult) ? institutionsResult : [];
 
   return (
-    <Container className="mt-16 mb-24">
+    <Container className="mb-24 mt-16">
       <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
         Course Providers
       </h1>
@@ -21,10 +22,10 @@ export default async function InstitutionsPage() {
           institutions.map((institution: any) => (
             <div
               key={institution.id}
-              className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow"
+              className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
             >
               <div className="flex items-center space-x-4">
-                <div className="flex-shrink-0 h-12 w-12 rounded-full bg-gray-200 flex items-center justify-center text-gray-500 font-bold">
+                <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-gray-200 font-bold text-gray-500">
                   {institution.name.substring(0, 2).toUpperCase()}
                 </div>
 

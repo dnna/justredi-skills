@@ -171,7 +171,7 @@ export function FeaturedCourses({ courses = [] }: { courses?: any[] }) {
             <CourseCard key={course.name} {...course} />
           ))}
         </div>
-        
+
         <div className="mt-12 flex justify-center">
           <Button href="/courses" color="green">
             Explore all courses

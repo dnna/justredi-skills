@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useState } from 'react';
 import React from 'react';
@@ -26,11 +26,11 @@ export function HomePageWrapper({ children, categories }: HomePageWrapperProps) 
   return (
     <>
       <Hero onOpenCategoryModal={openCategoryModal} />
-      
+
       {/* Render the FeaturedCourses and other components but skip the Hero */}
       {React.Children.toArray(children).slice(1)}
-      
-      <CategoryModal 
+
+      <CategoryModal
         isOpen={isCategoryModalOpen}
         onClose={closeCategoryModal}
         categories={categories}

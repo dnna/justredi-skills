@@ -4,11 +4,16 @@ import { getInstitution } from '@/lib/db';
 import { Container } from '@/components/Container';
 import { Button } from '@/components/Button';
 
-interface InstitutionPageProps {
-  params: {
-    id: string;
-  };
-}
+// Define the type for institution page params
+type InstitutionParams = {
+  id: string;
+};
+
+// Use the Next.js specific page props pattern for Next.js 15
+type Props = {
+  params: Promise<InstitutionParams>;
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
+};
 
 // Function to group courses by unique skills
 function groupCoursesBySkills(courses: any[]) {
@@ -36,8 +41,9 @@ function groupCoursesBySkills(courses: any[]) {
   return Array.from(skillMap.values());
 }
 
-export default async function InstitutionPage({ params }: InstitutionPageProps) {
-  const institutionId = params.id;
+export default async function InstitutionPage({ params }: Props) {
+  const resolvedParams = await params;
+  const institutionId = resolvedParams.id;
   const institution = await getInstitution(institutionId);
 
   if (!institution) {
@@ -61,8 +67,8 @@ export default async function InstitutionPage({ params }: InstitutionPageProps) 
   const skillsWithCourses = groupCoursesBySkills(institution.courses);
 
   return (
-    <Container className="mt-16 mb-24">
-      <div className="grid md:grid-cols-3 gap-8">
+    <Container className="mb-24 mt-16">
+      <div className="grid gap-8 md:grid-cols-3">
         <div className="md:col-span-2">
           <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
             {institution.name}
@@ -83,8 +89,8 @@ export default async function InstitutionPage({ params }: InstitutionPageProps) 
           </div>
         </div>
 
-        <div className="flex justify-center items-start">
-          <div className="rounded-full bg-gray-200 w-36 h-36 flex items-center justify-center text-gray-500 font-bold text-xl">
+        <div className="flex items-start justify-center">
+          <div className="flex h-36 w-36 items-center justify-center rounded-full bg-gray-200 text-xl font-bold text-gray-500">
             LOGO
           </div>
         </div>

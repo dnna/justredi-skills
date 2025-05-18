@@ -5,14 +5,19 @@ import { Container } from '@/components/Container';
 import { Button } from '@/components/Button';
 import { CourseContent } from '@/components/CourseContent';
 
-interface CoursePageProps {
-  params: {
-    id: string;
-  };
-}
+// Define the type for course page params
+type CourseParams = {
+  id: string;
+};
 
-export default async function CoursePage({ params }: CoursePageProps) {
-  // Await the params object before accessing properties
+// Use the Next.js PageProps pattern for Next.js 15
+type Props = {
+  params: Promise<CourseParams>;
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
+};
+
+export default async function CoursePage({ params, searchParams }: Props) {
+  // Get the course ID directly from params
   const resolvedParams = await params;
   const courseId = resolvedParams.id;
   const course = await getCourse(courseId);
@@ -23,13 +28,14 @@ export default async function CoursePage({ params }: CoursePageProps) {
 
   // Get job profiles related to the skills in this course
   const skillIds = course.skills.map((skill: any) => skill.id);
-  const jobProfiles = await getRelatedJobProfiles(skillIds);
+  const jobProfilesResult = await getRelatedJobProfiles(skillIds);
+  const jobProfiles = Array.isArray(jobProfilesResult) ? jobProfilesResult : [];
 
   // Check if we have content from course_nodes
   const hasStructuredContent = course.content && course.content.length > 0;
 
   return (
-    <Container className="mt-16 mb-24">
+    <Container className="mb-24 mt-16">
       <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
         {course.courseName}
       </h1>
@@ -147,7 +153,7 @@ export default async function CoursePage({ params }: CoursePageProps) {
 
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
             {jobProfiles.map((job: any) => (
-              <div key={job.id} className="group relative bg-gray-100 p-5 rounded-lg">
+              <div key={job.id} className="group relative rounded-lg bg-gray-100 p-5">
                 <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900">
                   <Link href={`/job-profiles/${job.id}`} className="hover:underline">
                     {job.title}
@@ -190,7 +196,7 @@ export default async function CoursePage({ params }: CoursePageProps) {
 
           {jobProfiles.length > 3 && (
             <div className="mt-10">
-              <Button href="#" variant="filled" className="bg-black text-white hover:bg-gray-800">
+              <Button href="#" variant="solid" className="bg-black text-white hover:bg-gray-800">
                 Show more
               </Button>
             </div>

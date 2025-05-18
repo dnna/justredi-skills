@@ -1,9 +1,9 @@
-import { useId } from "react";
+import { useId } from 'react';
 
 export function CircleBackground({
   color,
   ...props
-}: React.ComponentPropsWithoutRef<"svg"> & {
+}: React.ComponentPropsWithoutRef<'svg'> & {
   color: string;
 }) {
   let id = useId();

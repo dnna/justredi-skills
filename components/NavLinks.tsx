@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useRef, useState } from "react";
-import Link from "next/link";
-import { AnimatePresence, motion } from "framer-motion";
-import type { CategoryItem } from "@/lib/categories";
+import { useRef, useState } from 'react';
+import Link from 'next/link';
+import { AnimatePresence, motion } from 'framer-motion';
+import type { CategoryItem } from '@/lib/categories';
 
 type NavLinksProps = {
   categories: CategoryItem[];

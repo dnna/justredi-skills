@@ -19,9 +19,9 @@ export async function getCategoryHierarchy(): Promise<CategoryItem[]> {
       WHERE skill_group IS NOT NULL
       ORDER BY skill_group
     `;
-    
-    const topLevelGroups = await query(topLevelGroupsQuery, []) as CategoryItem[];
-    
+
+    const topLevelGroups = (await query(topLevelGroupsQuery, [])) as CategoryItem[];
+
     // For each top level group, get the skills directly (Level 2)
     for (const group of topLevelGroups) {
       const skillsQuery = `
@@ -31,10 +31,10 @@ export async function getCategoryHierarchy(): Promise<CategoryItem[]> {
         ORDER BY preferred_label
         LIMIT 50
       `;
-      
-      group.children = await query(skillsQuery, [group.id]) as CategoryItem[];
+
+      group.children = (await query(skillsQuery, [group.id])) as CategoryItem[];
     }
-    
+
     return topLevelGroups;
   } catch (error) {
     console.error('Error fetching categories:', error);

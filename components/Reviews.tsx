@@ -10,7 +10,7 @@ import { Button } from '@/components/Button';
 interface Review {
   title: string;
   body: string;
-  id?: string | number;
+  id?: string;
 }
 
 const reviews: Array<Review> = [
@@ -85,7 +85,7 @@ function Review({
           {props.id ? (
             <a
               href={`/institutions/${props.id}`}
-              className="hover:text-green-600 transition-colors"
+              className="transition-colors hover:text-green-600"
             >
               {title}
             </a>
@@ -207,7 +207,7 @@ export function InstitutionsList({ institutions = [] }: { institutions?: any[] }
       ? institutions.map((institution) => ({
           title: institution.name || 'Unknown Institution',
           body: institution.description || `ID: ${institution.id}`,
-          id: institution.id,
+          id: String(institution.id),
         }))
       : reviews;
 

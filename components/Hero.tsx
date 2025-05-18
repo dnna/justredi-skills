@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { useId } from "react";
-import { IoIosArrowDown } from "react-icons/io";
-import { Button } from "@/components/Button";
-import { Container } from "@/components/Container";
-import { CiSearch } from "react-icons/ci";
+import { useId } from 'react';
+import { IoIosArrowDown } from 'react-icons/io';
+import { Button } from '@/components/Button';
+import { Container } from '@/components/Container';
+import { CiSearch } from 'react-icons/ci';
 
-function BackgroundIllustration(props: React.ComponentPropsWithoutRef<"div">) {
+function BackgroundIllustration(props: React.ComponentPropsWithoutRef<'div'>) {
   let id = useId();
 
   return (
@@ -22,9 +22,20 @@ function BackgroundIllustration(props: React.ComponentPropsWithoutRef<"div">) {
           stroke="#D4D4D4"
           strokeOpacity="0.7"
         />
-        <path d="M513 1025C230.23 1025 1 795.77 1 513" stroke={`url(#${id}-gradient-1)`} strokeLinecap="round" />
+        <path
+          d="M513 1025C230.23 1025 1 795.77 1 513"
+          stroke={`url(#${id}-gradient-1)`}
+          strokeLinecap="round"
+        />
         <defs>
-          <linearGradient id={`${id}-gradient-1`} x1="1" y1="513" x2="1" y2="1025" gradientUnits="userSpaceOnUse">
+          <linearGradient
+            id={`${id}-gradient-1`}
+            x1="1"
+            y1="513"
+            x2="1"
+            y2="1025"
+            gradientUnits="userSpaceOnUse"
+          >
             <stop stopColor="#58a942" />
             <stop offset="1" stopColor="#58a942" stopOpacity="0" />
           </linearGradient>
@@ -41,9 +52,20 @@ function BackgroundIllustration(props: React.ComponentPropsWithoutRef<"div">) {
           stroke="#D4D4D4"
           strokeOpacity="0.7"
         />
-        <path d="M913 513c0 220.914-179.086 400-400 400" stroke={`url(#${id}-gradient-2)`} strokeLinecap="round" />
+        <path
+          d="M913 513c0 220.914-179.086 400-400 400"
+          stroke={`url(#${id}-gradient-2)`}
+          strokeLinecap="round"
+        />
         <defs>
-          <linearGradient id={`${id}-gradient-2`} x1="913" y1="513" x2="913" y2="913" gradientUnits="userSpaceOnUse">
+          <linearGradient
+            id={`${id}-gradient-2`}
+            x1="913"
+            y1="513"
+            x2="913"
+            y2="913"
+            gradientUnits="userSpaceOnUse"
+          >
             <stop stopColor="#58a942" />
             <stop offset="1" stopColor="#58a942" stopOpacity="0" />
           </linearGradient>
@@ -81,11 +103,11 @@ export function Hero({ onOpenCategoryModal }: HeroProps) {
               Search for job profiles and learning opportunities to enhance your skills
             </h1>
             <div className="mx-auto mt-10 flex w-2/3 flex-col items-center gap-4 lg:mt-0 lg:mt-8 lg:flex-row">
-              <button 
+              <button
                 onClick={handleCategoryClick}
-                className="flex cursor-pointer items-center justify-center text-gray-700 hover:text-gray-900 font-medium transition-colors px-4 py-2 rounded-md hover:bg-gray-100 shadow-sm"
+                className="flex cursor-pointer items-center justify-center rounded-md px-4 py-2 font-medium text-gray-700 shadow-sm transition-colors hover:bg-gray-100 hover:text-gray-900"
               >
-                Explore Categories <IoIosArrowDown className="h-4 ml-1 w-4" />
+                Explore Categories <IoIosArrowDown className="ml-1 h-4 w-4" />
               </button>
               <div className="flex-grow">
                 <input

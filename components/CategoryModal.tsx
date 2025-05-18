@@ -1,8 +1,14 @@
-"use client";
+'use client';
 
-import { useCallback, useState, useEffect } from "react";
-import { Dialog, DialogPanel, DialogBackdrop, Transition, TransitionChild } from "@headlessui/react";
-import { AnimatePresence, motion } from "framer-motion";
+import { useCallback, useState, useEffect } from 'react';
+import {
+  Dialog,
+  DialogPanel,
+  DialogBackdrop,
+  Transition,
+  TransitionChild,
+} from '@headlessui/react';
+import { AnimatePresence, motion } from 'framer-motion';
 
 type CategoryItem = {
   id: string;
@@ -94,30 +100,45 @@ export function CategoryModal({ isOpen, onClose, categories }: CategoryModalProp
               leaveTo="opacity-0 scale-95"
             >
               <DialogPanel className="w-full max-w-6xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-lg font-medium leading-6 text-gray-900">Explore Categories</h3>
+                <div className="mb-4 flex items-start justify-between">
+                  <h3 className="text-lg font-medium leading-6 text-gray-900">
+                    Explore Categories
+                  </h3>
                   <button
                     type="button"
                     className="text-gray-400 hover:text-gray-500"
                     onClick={onClose}
                     aria-label="Close"
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M6 18L18 6M6 6l12 12"
+                      />
                     </svg>
                   </button>
                 </div>
 
-                <div className="grid grid-cols-3 gap-4 mt-4 h-[70vh] overflow-hidden">
+                <div className="mt-4 grid h-[70vh] grid-cols-3 gap-4 overflow-hidden">
                   {/* First column: Categories */}
                   <div className="overflow-y-auto border-r border-gray-200 pr-4">
                     {categories.length > 0 ? (
                       <ul className="space-y-2">
                         {categories.map((category) => (
-                          <li 
+                          <li
                             key={category.id}
-                            className={`p-2 rounded-lg cursor-pointer transition-colors ${
-                              selectedLevel1?.id === category.id ? 'bg-blue-100 text-blue-800' : 'hover:bg-gray-100'
+                            className={`cursor-pointer rounded-lg p-2 transition-colors ${
+                              selectedLevel1?.id === category.id
+                                ? 'bg-blue-100 text-blue-800'
+                                : 'hover:bg-gray-100'
                             }`}
                             onMouseEnter={() => handleLevel1Select(category)}
                           >
@@ -126,7 +147,7 @@ export function CategoryModal({ isOpen, onClose, categories }: CategoryModalProp
                         ))}
                       </ul>
                     ) : (
-                      <div className="flex items-center justify-center h-full text-gray-500">
+                      <div className="flex h-full items-center justify-center text-gray-500">
                         No categories available
                       </div>
                     )}
@@ -135,7 +156,9 @@ export function CategoryModal({ isOpen, onClose, categories }: CategoryModalProp
                   {/* Second column: Skills */}
                   <div className="overflow-y-auto border-r border-gray-200 pr-4">
                     <AnimatePresence mode="wait">
-                      {selectedLevel1 && selectedLevel1.children && selectedLevel1.children.length > 0 ? (
+                      {selectedLevel1 &&
+                      selectedLevel1.children &&
+                      selectedLevel1.children.length > 0 ? (
                         <motion.ul
                           key={selectedLevel1.id}
                           initial={{ opacity: 0, y: 10 }}
@@ -145,12 +168,20 @@ export function CategoryModal({ isOpen, onClose, categories }: CategoryModalProp
                         >
                           {/* Filter out any children that have the same name as the first column categories */}
                           {selectedLevel1.children
-                            .filter(skill => !categories.some(category => category.id === skill.id || category.name === skill.name))
+                            .filter(
+                              (skill) =>
+                                !categories.some(
+                                  (category) =>
+                                    category.id === skill.id || category.name === skill.name
+                                )
+                            )
                             .map((skill) => (
-                              <li 
+                              <li
                                 key={skill.id}
-                                className={`p-2 rounded-lg cursor-pointer transition-colors ${
-                                  selectedSkill?.id === skill.id ? 'bg-blue-100 text-blue-800' : 'hover:bg-gray-100'
+                                className={`cursor-pointer rounded-lg p-2 transition-colors ${
+                                  selectedSkill?.id === skill.id
+                                    ? 'bg-blue-100 text-blue-800'
+                                    : 'hover:bg-gray-100'
                                 }`}
                                 onMouseEnter={() => handleSkillSelect(skill)}
                               >
@@ -159,8 +190,10 @@ export function CategoryModal({ isOpen, onClose, categories }: CategoryModalProp
                             ))}
                         </motion.ul>
                       ) : (
-                        <div className="flex items-center justify-center h-full text-gray-500">
-                          {selectedLevel1 ? "No skills available" : "Hover over a category to see skills"}
+                        <div className="flex h-full items-center justify-center text-gray-500">
+                          {selectedLevel1
+                            ? 'No skills available'
+                            : 'Hover over a category to see skills'}
                         </div>
                       )}
                     </AnimatePresence>
@@ -176,31 +209,40 @@ export function CategoryModal({ isOpen, onClose, categories }: CategoryModalProp
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: -10 }}
                         >
-                          <h4 className="font-medium mb-3 text-sm text-gray-500">Courses teaching "{selectedSkill.name}"</h4>
-                          
+                          <h4 className="mb-3 text-sm font-medium text-gray-500">
+                            Courses teaching "{selectedSkill.name}"
+                          </h4>
+
                           {isLoadingCourses ? (
                             <div className="flex items-center justify-center py-10">
-                              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+                              <div className="h-6 w-6 animate-spin rounded-full border-b-2 border-blue-600"></div>
                             </div>
                           ) : courses.length > 0 ? (
                             <motion.ul className="space-y-3">
                               {courses.map((course) => (
-                                <li key={course.id} className="p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors">
+                                <li
+                                  key={course.id}
+                                  className="rounded-lg border border-gray-200 p-3 transition-colors hover:bg-gray-50"
+                                >
                                   <a href={`/courses/${course.id}`} className="block">
-                                    <h5 className="font-medium text-gray-900">{course.courseName}</h5>
-                                    <p className="text-sm text-gray-500 mt-1">{course.institutionName}</p>
+                                    <h5 className="font-medium text-gray-900">
+                                      {course.courseName}
+                                    </h5>
+                                    <p className="mt-1 text-sm text-gray-500">
+                                      {course.institutionName}
+                                    </p>
                                   </a>
                                 </li>
                               ))}
                             </motion.ul>
                           ) : (
-                            <div className="flex items-center justify-center h-48 text-gray-500">
+                            <div className="flex h-48 items-center justify-center text-gray-500">
                               No courses found for this skill
                             </div>
                           )}
                         </motion.div>
                       ) : (
-                        <div className="flex items-center justify-center h-full text-gray-500">
+                        <div className="flex h-full items-center justify-center text-gray-500">
                           Hover over a skill to see courses
                         </div>
                       )}

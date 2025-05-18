@@ -1,0 +1,25 @@
+# Ignore build output
+.next
+out
+build
+dist
+
+# Ignore node_modules
+node_modules
+
+# Ignore coverage reports
+coverage
+
+# Ignore package-lock files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Ignore large directories
+All_KEDIVIM
+ESCO
+designs
+
+# Other files to ignore
+*.min.js
+*.log

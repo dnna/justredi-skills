@@ -5,7 +5,9 @@
     "build": "next build",
     "lint": "next lint -d ./",
     "lint:fix": "next lint -d ./ --fix",
-    "ts-lint": "tsc --noEmit"
+    "ts-lint": "tsc --noEmit",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "dependencies": {
     "@emotion/cache": "^11.14.0",

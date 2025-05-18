@@ -1,12 +1,12 @@
-import Image from "next/image";
+import Image from 'next/image';
 
-import heroImage from "@/images/logo_square.jpg";
-import { Container } from "@/components/Container";
-import { Logomark } from "@/components/Logo";
-import { NavLinks } from "@/components/NavLinks";
-import Link from "next/link";
+import heroImage from '@/images/logo_square.jpg';
+import { Container } from '@/components/Container';
+import { Logomark } from '@/components/Logo';
+import { NavLinks } from '@/components/NavLinks';
+import Link from 'next/link';
 
-function QrCodeBorder(props: React.ComponentPropsWithoutRef<"svg">) {
+function QrCodeBorder(props: React.ComponentPropsWithoutRef<'svg'>) {
   return (
     <svg viewBox="0 0 96 96" fill="none" aria-hidden="true" {...props}>
       <path

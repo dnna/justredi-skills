@@ -1,12 +1,12 @@
-import { type Metadata } from "next";
-import Link from "next/link";
+import { type Metadata } from 'next';
+import Link from 'next/link';
 
-import { AuthLayout } from "@/components/AuthLayout";
-import { Button } from "@/components/Button";
-import { SelectField, TextField } from "@/components/Fields";
+import { AuthLayout } from '@/components/AuthLayout';
+import { Button } from '@/components/Button';
+import { SelectField, TextField } from '@/components/Fields';
 
 export const metadata: Metadata = {
-  title: "Sign Up",
+  title: 'Sign Up',
 };
 
 export default function Register() {
@@ -15,18 +15,30 @@ export default function Register() {
       title="Sign up for an account"
       subtitle={
         <>
-          Already registered?{" "}
+          Already registered?{' '}
           <Link href="/login" className="text-cyan-600">
             Sign in
-          </Link>{" "}
+          </Link>{' '}
           to your account.
         </>
       }
     >
       <form>
         <div className="grid grid-cols-2 gap-6">
-          <TextField label="First name" name="first_name" type="text" autoComplete="given-name" required />
-          <TextField label="Last name" name="last_name" type="text" autoComplete="family-name" required />
+          <TextField
+            label="First name"
+            name="first_name"
+            type="text"
+            autoComplete="given-name"
+            required
+          />
+          <TextField
+            label="Last name"
+            name="last_name"
+            type="text"
+            autoComplete="family-name"
+            required
+          />
           <TextField
             className="col-span-full"
             label="Email address"
@@ -43,7 +55,11 @@ export default function Register() {
             autoComplete="new-password"
             required
           />
-          <SelectField className="col-span-full" label="How did you hear about us?" name="referral_source">
+          <SelectField
+            className="col-span-full"
+            label="How did you hear about us?"
+            name="referral_source"
+          >
             <option>AltaVista search</option>
             <option>Super Bowl commercial</option>
             <option>Our route 34 city bus ad</option>

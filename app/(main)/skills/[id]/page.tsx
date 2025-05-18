@@ -4,15 +4,21 @@ import { getSkill, getRelatedSkills, getRelatedJobProfiles } from '@/lib/db';
 import { Container } from '@/components/Container';
 import { Button } from '@/components/Button';
 
-interface SkillPageProps {
-  params: {
-    id: string;
-  };
-}
+// Define the type for skill page params
+type SkillParams = {
+  id: string;
+};
 
-export default async function SkillPage({ params }: SkillPageProps) {
-  // Use destructuring to get the id and make sure it's awaited
-  const { id } = params;
+// Use the Next.js specific page props pattern for Next.js 15
+type Props = {
+  params: Promise<SkillParams>;
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
+};
+
+export default async function SkillPage({ params }: Props) {
+  // Resolve the params promise to get the id
+  const resolvedParams = await params;
+  const { id } = resolvedParams;
   const skill = await getSkill(id);
 
   if (!skill) {
@@ -20,8 +26,11 @@ export default async function SkillPage({ params }: SkillPageProps) {
   }
 
   // Get related skills and job profiles
-  const relatedSkills = await getRelatedSkills(skill.id);
-  const jobProfiles = await getRelatedJobProfiles([skill.id]);
+  const relatedSkillsResult = await getRelatedSkills(skill.id);
+  const relatedSkills = Array.isArray(relatedSkillsResult) ? relatedSkillsResult : [];
+
+  const jobProfilesResult = await getRelatedJobProfiles([skill.id]);
+  const jobProfiles = Array.isArray(jobProfilesResult) ? jobProfilesResult : [];
 
   // Parse alt_labels if it exists
   let altLabels: string[] = [];
@@ -36,7 +45,7 @@ export default async function SkillPage({ params }: SkillPageProps) {
   }
 
   return (
-    <Container className="mt-16 mb-24">
+    <Container className="mb-24 mt-16">
       <div className="mb-8">
         <Link href="/skills" className="text-sm font-medium text-indigo-600 hover:text-indigo-500">
           {'← skills'}
@@ -208,7 +217,7 @@ export default async function SkillPage({ params }: SkillPageProps) {
                 <div className="space-y-10">
                   {nonEmptyRelations.map((relation: any) => (
                     <div key={relation.title}>
-                      <h3 className="text-xl font-semibold text-gray-900 mb-4">{relation.title}</h3>
+                      <h3 className="mb-4 text-xl font-semibold text-gray-900">{relation.title}</h3>
                       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
                         {(() => {
                           // For parent skills, don't group them, just list them
@@ -327,7 +336,7 @@ export default async function SkillPage({ params }: SkillPageProps) {
 
         {skill.courses && skill.courses.length > 5 && (
           <div className="mt-8">
-            <Button href="#" variant="filled" className="bg-black text-white hover:bg-gray-800">
+            <Button href="#" variant="solid" className="bg-black text-white hover:bg-gray-800">
               Show more
             </Button>
           </div>
@@ -342,7 +351,7 @@ export default async function SkillPage({ params }: SkillPageProps) {
 
         <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
           {jobProfiles.map((job: any) => (
-            <div key={job.id} className="group relative bg-gray-100 p-5 rounded-lg">
+            <div key={job.id} className="group relative rounded-lg bg-gray-100 p-5">
               <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900">
                 <Link href={`/job-profiles/${job.id}`} className="hover:underline">
                   {job.title}
@@ -374,7 +383,7 @@ export default async function SkillPage({ params }: SkillPageProps) {
         </div>
 
         <div className="mt-10">
-          <Button href="#" variant="filled" className="bg-black text-white hover:bg-gray-800">
+          <Button href="#" variant="solid" className="bg-black text-white hover:bg-gray-800">
             Show more
           </Button>
         </div>

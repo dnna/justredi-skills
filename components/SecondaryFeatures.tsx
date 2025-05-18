@@ -129,10 +129,7 @@ export function FeaturedSkills({ skills = [] }: { skills?: any[] }) {
               <item.icon className="h-8 w-8" />
               <h3 className="mt-6 font-semibold text-gray-900">
                 {'id' in item ? (
-                  <a
-                    href={`/skills/${item.id}`}
-                    className="hover:text-green-600 transition-colors"
-                  >
+                  <a href={`/skills/${item.id}`} className="transition-colors hover:text-green-600">
                     {item.name}
                   </a>
                 ) : (

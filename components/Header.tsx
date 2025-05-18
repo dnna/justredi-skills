@@ -1,26 +1,31 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { Popover, PopoverButton, PopoverBackdrop, PopoverPanel } from "@headlessui/react";
-import { AnimatePresence, motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import Link from 'next/link';
+import { Popover, PopoverButton, PopoverBackdrop, PopoverPanel } from '@headlessui/react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
 
-import { Button } from "@/components/Button";
-import { Container } from "@/components/Container";
-import { Logo } from "@/components/Logo";
-import { NavLinks } from "@/components/NavLinks";
-import { CategoryModal } from "@/components/CategoryModal";
-import type { CategoryItem } from "@/lib/categories";
+import { Button } from '@/components/Button';
+import { Container } from '@/components/Container';
+import { Logo } from '@/components/Logo';
+import { NavLinks } from '@/components/NavLinks';
+import { CategoryModal } from '@/components/CategoryModal';
+import type { CategoryItem } from '@/lib/categories';
 
-function MenuIcon(props: React.ComponentPropsWithoutRef<"svg">) {
+function MenuIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   return (
     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
-      <path d="M5 6h14M5 18h14M5 12h14" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+      <path
+        d="M5 6h14M5 18h14M5 12h14"
+        strokeWidth={2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
 
-function ChevronUpIcon(props: React.ComponentPropsWithoutRef<"svg">) {
+function ChevronUpIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   return (
     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
       <path d="M17 14l-5-5-5 5" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
@@ -29,9 +34,15 @@ function ChevronUpIcon(props: React.ComponentPropsWithoutRef<"svg">) {
 }
 
 function MobileNavLink(
-  props: Omit<React.ComponentPropsWithoutRef<typeof PopoverButton<typeof Link>>, "as" | "className">,
+  props: Omit<React.ComponentPropsWithoutRef<typeof PopoverButton<typeof Link>>, 'as' | 'className'>
 ) {
-  return <PopoverButton as={Link} className="block text-base leading-7 tracking-tight text-gray-700" {...props} />;
+  return (
+    <PopoverButton
+      as={Link}
+      className="block text-base leading-7 tracking-tight text-gray-700"
+      {...props}
+    />
+  );
 }
 
 export function Header() {
@@ -56,7 +67,7 @@ export function Header() {
           setCategories(data);
         }
       } catch (error) {
-        console.error("Failed to fetch categories:", error);
+        console.error('Failed to fetch categories:', error);
       }
     };
 
@@ -72,10 +83,7 @@ export function Header() {
               <Logo className="h-10 w-auto" />
             </Link>
             <div className="hidden lg:flex lg:gap-10">
-              <NavLinks 
-                categories={categories} 
-                onOpenCategoryModal={openCategoryModal}
-              />
+              <NavLinks categories={categories} onOpenCategoryModal={openCategoryModal} />
             </div>
           </div>
           <div className="flex items-center gap-6">
@@ -86,7 +94,13 @@ export function Header() {
                     className="relative z-10 -m-2 inline-flex items-center rounded-lg stroke-gray-900 p-2 hover:bg-gray-200/50 hover:stroke-gray-600 active:stroke-gray-900 ui-not-focus-visible:outline-none"
                     aria-label="Toggle site navigation"
                   >
-                    {({ open }) => (open ? <ChevronUpIcon className="h-6 w-6" /> : <MenuIcon className="h-6 w-6" />)}
+                    {({ open }) =>
+                      open ? (
+                        <ChevronUpIcon className="h-6 w-6" />
+                      ) : (
+                        <MenuIcon className="h-6 w-6" />
+                      )
+                    }
                   </PopoverButton>
                   <AnimatePresence initial={false}>
                     {open && (
@@ -112,7 +126,7 @@ export function Header() {
                           className="absolute inset-x-0 top-0 z-0 origin-top rounded-b-2xl bg-gray-50 px-6 pb-6 pt-32 shadow-2xl shadow-gray-900/20"
                         >
                           <div className="space-y-4">
-                            <button 
+                            <button
                               className="block text-base leading-7 tracking-tight text-gray-700"
                               onClick={openCategoryModal}
                             >
@@ -139,7 +153,7 @@ export function Header() {
       </nav>
 
       {/* Category modal - shown for both mobile and desktop */}
-      <CategoryModal 
+      <CategoryModal
         isOpen={isCategoryModalOpen}
         onClose={closeCategoryModal}
         categories={categories}
