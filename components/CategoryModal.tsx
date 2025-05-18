@@ -167,6 +167,9 @@ export function CategoryModal({ isOpen, onClose, categories }: CategoryModalProp
                           exit={{ opacity: 0, y: -10 }}
                           className="space-y-2"
                         >
+                          <h4 className="mb-3 text-sm font-medium text-gray-500">
+                            Skills in "{selectedLevel1.name.charAt(0).toUpperCase() + selectedLevel1.name.slice(1)}"
+                          </h4>
                           {/* Filter out any children that have the same name as the first column categories */}
                           {selectedLevel1.children
                             .filter(
@@ -186,7 +189,7 @@ export function CategoryModal({ isOpen, onClose, categories }: CategoryModalProp
                                 }`}
                                 onMouseEnter={() => handleSkillSelect(skill)}
                               >
-                                {skill.name}
+                                {skill.name.charAt(0).toUpperCase() + skill.name.slice(1)}
                                 {skill.skill_type === 'knowledge' && (
                                   <span className="ml-2 rounded-full bg-blue-50 px-2 py-0.5 text-xs text-blue-700">
                                     Knowledge
