@@ -1,15 +1,21 @@
-"use client";
+'use client';
 
-import React, { Fragment, useEffect, useId, useRef, useState } from "react";
-import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
-import clsx from "clsx";
-import { type MotionProps, type Variant, type Variants, AnimatePresence, motion } from "framer-motion";
-import { useDebouncedCallback } from "use-debounce";
+import React, { Fragment, useEffect, useId, useRef, useState } from 'react';
+import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react';
+import clsx from 'clsx';
+import {
+  type MotionProps,
+  type Variant,
+  type Variants,
+  AnimatePresence,
+  motion,
+} from 'framer-motion';
+import { useDebouncedCallback } from 'use-debounce';
 
-import { AppScreen } from "@/components/AppScreen";
-import { CircleBackground } from "@/components/CircleBackground";
-import { Container } from "@/components/Container";
-import { HeroFrame } from "@/components/HeroFrame";
+import { AppScreen } from '@/components/AppScreen';
+import { CircleBackground } from '@/components/CircleBackground';
+import { Container } from '@/components/Container';
+import { HeroFrame } from '@/components/HeroFrame';
 import {
   DiageoLogo,
   LaravelLogo,
@@ -19,7 +25,7 @@ import {
   StaticKitLogo,
   TransistorLogo,
   TupleLogo,
-} from "@/components/TechLogos";
+} from '@/components/TechLogos';
 
 const MotionAppScreenHeader = motion(AppScreen.Header);
 const MotionAppScreenBody = motion(AppScreen.Body);
@@ -29,29 +35,32 @@ interface CustomAnimationProps {
   changeCount: number;
 }
 
-const features = [
+// Default skills to display if no database skills are provided
+const defaultSkills = [
   {
-    name: "Cloud Engineer",
-    description: "Understanding cloud platforms enables engineers to build scalable, fault-tolerant applications.",
+    name: 'Cloud Computing',
+    description:
+      'Understanding cloud platforms enables engineers to build scalable, fault-tolerant applications.',
     icon: DeviceUserIcon,
     screen: Top10PlatformsScreen,
   },
   {
-    name: "Software Engineer",
+    name: 'Version Control',
     description:
-      "Proficiency in tools like Git is vital for managing code changes and collaborating with other developers.",
+      'Proficiency in tools like Git is vital for managing code changes and collaborating with other developers.',
     icon: DeviceNotificationIcon,
     screen: Top10TechsScreen,
   },
   {
-    name: "Database Engineer",
-    description: "Skills in designing and managing databases are crucial for handling data storage and retrieval.",
+    name: 'Database Management',
+    description:
+      'Skills in designing and managing databases are crucial for handling data storage and retrieval.',
     icon: DeviceTouchIcon,
     screen: Top10DatabasesScreen,
   },
 ];
 
-function DeviceUserIcon(props: React.ComponentPropsWithoutRef<"svg">) {
+function DeviceUserIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   return (
     <svg viewBox="0 0 32 32" aria-hidden="true" {...props}>
       <circle cx={16} cy={16} r={16} fill="#A3A3A3" fillOpacity={0.2} />
@@ -71,7 +80,7 @@ function DeviceUserIcon(props: React.ComponentPropsWithoutRef<"svg">) {
   );
 }
 
-function DeviceNotificationIcon(props: React.ComponentPropsWithoutRef<"svg">) {
+function DeviceNotificationIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   return (
     <svg viewBox="0 0 32 32" aria-hidden="true" {...props}>
       <circle cx={16} cy={16} r={16} fill="#A3A3A3" fillOpacity={0.2} />
@@ -86,13 +95,20 @@ function DeviceNotificationIcon(props: React.ComponentPropsWithoutRef<"svg">) {
   );
 }
 
-function DeviceTouchIcon(props: React.ComponentPropsWithoutRef<"svg">) {
+function DeviceTouchIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   let id = useId();
 
   return (
     <svg viewBox="0 0 32 32" fill="none" aria-hidden="true" {...props}>
       <defs>
-        <linearGradient id={`${id}-gradient`} x1={14} y1={14.5} x2={7} y2={17} gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id={`${id}-gradient`}
+          x1={14}
+          y1={14.5}
+          x2={7}
+          y2={17}
+          gradientUnits="userSpaceOnUse"
+        >
           <stop stopColor="#737373" />
           <stop offset={1} stopColor="#D4D4D4" stopOpacity={0} />
         </linearGradient>
@@ -131,29 +147,29 @@ const bodyVariantBackwards: Variant = {
   opacity: 0.4,
   scale: 0.8,
   zIndex: 0,
-  filter: "blur(4px)",
+  filter: 'blur(4px)',
   transition: { duration: 0.4 },
 };
 
 const bodyVariantForwards: Variant = (custom: CustomAnimationProps) => ({
-  y: "100%",
+  y: '100%',
   zIndex: maxZIndex - custom.changeCount,
   transition: { duration: 0.4 },
 });
 
 const bodyAnimation: MotionProps = {
-  initial: "initial",
-  animate: "animate",
-  exit: "exit",
+  initial: 'initial',
+  animate: 'animate',
+  exit: 'exit',
   variants: {
     initial: (custom: CustomAnimationProps, ...props) =>
       custom.isForwards ? bodyVariantForwards(custom, ...props) : bodyVariantBackwards,
     animate: (custom: CustomAnimationProps) => ({
-      y: "0%",
+      y: '0%',
       opacity: 1,
       scale: 1,
       zIndex: maxZIndex / 2 - custom.changeCount,
-      filter: "blur(0px)",
+      filter: 'blur(0px)',
       transition: { duration: 0.4 },
     }),
     exit: (custom: CustomAnimationProps, ...props) =>
@@ -173,120 +189,78 @@ type ScreenProps =
     };
 
 function Top10TechsScreen(props: ScreenProps) {
-  const top10Techs = [
+  // Fallback data in case no real data is provided
+  const fallbackData = [
     {
-      name: "Laravel",
-      amount: "15%",
-      color: "#F9322C",
-      logo: LaravelLogo,
-    },
-    {
-      name: "Tuple",
-      amount: "12%",
-      color: "#5A67D8",
-      logo: TupleLogo,
-    },
-    {
-      name: "Transistor",
-      amount: "11%",
-      color: "#2A5B94",
-      logo: TransistorLogo,
-    },
-    {
-      name: "Diageo",
-      amount: "7%",
-      color: "#3320A7",
-      logo: DiageoLogo,
-    },
-    {
-      name: "StaticKit",
-      amount: "7%",
-      color: "#2A3034",
-      logo: StaticKitLogo,
-    },
-    {
-      name: "Statamic",
-      amount: "5%",
-      color: "#0EA5E9",
-      logo: StatamicLogo,
-    },
-    {
-      name: "Mirage",
-      amount: "5%",
-      color: "#16A34A",
-      logo: MirageLogo,
-    },
-    {
-      name: "Reversable",
-      amount: "3%",
-      color: "#8D8D8D",
-      logo: ReversableLogo,
+      name: 'No related skills found',
+      amount: 'N/A',
+      color: '#F9322C',
     },
   ];
-  return <Top10Screen {...props} data={top10Techs} />;
+
+  // If we have data from props, use it instead
+  const displayData = props.data && props.data.length > 0 ? props.data : fallbackData;
+  return <Top10Screen {...props} data={displayData} title="Related Skills" />;
 }
 
 function Top10PlatformsScreen(props: ScreenProps) {
-  const data = [
+  // Fallback data in case no real data is provided
+  const fallbackData = [
     {
-      name: "AWS",
-      amount: "40%",
-      color: "#FF9900",
-      logo: LaravelLogo,
-    },
-    {
-      name: "GCP",
-      amount: "30%",
-      color: "#4285F4",
-      logo: TupleLogo,
-    },
-    {
-      name: "Azure",
-      amount: "30%",
-      color: "#00A2FF",
-      logo: TransistorLogo,
+      name: 'No related skills found',
+      amount: 'N/A',
+      color: '#FF9900',
     },
   ];
-  return <Top10Screen {...props} data={data} />;
+
+  // If we have data from props, use it instead
+  const displayData = props.data && props.data.length > 0 ? props.data : fallbackData;
+  return <Top10Screen {...props} data={displayData} title="Similar Skills" />;
 }
 
 function Top10DatabasesScreen(props: ScreenProps) {
-  const data = [
+  // Fallback data in case no real data is provided
+  const fallbackData = [
     {
-      name: "PostgreSQL",
-      amount: "15%",
-      color: "#336791",
-      logo: LaravelLogo,
-    },
-    {
-      name: "MySQL",
-      amount: "12%",
-      color: "#00758F",
-      logo: TupleLogo,
-    },
-    {
-      name: "MongoDB",
-      amount: "11%",
-      color: "#13AA52",
-      logo: TransistorLogo,
+      name: 'No job profiles found',
+      amount: 'N/A',
+      color: '#336791',
     },
   ];
-  return <Top10Screen {...props} data={data} />;
+
+  // If we have data from props, use it instead
+  const displayData = props.data && props.data.length > 0 ? props.data : fallbackData;
+  return <Top10Screen {...props} data={displayData} title="Job Profiles" />;
 }
 
-function Top10Screen(props: ScreenProps) {
+function Top10Screen(props: ScreenProps & { title?: string }) {
+  // Get the data to display
+  const displayData = props.data || [];
+  const title = props.title || 'Related Data';
+
   return (
     <AppScreen className="w-full">
       <MotionAppScreenBody {...(props.animated ? { ...bodyAnimation, custom: props.custom } : {})}>
         <div className="divide-y divide-gray-100">
-          {props.data.map((stock) => (
-            <div key={stock.name} className="flex items-center gap-4 px-4 py-3">
-              <div className="flex-auto text-sm text-gray-900">{stock.name}</div>
-              <div className="flex-none text-right">
-                <div className="text-sm font-medium text-gray-900">{stock.amount}</div>
+          <div className="bg-gray-50 px-4 py-3 text-center">
+            <h3 className="font-semibold text-gray-900">{title}</h3>
+          </div>
+          {displayData.length > 0 ? (
+            // If we have data, display it
+            displayData.map((item) => (
+              <div key={item.name} className="flex items-center gap-4 px-4 py-3">
+                <div className="flex-auto text-sm text-gray-900">{item.name}</div>
+                <div className="flex-none text-right">
+                  <div className="text-sm font-medium text-gray-900">{item.amount}</div>
+                </div>
               </div>
+            ))
+          ) : (
+            // Fallback for no data
+            <div className="flex items-center gap-4 px-4 py-3">
+              <div className="flex-auto text-sm text-gray-700">No related data found</div>
             </div>
-          ))}
+          )}
         </div>
       </MotionAppScreenBody>
     </AppScreen>
@@ -303,7 +277,7 @@ function usePrevious<T>(value: T) {
   return ref.current;
 }
 
-function FeaturesDesktop() {
+function SkillsDesktop({ skills }: { skills: typeof defaultSkills }) {
   let [changeCount, setChangeCount] = useState(0);
   let [selectedIndex, setSelectedIndex] = useState(0);
   let prevIndex = usePrevious(selectedIndex);
@@ -316,7 +290,7 @@ function FeaturesDesktop() {
       setChangeCount((changeCount) => changeCount + 1);
     },
     100,
-    { leading: true },
+    { leading: true }
   );
 
   return (
@@ -327,9 +301,12 @@ function FeaturesDesktop() {
       vertical
     >
       <TabList className="relative z-10 order-last col-span-6 space-y-6">
-        {features.map((feature, featureIndex) => (
-          <div key={feature.name} className="relative rounded-2xl transition-colors hover:bg-gray-800/30">
-            {featureIndex === selectedIndex && (
+        {skills.map((skill, skillIndex) => (
+          <div
+            key={skill.name}
+            className="relative rounded-2xl transition-colors hover:bg-gray-800/30"
+          >
+            {skillIndex === selectedIndex && (
               <motion.div
                 layoutId="activeBackground"
                 className="absolute inset-0 bg-gray-800"
@@ -337,14 +314,14 @@ function FeaturesDesktop() {
               />
             )}
             <div className="relative z-10 p-8">
-              <feature.icon className="h-8 w-8" />
+              <skill.icon className="h-8 w-8" />
               <h3 className="mt-6 text-lg font-semibold text-white">
                 <Tab className="text-left ui-not-focus-visible:outline-none">
                   <span className="absolute inset-0 rounded-2xl" />
-                  {feature.name}
+                  {skill.name}
                 </Tab>
               </h3>
-              <p className="mt-2 text-sm text-gray-400">{feature.description}</p>
+              <p className="mt-2 text-sm text-gray-400">{skill.description}</p>
             </div>
           </div>
         ))}
@@ -356,16 +333,16 @@ function FeaturesDesktop() {
         <HeroFrame className="z-10 mx-auto w-full max-w-[366px]">
           <TabPanels as={Fragment}>
             <AnimatePresence initial={false} custom={{ isForwards, changeCount }}>
-              {features.map((feature, featureIndex) =>
-                selectedIndex === featureIndex ? (
+              {skills.map((skill, skillIndex) =>
+                selectedIndex === skillIndex ? (
                   <TabPanel
                     static
-                    key={feature.name + changeCount}
+                    key={skill.name + changeCount}
                     className="col-start-1 row-start-1 flex focus:outline-offset-[32px] ui-not-focus-visible:outline-none"
                   >
-                    <feature.screen animated custom={{ isForwards, changeCount }} data={[]} />
+                    <skill.screen animated custom={{ isForwards, changeCount }} data={[]} />
                   </TabPanel>
-                ) : null,
+                ) : null
               )}
             </AnimatePresence>
           </TabPanels>
@@ -375,10 +352,10 @@ function FeaturesDesktop() {
   );
 }
 
-function FeaturesMobile() {
+function SkillsMobile({ skills }: { skills: typeof defaultSkills }) {
   let [activeIndex, setActiveIndex] = useState(0);
-  let slideContainerRef = useRef<React.ElementRef<"div">>(null);
-  let slideRefs = useRef<Array<React.ElementRef<"div">>>([]);
+  let slideContainerRef = useRef<React.ElementRef<'div'>>(null);
+  let slideRefs = useRef<Array<React.ElementRef<'div'>>>([]);
 
   useEffect(() => {
     let observer = new window.IntersectionObserver(
@@ -393,7 +370,7 @@ function FeaturesMobile() {
       {
         root: slideContainerRef.current,
         threshold: 0.6,
-      },
+      }
     );
 
     for (let slide of slideRefs.current) {
@@ -413,43 +390,46 @@ function FeaturesMobile() {
         ref={slideContainerRef}
         className="-mb-4 flex snap-x snap-mandatory -space-x-4 overflow-x-auto overscroll-x-contain scroll-smooth pb-4 [scrollbar-width:none] sm:-space-x-6 [&::-webkit-scrollbar]:hidden"
       >
-        {features.map((feature, featureIndex) => (
+        {skills.map((skill, skillIndex) => (
           <div
-            key={featureIndex}
+            key={skillIndex}
             // @ts-ignore
-            ref={(ref) => ref && (slideRefs.current[featureIndex] = ref)}
+            ref={(ref) => ref && (slideRefs.current[skillIndex] = ref)}
             className="w-full flex-none snap-center px-4 sm:px-6"
           >
             <div className="relative transform overflow-hidden rounded-2xl bg-gray-800 px-5 py-6">
               <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-                <CircleBackground color="#13B5C8" className={featureIndex % 2 === 1 ? "rotate-180" : undefined} />
+                <CircleBackground
+                  color="#13B5C8"
+                  className={skillIndex % 2 === 1 ? 'rotate-180' : undefined}
+                />
               </div>
               <HeroFrame className="relative mx-auto w-full max-w-[366px]">
-                <feature.screen data={[]} />
+                <skill.screen data={[]} />
               </HeroFrame>
               <div className="absolute inset-x-0 bottom-0 bg-gray-800/95 p-6 backdrop-blur sm:p-10">
-                <feature.icon className="h-8 w-8" />
-                <h3 className="mt-6 text-sm font-semibold text-white sm:text-lg">{feature.name}</h3>
-                <p className="mt-2 text-sm text-gray-400">{feature.description}</p>
+                <skill.icon className="h-8 w-8" />
+                <h3 className="mt-6 text-sm font-semibold text-white sm:text-lg">{skill.name}</h3>
+                <p className="mt-2 text-sm text-gray-400">{skill.description}</p>
               </div>
             </div>
           </div>
         ))}
       </div>
       <div className="mt-6 flex justify-center gap-3">
-        {features.map((_, featureIndex) => (
+        {skills.map((_, skillIndex) => (
           <button
             type="button"
-            key={featureIndex}
+            key={skillIndex}
             className={clsx(
-              "relative h-0.5 w-4 rounded-full",
-              featureIndex === activeIndex ? "bg-gray-300" : "bg-gray-500",
+              'relative h-0.5 w-4 rounded-full',
+              skillIndex === activeIndex ? 'bg-gray-300' : 'bg-gray-500'
             )}
-            aria-label={`Go to slide ${featureIndex + 1}`}
+            aria-label={`Go to slide ${skillIndex + 1}`}
             onClick={() => {
-              slideRefs.current[featureIndex].scrollIntoView({
-                block: "nearest",
-                inline: "nearest",
+              slideRefs.current[skillIndex].scrollIntoView({
+                block: 'nearest',
+                inline: 'nearest',
               });
             }}
           >
@@ -461,20 +441,82 @@ function FeaturesMobile() {
   );
 }
 
-export function PrimaryFeatures() {
+export function TopSkills({ skills = [] }: { skills?: any[] }) {
+  // Create skill items from database data
+  const skillItems =
+    skills.length >= 1
+      ? skills.slice(0, 3).map((skill, index) => {
+          // Prepare job profiles data
+          const jobData =
+            skill.jobProfiles?.map((job: any) => ({
+              name: job.title,
+              amount: 'Relevant',
+              color: ['#FF9900', '#4285F4', '#00A2FF', '#13B5C8'][index % 4],
+            })) || [];
+
+          // Prepare related skills data
+          const relatedSkillsData =
+            skill.relatedSkills?.map((relatedSkill: any) => ({
+              name: relatedSkill.preferred_label,
+              amount: relatedSkill.skill_type === 'knowledge' ? 'Knowledge' : 'Skill',
+              color: '#5A67D8',
+            })) || [];
+
+          // Choose the appropriate screen for each index and pass the relevant data
+          let screenComponent;
+          let screenData;
+
+          switch (index % 3) {
+            case 0: // First skill uses Top10PlatformsScreen to show related skills
+              screenComponent = Top10PlatformsScreen;
+              screenData = relatedSkillsData.slice(0, Math.min(relatedSkillsData.length, 4));
+              break;
+            case 1: // Second skill uses Top10TechsScreen to show more related skills
+              screenComponent = Top10TechsScreen;
+              screenData = relatedSkillsData.slice(
+                Math.min(relatedSkillsData.length, 4),
+                Math.min(relatedSkillsData.length, 8)
+              );
+              break;
+            case 2: // Third skill uses Top10DatabasesScreen to show job profiles
+              screenComponent = Top10DatabasesScreen;
+              // Only use job data if there are actual job profiles
+              screenData = jobData.length > 0 ? jobData : relatedSkillsData.slice(0, 4);
+              break;
+            default:
+              screenComponent = Top10PlatformsScreen;
+              screenData = relatedSkillsData;
+          }
+
+          return {
+            name: skill.preferred_label || 'Skill',
+            description: skill.description?.substring(0, 120) + '...' || 'No description available',
+            icon: [DeviceUserIcon, DeviceNotificationIcon, DeviceTouchIcon][index % 3],
+            screen: screenComponent,
+            data: screenData,
+          };
+        })
+      : defaultSkills;
+
   return (
-    <section id="features" aria-label="Features for investing all your money" className="bg-gray-900 py-20 sm:py-32">
+    <section
+      id="features"
+      aria-label="Features for investing all your money"
+      className="bg-gray-900 py-20 sm:py-32"
+    >
       <Container>
         <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-3xl">
-          <h2 className="text-3xl font-medium tracking-tight text-white">Top job profiles</h2>
-          <p className="mt-2 text-lg text-gray-400">These are the most searched job profiles.</p>
+          <h2 className="text-3xl font-medium tracking-tight text-white">Top Skills</h2>
+          <p className="mt-2 text-lg text-gray-400">
+            Explore these skills and their related job opportunities.
+          </p>
         </div>
       </Container>
       <div className="mt-16 md:hidden">
-        <FeaturesMobile />
+        <SkillsMobile skills={skillItems} />
       </div>
       <Container className="hidden md:mt-20 md:block">
-        <FeaturesDesktop />
+        <SkillsDesktop skills={skillItems} />
       </Container>
     </section>
   );

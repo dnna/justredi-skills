@@ -1,28 +1,28 @@
-import { useId } from "react";
+import { useId } from 'react';
 
-import { Container } from "@/components/Container";
-import { Button } from "@/components/Button";
-import { CiSearch } from "react-icons/ci";
+import { Container } from '@/components/Container';
+import { Button } from '@/components/Button';
+import { CiSearch } from 'react-icons/ci';
 
 const features = [
   {
-    name: "Python Programming",
-    description: "Intermediate Level",
+    name: 'Python Programming',
+    description: 'Intermediate Level',
     icon: DeviceArrowIcon,
   },
   {
-    name: "SEO Fundamentals",
-    description: "Beginner Level",
+    name: 'SEO Fundamentals',
+    description: 'Beginner Level',
     icon: DeviceCardsIcon,
   },
   {
-    name: "Data Visualization",
-    description: "Advanced Level",
+    name: 'Data Visualization',
+    description: 'Advanced Level',
     icon: DeviceClockIcon,
   },
 ];
 
-function DeviceArrowIcon(props: React.ComponentPropsWithoutRef<"svg">) {
+function DeviceArrowIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   return (
     <svg viewBox="0 0 32 32" aria-hidden="true" {...props}>
       <path
@@ -37,7 +37,7 @@ function DeviceArrowIcon(props: React.ComponentPropsWithoutRef<"svg">) {
   );
 }
 
-function DeviceCardsIcon(props: React.ComponentPropsWithoutRef<"svg">) {
+function DeviceCardsIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   let id = useId();
 
   return (
@@ -57,7 +57,14 @@ function DeviceCardsIcon(props: React.ComponentPropsWithoutRef<"svg">) {
       <rect x={9} y={6} width={14} height={4} rx={1} fill="#171717" />
       <circle cx={16} cy={16} r={16} fill="#A3A3A3" fillOpacity={0.2} />
       <defs>
-        <linearGradient id={`${id}-gradient`} x1={16} y1={12} x2={16} y2={28} gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id={`${id}-gradient`}
+          x1={16}
+          y1={12}
+          x2={16}
+          y2={28}
+          gradientUnits="userSpaceOnUse"
+        >
           <stop stopColor="#737373" />
           <stop offset={1} stopColor="#737373" stopOpacity={0} />
         </linearGradient>
@@ -66,7 +73,7 @@ function DeviceCardsIcon(props: React.ComponentPropsWithoutRef<"svg">) {
   );
 }
 
-function DeviceClockIcon(props: React.ComponentPropsWithoutRef<"svg">) {
+function DeviceClockIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   return (
     <svg viewBox="0 0 32 32" aria-hidden="true" {...props}>
       <circle cx={16} cy={16} r={16} fill="#A3A3A3" fillOpacity={0.2} />
@@ -86,12 +93,29 @@ function DeviceClockIcon(props: React.ComponentPropsWithoutRef<"svg">) {
   );
 }
 
-export function SecondaryFeatures() {
+export function CourseHighlights({ courses = [] }: { courses?: any[] }) {
+  // If we have courses, use them; otherwise use the default features
+  const itemsToDisplay =
+    courses.length > 0
+      ? courses.slice(0, 3).map((course, index) => ({
+          name: course.courseName || 'Course',
+          description: course.language || 'Unknown Language',
+          icon: [DeviceArrowIcon, DeviceCardsIcon, DeviceClockIcon][index % 3],
+          id: course.id,
+        }))
+      : features;
+
   return (
-    <section id="secondary-features" aria-label="Features for building a portfolio" className="py-20 sm:py-32">
+    <section
+      id="secondary-features"
+      aria-label="Features for building a portfolio"
+      className="py-20 sm:py-32"
+    >
       <Container>
         <div className="mx-auto max-w-2xl sm:text-center">
-          <h2 className="text-3xl font-medium tracking-tight text-gray-900">Featured Learning Opportunities</h2>
+          <h2 className="text-3xl font-medium tracking-tight text-gray-900">
+            Featured Learning Opportunities
+          </h2>
           <p className="mt-2 text-lg text-gray-600">
             Explore learning opportunities providing the most sought-after skills.
           </p>
@@ -100,18 +124,28 @@ export function SecondaryFeatures() {
           role="list"
           className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-6 text-sm sm:mt-20 sm:grid-cols-2 md:gap-y-10 lg:max-w-none lg:grid-cols-3"
         >
-          {features.map((feature) => (
-            <li key={feature.name} className="rounded-2xl border border-gray-200 p-8">
-              <feature.icon className="h-8 w-8" />
-              <h3 className="mt-6 font-semibold text-gray-900">{feature.name}</h3>
-              <p className="mt-2 text-gray-700">{feature.description}</p>
+          {itemsToDisplay.map((item) => (
+            <li key={item.name} className="rounded-2xl border border-gray-200 p-8">
+              <item.icon className="h-8 w-8" />
+              <h3 className="mt-6 font-semibold text-gray-900">
+                {'id' in item ? (
+                  <a
+                    href={`/courses/${item.id}`}
+                    className="hover:text-green-600 transition-colors"
+                  >
+                    {item.name}
+                  </a>
+                ) : (
+                  item.name
+                )}
+              </h3>
             </li>
           ))}
         </ul>
         <div>
           <div className="mt-12 flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
-            <Button type="submit" color="green">
-              <span>Explore learning opportunities</span>
+            <Button href="/courses" color="green">
+              <span>Explore all learning opportunities</span>
             </Button>
           </div>
         </div>

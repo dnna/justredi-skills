@@ -1,61 +1,62 @@
-"use client";
+'use client';
 
-import { useEffect, useMemo, useRef, useState } from "react";
-import clsx from "clsx";
-import { useInView } from "framer-motion";
+import { useEffect, useMemo, useRef, useState } from 'react';
+import clsx from 'clsx';
+import { useInView } from 'framer-motion';
 
-import { Container } from "@/components/Container";
-import { Button } from "@/components/Button";
+import { Container } from '@/components/Container';
+import { Button } from '@/components/Button';
 
 interface Review {
   title: string;
   body: string;
+  id?: string | number;
 }
 
 const reviews: Array<Review> = [
   {
-    title: "National and Kapodistrian University of Athens",
-    body: "Greece’s oldest higher education institution, renowned for its faculties of law, medicine, and humanities. It offers a broad range of programs in the heart of the country’s historic capital.",
+    title: 'National and Kapodistrian University of Athens',
+    body: 'Greece’s oldest higher education institution, renowned for its faculties of law, medicine, and humanities. It offers a broad range of programs in the heart of the country’s historic capital.',
   },
   {
-    title: "Aristotle University of Thessaloniki",
-    body: "The largest university in Greece, notable for its diverse academic departments. Its campus is located in the vibrant city of Thessaloniki, offering a rich cultural environment.",
+    title: 'Aristotle University of Thessaloniki',
+    body: 'The largest university in Greece, notable for its diverse academic departments. Its campus is located in the vibrant city of Thessaloniki, offering a rich cultural environment.',
   },
   {
-    title: "University of Crete",
-    body: "With campuses in Rethymno and Heraklion, it focuses on research and innovation. Its coastal setting provides a scenic environment for both study and leisure.",
+    title: 'University of Crete',
+    body: 'With campuses in Rethymno and Heraklion, it focuses on research and innovation. Its coastal setting provides a scenic environment for both study and leisure.',
   },
   {
-    title: "University of Patras",
-    body: "Known for its strong emphasis on science and engineering programs. The campus overlooks the Gulf of Patras, blending academic pursuits with beautiful landscapes.",
+    title: 'University of Patras',
+    body: 'Known for its strong emphasis on science and engineering programs. The campus overlooks the Gulf of Patras, blending academic pursuits with beautiful landscapes.',
   },
   {
-    title: "University of the Aegean",
-    body: "Spread across several Aegean islands, it emphasizes interdisciplinary studies and maritime research. Its unique multi-island structure offers a truly diverse academic experience.",
+    title: 'University of the Aegean',
+    body: 'Spread across several Aegean islands, it emphasizes interdisciplinary studies and maritime research. Its unique multi-island structure offers a truly diverse academic experience.',
   },
   {
-    title: "University of Ioannina",
-    body: "Surrounded by a mountainous region, it excels in humanities, sciences, and medical studies. The tranquil setting near Lake Pamvotis creates a scenic backdrop for learning.",
+    title: 'University of Ioannina',
+    body: 'Surrounded by a mountainous region, it excels in humanities, sciences, and medical studies. The tranquil setting near Lake Pamvotis creates a scenic backdrop for learning.',
   },
   {
-    title: "Athens University of Economics and Business",
-    body: "Specializing in economics, business administration, and IT. Located in central Athens, it fosters strong industry links and innovative research.",
+    title: 'Athens University of Economics and Business',
+    body: 'Specializing in economics, business administration, and IT. Located in central Athens, it fosters strong industry links and innovative research.',
   },
   {
-    title: "University of Piraeus",
-    body: "Originally established as a school for industrial studies, it now offers a range of business, finance, and maritime programs. Its proximity to Greece’s biggest port underpins its maritime focus.",
+    title: 'University of Piraeus',
+    body: 'Originally established as a school for industrial studies, it now offers a range of business, finance, and maritime programs. Its proximity to Greece’s biggest port underpins its maritime focus.',
   },
   {
-    title: "Democritus University of Thrace",
-    body: "Spanning multiple campuses, it offers a variety of disciplines including law, engineering, and health sciences. It is a vital educational hub for Northeastern Greece.",
+    title: 'Democritus University of Thrace',
+    body: 'Spanning multiple campuses, it offers a variety of disciplines including law, engineering, and health sciences. It is a vital educational hub for Northeastern Greece.',
   },
   {
-    title: "Hellenic Open University",
-    body: "Greece’s only public university focused on distance learning. It provides flexible study programs for those balancing work, family, and education.",
+    title: 'Hellenic Open University',
+    body: 'Greece’s only public university focused on distance learning. It provides flexible study programs for those balancing work, family, and education.',
   },
   {
-    title: "University of West Attica",
-    body: "Formed from the merger of two Technological Educational Institutes, it focuses on applied sciences and technology. With multiple campuses in the Attica region, it emphasizes innovation and hands-on learning.",
+    title: 'University of West Attica',
+    body: 'Formed from the merger of two Technological Educational Institutes, it focuses on applied sciences and technology. With multiple campuses in the Attica region, it emphasizes innovation and hands-on learning.',
   },
 ];
 
@@ -64,20 +65,34 @@ function Review({
   body,
   className,
   ...props
-}: Omit<React.ComponentPropsWithoutRef<"figure">, keyof Review> & Review) {
+}: Omit<React.ComponentPropsWithoutRef<'figure'>, keyof Review> & Review) {
   let animationDelay = useMemo(() => {
-    let possibleAnimationDelays = ["0s", "0.1s", "0.2s", "0.3s", "0.4s", "0.5s"];
+    let possibleAnimationDelays = ['0s', '0.1s', '0.2s', '0.3s', '0.4s', '0.5s'];
     return possibleAnimationDelays[Math.floor(Math.random() * possibleAnimationDelays.length)];
   }, []);
 
   return (
     <figure
-      className={clsx("animate-fade-in rounded-3xl bg-white p-6 opacity-0 shadow-md shadow-gray-900/5", className)}
+      className={clsx(
+        'animate-fade-in rounded-3xl bg-white p-6 opacity-0 shadow-md shadow-gray-900/5',
+        className
+      )}
       style={{ animationDelay }}
       {...props}
     >
       <blockquote className="text-gray-900">
-        <p className="mt-4 text-lg font-semibold leading-6">{title}</p>
+        <p className="mt-4 text-lg font-semibold leading-6">
+          {props.id ? (
+            <a
+              href={`/institutions/${props.id}`}
+              className="hover:text-green-600 transition-colors"
+            >
+              {title}
+            </a>
+          ) : (
+            title
+          )}
+        </p>
         <p className="mt-3 text-base leading-7">{body}</p>
       </blockquote>
     </figure>
@@ -107,7 +122,7 @@ function ReviewColumn({
   reviewClassName?: (reviewIndex: number) => string;
   msPerPixel?: number;
 }) {
-  let columnRef = useRef<React.ElementRef<"div">>(null);
+  let columnRef = useRef<React.ElementRef<'div'>>(null);
   let [columnHeight, setColumnHeight] = useState(0);
   let duration = `${columnHeight * msPerPixel}ms`;
 
@@ -130,8 +145,8 @@ function ReviewColumn({
   return (
     <div
       ref={columnRef}
-      className={clsx("animate-marquee space-y-8 py-4", className)}
-      style={{ "--marquee-duration": duration } as React.CSSProperties}
+      className={clsx('animate-marquee space-y-8 py-4', className)}
+      style={{ '--marquee-duration': duration } as React.CSSProperties}
     >
       {reviews.concat(reviews).map((review, reviewIndex) => (
         <Review
@@ -145,13 +160,13 @@ function ReviewColumn({
   );
 }
 
-function ReviewGrid() {
-  let containerRef = useRef<React.ElementRef<"div">>(null);
+function ReviewGrid({ reviews: reviewItems = reviews }: { reviews?: Array<Review> }) {
+  let containerRef = useRef<React.ElementRef<'div'>>(null);
   let isInView = useInView(containerRef, { once: true, amount: 0.4 });
-  let columns = splitArray(reviews, 3);
-  let column1 = columns[0];
-  let column2 = columns[1];
-  let column3 = splitArray(columns[2], 2);
+  let columns = splitArray(reviewItems, 3);
+  let column1 = columns[0] || [];
+  let column2 = columns[1] || [];
+  let column3 = columns[2] ? splitArray(columns[2], 2) : [[], []];
 
   return (
     <div
@@ -164,8 +179,8 @@ function ReviewGrid() {
             reviews={[...column1, ...column3.flat(), ...column2]}
             reviewClassName={(reviewIndex) =>
               clsx(
-                reviewIndex >= column1.length + column3[0].length && "md:hidden",
-                reviewIndex >= column1.length && "lg:hidden",
+                reviewIndex >= column1.length + column3[0].length && 'md:hidden',
+                reviewIndex >= column1.length && 'lg:hidden'
               )
             }
             msPerPixel={10}
@@ -173,7 +188,7 @@ function ReviewGrid() {
           <ReviewColumn
             reviews={[...column2, ...column3[1]]}
             className="hidden md:block"
-            reviewClassName={(reviewIndex) => (reviewIndex >= column2.length ? "lg:hidden" : "")}
+            reviewClassName={(reviewIndex) => (reviewIndex >= column2.length ? 'lg:hidden' : '')}
             msPerPixel={15}
           />
           <ReviewColumn reviews={column3.flat()} className="hidden lg:block" msPerPixel={10} />
@@ -185,21 +200,34 @@ function ReviewGrid() {
   );
 }
 
-export function Reviews() {
+export function InstitutionsList({ institutions = [] }: { institutions?: any[] }) {
+  // Modify the reviews array if institutions are provided
+  const reviewsToDisplay =
+    institutions.length > 0
+      ? institutions.map((institution) => ({
+          title: institution.name || 'Unknown Institution',
+          body: institution.description || `ID: ${institution.id}`,
+          id: institution.id,
+        }))
+      : reviews;
+
   return (
     <section id="reviews" aria-labelledby="reviews-title" className="pb-16 pt-20 sm:pb-24 sm:pt-32">
       <Container>
-        <h2 id="reviews-title" className="text-3xl font-medium tracking-tight text-gray-900 sm:text-center">
+        <h2
+          id="reviews-title"
+          className="text-3xl font-medium tracking-tight text-gray-900 sm:text-center"
+        >
           Learning Opportunity Providers
         </h2>
         {/*<p className="mt-2 text-lg text-gray-600 sm:text-center">*/}
         {/*  Lorem Ipsum*/}
         {/*</p>*/}
-        <ReviewGrid />
+        <ReviewGrid reviews={reviewsToDisplay} />
         <div>
           <div className="mt-12 flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
-            <Button type="submit" color="green">
-              <span>See all</span>
+            <Button href="/institutions" color="green">
+              <span>See all institutions</span>
             </Button>
           </div>
         </div>

@@ -1,51 +1,51 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { Radio, RadioGroup } from "@headlessui/react";
-import clsx from "clsx";
+import { useState } from 'react';
+import { Radio, RadioGroup } from '@headlessui/react';
+import clsx from 'clsx';
 
-import { Button } from "@/components/Button";
-import { Container } from "@/components/Container";
-import { Logomark } from "@/components/Logo";
+import { Button } from '@/components/Button';
+import { Container } from '@/components/Container';
+import { Logomark } from '@/components/Logo';
 
-const plans = [
+const defaultCourses = [
   {
-    name: "Cloud Computing",
+    name: 'Cloud Computing Course',
     featured: true,
-    description: "Understanding cloud platforms enables engineers to build scalable, fault-tolerant applications.",
+    description: 'Learn cloud platforms to build scalable, fault-tolerant applications.',
     button: {
-      label: "Explore",
-      href: "/Explore",
+      label: 'Explore',
+      href: '/courses',
     },
-    features: ["Matches 40 job profiles"],
-    logomarkClassName: "fill-gray-300",
+    features: ['Matches 40 job profiles'],
+    logomarkClassName: 'fill-gray-300',
   },
   {
-    name: "Version Control Systems",
+    name: 'Version Control Systems',
     featured: true,
     description:
-      "Proficiency in tools like Git is vital for managing code changes and collaborating with other developers.",
+      'Master Git and other tools for managing code changes and collaborating with other developers.',
     button: {
-      label: "Explore",
-      href: "/Explore",
+      label: 'Explore',
+      href: '/courses',
     },
-    features: ["Matches 35 job profiles"],
-    logomarkClassName: "fill-gray-500",
+    features: ['Matches 35 job profiles'],
+    logomarkClassName: 'fill-gray-500',
   },
   {
-    name: "Database Management",
+    name: 'Database Management',
     featured: true,
-    description: "Skills in designing and managing databases are crucial for handling data storage and retrieval.",
+    description: 'Learn to design and manage databases for efficient data storage and retrieval.',
     button: {
-      label: "Explore",
-      href: "/Explore",
+      label: 'Explore',
+      href: '/courses',
     },
-    features: ["Matches 30 job profiles"],
-    logomarkClassName: "fill-cyan-500",
+    features: ['Matches 30 job profiles'],
+    logomarkClassName: 'fill-cyan-500',
   },
 ];
 
-function CheckIcon(props: React.ComponentPropsWithoutRef<"svg">) {
+function CheckIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true" {...props}>
       <path
@@ -66,7 +66,7 @@ function CheckIcon(props: React.ComponentPropsWithoutRef<"svg">) {
   );
 }
 
-function Plan({
+function CourseCard({
   name,
   description,
   button,
@@ -85,42 +85,70 @@ function Plan({
   return (
     <section
       className={clsx(
-        "flex flex-col overflow-hidden rounded-3xl p-6 shadow-lg shadow-gray-900/5",
-        featured ? "order-first bg-gray-800 lg:order-none" : "bg-white",
+        'flex flex-col overflow-hidden rounded-3xl p-6 shadow-lg shadow-gray-900/5',
+        featured ? 'order-first bg-gray-800 lg:order-none' : 'bg-white'
       )}
     >
-      <h3 className={clsx("flex items-center text-2xl font-semibold", featured ? "text-white" : "text-gray-900")}>
+      <h3
+        className={clsx(
+          'flex items-center text-2xl font-semibold',
+          featured ? 'text-white' : 'text-gray-900'
+        )}
+      >
         <span>{name}</span>
       </h3>
       {/*<p className={clsx("relative mt-5 flex text-3xl tracking-tight", featured ? "text-white" : "text-gray-900")}>
         TEST
       </p>*/}
-      <p className={clsx("mt-3 min-h-[70px] text-sm", featured ? "text-gray-300" : "text-gray-700")}>{description}</p>
+      <p
+        className={clsx('mt-3 min-h-[70px] text-sm', featured ? 'text-gray-300' : 'text-gray-700')}
+      >
+        {description}
+      </p>
       <div className="mt-6">
         <ul
           role="list"
           className={clsx(
-            "-my-2 divide-y text-sm",
-            featured ? "divide-gray-800 text-gray-300" : "divide-gray-200 text-gray-700",
+            '-my-2 divide-y text-sm',
+            featured ? 'divide-gray-800 text-gray-300' : 'divide-gray-200 text-gray-700'
           )}
         >
           {features.map((feature) => (
             <li key={feature} className="flex py-2">
-              <CheckIcon className={clsx("h-6 w-6 flex-none", featured ? "text-white" : "text-[#59a946]")} />
+              <CheckIcon
+                className={clsx('h-6 w-6 flex-none', featured ? 'text-white' : 'text-[#59a946]')}
+              />
               <span className="ml-4">{feature}</span>
             </li>
           ))}
         </ul>
       </div>
-      <Button href={button.href} color={featured ? "green" : "gray"} className="mt-6">
+      <Button href={button.href} color={featured ? 'green' : 'gray'} className="mt-6">
         {button.label}
       </Button>
     </section>
   );
 }
 
-export function Pricing() {
-  let [activePeriod, setActivePeriod] = useState<"Monthly" | "Annually">("Monthly");
+export function FeaturedCourses({ courses = [] }: { courses?: any[] }) {
+  let [activePeriod, setActivePeriod] = useState<'Monthly' | 'Annually'>('Monthly');
+
+  // Create course items from database data, fallback to defaults if no courses
+  const courseItems =
+    courses.length >= 3
+      ? courses.slice(0, 3).map((course, index) => ({
+          name: course.courseName || 'Course',
+          featured: index === 0, // First course is featured
+          description: `Course offered by ${course.institutionName || 'Unknown Institution'}`,
+          button: {
+            label: 'Explore',
+            href: `/courses/${course.id}`,
+          },
+          features: [`Course ID: ${course.id}`],
+          logomarkClassName:
+            index === 0 ? 'fill-gray-300' : index === 1 ? 'fill-gray-500' : 'fill-cyan-500',
+        }))
+      : defaultCourses;
 
   return (
     <section
@@ -131,16 +159,16 @@ export function Pricing() {
       <Container>
         <div className="mx-auto max-w-2xl text-center">
           <h2 id="pricing-title" className="text-3xl font-medium tracking-tight text-white">
-            Most sought after skills
+            Featured Courses
           </h2>
           <p className="mt-2 text-lg text-gray-100">
-            These are the skills matching the highest number of job profiles.
+            Explore our most popular learning opportunities.
           </p>
         </div>
 
         <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 items-start gap-x-8 gap-y-10 sm:mt-20 lg:max-w-none lg:grid-cols-3">
-          {plans.map((plan) => (
-            <Plan key={plan.name} {...plan} />
+          {courseItems.map((course) => (
+            <CourseCard key={course.name} {...course} />
           ))}
         </div>
       </Container>
