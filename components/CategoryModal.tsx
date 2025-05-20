@@ -168,7 +168,10 @@ export function CategoryModal({ isOpen, onClose, categories }: CategoryModalProp
                           className="space-y-2"
                         >
                           <h4 className="mb-3 text-sm font-medium text-gray-500">
-                            Skills in "{selectedLevel1.name.charAt(0).toUpperCase() + selectedLevel1.name.slice(1)}"
+                            Skills in "
+                            {selectedLevel1.name.charAt(0).toUpperCase() +
+                              selectedLevel1.name.slice(1)}
+                            "
                           </h4>
                           {/* Filter out any children that have the same name as the first column categories */}
                           {selectedLevel1.children
