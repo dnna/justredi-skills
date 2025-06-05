@@ -57,9 +57,23 @@ export default async function SkillPage({ params }: Props) {
         {/* Breadcrumb-like navigation could be added here */}
       </div>
 
-      <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
-        {skill.preferred_label}
-      </h1>
+      <div className="flex items-start justify-between">
+        <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
+          {skill.preferred_label}
+        </h1>
+        {skill.is_digital_skill && (
+          <span className="ml-4 inline-flex items-center rounded-full bg-emerald-600 px-3 py-1 text-sm font-medium text-white">
+            <svg className="mr-1.5 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                fillRule="evenodd"
+                d="M3 5a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2h-2.22l.123.489.804.804A1 1 0 0113 18H7a1 1 0 01-.707-1.707l.804-.804L7.22 15H5a2 2 0 01-2-2V5zm5.771 7H5V5h10v7H8.771z"
+                clipRule="evenodd"
+              />
+            </svg>
+            Digital Skill
+          </span>
+        )}
+      </div>
 
       <div className="mt-6 text-lg leading-8 text-gray-600">
         <p>{skill.description}</p>
@@ -282,6 +296,11 @@ export default async function SkillPage({ params }: Props) {
                                         className="text-indigo-600 hover:text-indigo-800"
                                       >
                                         • {relatedSkill.preferred_label}
+                                        {relatedSkill.is_digital_skill && (
+                                          <span className="ml-2 rounded-full bg-emerald-600 px-2 py-0.5 text-xs text-white">
+                                            Digital
+                                          </span>
+                                        )}
                                         {relatedSkill.skill_type === 'knowledge' && (
                                           <span className="ml-2 rounded-full bg-blue-50 px-2 py-0.5 text-xs text-blue-700">
                                             Knowledge

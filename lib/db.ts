@@ -57,7 +57,7 @@ export async function getCourse(id: string) {
   // Get skills for this course
   const skillsQuery = `
     SELECT s.id, s.esco_id, s.preferred_label, s.description, s.alt_labels, 
-           s.skill_type, s.skill_category, s.skill_group,
+           s.skill_type, s.skill_category, s.skill_group, s.is_digital_skill,
            cs.retrieval_score, cs.rerank_score
     FROM skills s
     JOIN course_skills cs ON s.id = cs.skill_id
@@ -114,7 +114,7 @@ export async function getSkill(id: string) {
   const skillQuery = `
     SELECT id, esco_id, preferred_label, description, alt_labels,
            skill_type, skill_category, skill_group, parent_skill_id,
-           hierarchy_level, is_broader_skill
+           hierarchy_level, is_broader_skill, is_digital_skill
     FROM skills
     WHERE id = ? OR esco_id = ?
   `;
@@ -220,7 +220,7 @@ export async function getAllSkills(limit: number = 100, offset: number = 0) {
   // Convert limit and offset to numbers and use them directly in the query
   const skillsQuery = `
     SELECT id, esco_id, preferred_label, description, alt_labels,
-           parent_skill_id, hierarchy_level, is_broader_skill
+           parent_skill_id, hierarchy_level, is_broader_skill, is_digital_skill
     FROM skills
     ORDER BY hierarchy_level ASC, is_broader_skill DESC, preferred_label ASC
     LIMIT ${Number(limit)} OFFSET ${Number(offset)}
@@ -254,7 +254,7 @@ export async function searchCourses(searchTerm: string, limit: number = 20) {
 
 export async function searchSkills(searchTerm: string, limit: number = 20) {
   const searchQuery = `
-    SELECT id, esco_id, preferred_label, description
+    SELECT id, esco_id, preferred_label, description, is_digital_skill
     FROM skills
     WHERE preferred_label LIKE ? OR description LIKE ?
     LIMIT ${Number(limit)}
@@ -280,7 +280,7 @@ export async function getRelatedSkills(skillId: string, limit: number = 10) {
   // 1. Add sibling skills (skills with the same parent)
   if (skill && skill.parent_skill_id) {
     const siblingSkillsQuery = `
-      SELECT id, esco_id, preferred_label, skill_type, skill_group, 'sibling' as relation_type
+      SELECT id, esco_id, preferred_label, skill_type, skill_group, is_digital_skill, 'sibling' as relation_type
       FROM skills
       WHERE parent_skill_id = ? AND id != ?
       ORDER BY preferred_label
@@ -299,7 +299,7 @@ export async function getRelatedSkills(skillId: string, limit: number = 10) {
   // 2. Add child skills if this is a broader skill
   if (skill && skill.is_broader_skill) {
     const childSkillsQuery = `
-      SELECT id, esco_id, preferred_label, skill_type, skill_group, 'child' as relation_type
+      SELECT id, esco_id, preferred_label, skill_type, skill_group, is_digital_skill, 'child' as relation_type
       FROM skills
       WHERE parent_skill_id = ?
       ORDER BY preferred_label
@@ -315,7 +315,7 @@ export async function getRelatedSkills(skillId: string, limit: number = 10) {
   // 3. Add parent skill if it exists
   if (skill && skill.parent_skill_id) {
     const parentSkillQuery = `
-      SELECT id, esco_id, preferred_label, skill_type, skill_group, 'parent' as relation_type
+      SELECT id, esco_id, preferred_label, skill_type, skill_group, is_digital_skill, 'parent' as relation_type
       FROM skills
       WHERE id = ?
     `;
@@ -340,7 +340,7 @@ export async function getRelatedSkills(skillId: string, limit: number = 10) {
 
     // Find other skills taught in these courses
     const courseRelatedSkillsQuery = `
-      SELECT s.id, s.esco_id, s.preferred_label, s.skill_type, s.skill_group, 
+      SELECT s.id, s.esco_id, s.preferred_label, s.skill_type, s.skill_group, s.is_digital_skill, 
              COUNT(cs.course_id) as course_count, 'course' as relation_type
       FROM skills s
       JOIN course_skills cs ON s.id = cs.skill_id
@@ -366,7 +366,7 @@ export async function getRelatedSkills(skillId: string, limit: number = 10) {
 
     try {
       const groupSkillsQuery = `
-        SELECT id, esco_id, preferred_label, skill_type, skill_group, 'group' as relation_type
+        SELECT id, esco_id, preferred_label, skill_type, skill_group, is_digital_skill, 'group' as relation_type
         FROM skills
         WHERE skill_group = ? AND id != ? AND id NOT IN (${existingIds.map(() => '?').join(',')})
         ORDER BY RAND()
@@ -385,7 +385,7 @@ export async function getRelatedSkills(skillId: string, limit: number = 10) {
     } catch (error) {
       // Fallback if the NOT IN clause fails with too many parameters
       const simpleGroupSkillsQuery = `
-        SELECT id, esco_id, preferred_label, skill_type, skill_group, 'group' as relation_type
+        SELECT id, esco_id, preferred_label, skill_type, skill_group, is_digital_skill, 'group' as relation_type
         FROM skills
         WHERE skill_group = ? AND id != ?
         ORDER BY RAND()

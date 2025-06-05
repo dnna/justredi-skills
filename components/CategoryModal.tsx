@@ -14,6 +14,7 @@ type CategoryItem = {
   id: string;
   name: string;
   skill_type?: 'knowledge' | 'skill/competence';
+  is_digital_skill?: boolean;
   children?: CategoryItem[];
 };
 
@@ -182,6 +183,12 @@ export function CategoryModal({ isOpen, onClose, categories }: CategoryModalProp
                                     category.id === skill.id || category.name === skill.name
                                 )
                             )
+                            .sort((a, b) => {
+                              // Sort by digital skills first, then alphabetically
+                              if (Boolean(a.is_digital_skill) && !Boolean(b.is_digital_skill)) return -1;
+                              if (!Boolean(a.is_digital_skill) && Boolean(b.is_digital_skill)) return 1;
+                              return a.name.localeCompare(b.name);
+                            })
                             .map((skill) => (
                               <li
                                 key={skill.id}
@@ -193,6 +200,11 @@ export function CategoryModal({ isOpen, onClose, categories }: CategoryModalProp
                                 onMouseEnter={() => handleSkillSelect(skill)}
                               >
                                 {skill.name.charAt(0).toUpperCase() + skill.name.slice(1)}
+                                {Boolean(skill.is_digital_skill) && (
+                                  <span className="ml-2 rounded-full bg-emerald-600 px-2 py-0.5 text-xs text-white">
+                                    Digital
+                                  </span>
+                                )}
                                 {skill.skill_type === 'knowledge' && (
                                   <span className="ml-2 rounded-full bg-blue-50 px-2 py-0.5 text-xs text-blue-700">
                                     Knowledge

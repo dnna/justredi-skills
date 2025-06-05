@@ -104,11 +104,14 @@ export default async function CoursePage({ params, searchParams }: Props) {
                     >
                       <h3 className="mb-4 text-lg font-semibold text-gray-900">{group}</h3>
                       <ul className="space-y-2">
-                        {/* Sort skills by skill.preferred_label */}
+                        {/* Sort skills by digital first, then alphabetically */}
                         {skillsByGroup[group]
-                          .sort((a: any, b: any) =>
-                            a.preferred_label.localeCompare(b.preferred_label)
-                          )
+                          .sort((a: any, b: any) => {
+                            // Sort by digital skills first, then alphabetically
+                            if (Boolean(a.is_digital_skill) && !Boolean(b.is_digital_skill)) return -1;
+                            if (!Boolean(a.is_digital_skill) && Boolean(b.is_digital_skill)) return 1;
+                            return a.preferred_label.localeCompare(b.preferred_label);
+                          })
                           .map((skill: any) => (
                             <li key={skill.id}>
                               <Link
@@ -116,6 +119,11 @@ export default async function CoursePage({ params, searchParams }: Props) {
                                 className="text-indigo-600 hover:text-indigo-800"
                               >
                                 • {skill.preferred_label}
+                                {Boolean(skill.is_digital_skill) && (
+                                  <span className="ml-2 rounded-full bg-emerald-600 px-2 py-0.5 text-xs text-white">
+                                    Digital
+                                  </span>
+                                )}
                                 {skill.skill_type === 'knowledge' && (
                                   <span className="ml-2 rounded-full bg-blue-50 px-2 py-0.5 text-xs text-blue-700">
                                     Knowledge

@@ -4,6 +4,7 @@ export type CategoryItem = {
   id: string;
   name: string;
   skill_type?: 'knowledge' | 'skill/competence';
+  is_digital_skill?: boolean;
   children?: CategoryItem[];
 };
 
@@ -26,7 +27,7 @@ export async function getCategoryHierarchy(): Promise<CategoryItem[]> {
     // For each top level group, get the skills directly (Level 2)
     for (const group of topLevelGroups) {
       const skillsQuery = `
-        SELECT id, preferred_label as name, skill_type
+        SELECT id, preferred_label as name, skill_type, is_digital_skill
         FROM skills
         WHERE skill_group = ?
         ORDER BY preferred_label
