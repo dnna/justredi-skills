@@ -108,8 +108,10 @@ export default async function CoursePage({ params, searchParams }: Props) {
                         {skillsByGroup[group]
                           .sort((a: any, b: any) => {
                             // Sort by digital skills first, then alphabetically
-                            if (Boolean(a.is_digital_skill) && !Boolean(b.is_digital_skill)) return -1;
-                            if (!Boolean(a.is_digital_skill) && Boolean(b.is_digital_skill)) return 1;
+                            if (Boolean(a.is_digital_skill) && !Boolean(b.is_digital_skill))
+                              return -1;
+                            if (!Boolean(a.is_digital_skill) && Boolean(b.is_digital_skill))
+                              return 1;
                             return a.preferred_label.localeCompare(b.preferred_label);
                           })
                           .map((skill: any) => (

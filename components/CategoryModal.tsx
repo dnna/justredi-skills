@@ -185,8 +185,10 @@ export function CategoryModal({ isOpen, onClose, categories }: CategoryModalProp
                             )
                             .sort((a, b) => {
                               // Sort by digital skills first, then alphabetically
-                              if (Boolean(a.is_digital_skill) && !Boolean(b.is_digital_skill)) return -1;
-                              if (!Boolean(a.is_digital_skill) && Boolean(b.is_digital_skill)) return 1;
+                              if (Boolean(a.is_digital_skill) && !Boolean(b.is_digital_skill))
+                                return -1;
+                              if (!Boolean(a.is_digital_skill) && Boolean(b.is_digital_skill))
+                                return 1;
                               return a.name.localeCompare(b.name);
                             })
                             .map((skill) => (
