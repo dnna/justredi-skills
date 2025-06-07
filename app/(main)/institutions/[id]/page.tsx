@@ -99,7 +99,7 @@ export default async function InstitutionPage({ params }: Props) {
             <img
               src={institution.logo_url}
               alt={`${institution.name} logo`}
-              className="h-36 w-36 rounded-full object-contain bg-white border border-gray-200 p-4"
+              className="h-36 w-36 rounded-full border border-gray-200 bg-white object-contain p-4"
             />
           ) : (
             <div className="flex h-36 w-36 items-center justify-center rounded-full bg-gray-200 text-xl font-bold text-gray-500">

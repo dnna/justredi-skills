@@ -32,7 +32,7 @@ export default async function InstitutionsPage() {
                   <img
                     src={institution.logo_url}
                     alt={`${institution.name} logo`}
-                    className="h-12 w-12 flex-shrink-0 rounded-full object-contain bg-white border border-gray-200 p-1"
+                    className="h-12 w-12 flex-shrink-0 rounded-full border border-gray-200 bg-white object-contain p-1"
                   />
                 ) : (
                   <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-gray-200 font-bold text-gray-500">
