@@ -6,11 +6,11 @@ import { Container } from '@/components/Container';
 export const dynamic = 'force-dynamic';
 
 interface PageProps {
-  searchParams: { source?: string };
+  searchParams: Promise<{ source?: string }>;
 }
 
 export default async function InstitutionsPage({ searchParams }: PageProps) {
-  const { source } = searchParams;
+  const { source } = await searchParams;
 
   const institutionsResult = source
     ? await getInstitutionsBySource(source, 100, 0)
