@@ -176,7 +176,7 @@ export async function getSkill(id: string) {
 
 export async function getInstitution(id: string) {
   const institutionQuery = `
-    SELECT id, name
+    SELECT id, name, description, website
     FROM institutions
     WHERE id = ?
   `;

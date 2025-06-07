@@ -85,11 +85,13 @@ export default async function InstitutionPage({ params }: Props) {
             </p>
           </div>
 
-          <div className="mt-8">
-            <Button href="#" variant="outline" className="w-auto">
-              Website
-            </Button>
-          </div>
+          {institution.website && (
+            <div className="mt-8">
+              <Button href={institution.website} variant="outline" className="w-auto">
+                Visit Website
+              </Button>
+            </div>
+          )}
         </div>
 
         <div className="flex items-start justify-center">
