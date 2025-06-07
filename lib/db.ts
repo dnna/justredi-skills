@@ -524,13 +524,13 @@ export async function getSkillsByParentId(parentId: string | null, limit: number
  */
 export async function getJobProfile(id: string) {
   const jobQuery = `
-    SELECT id, esco_id, title, description, alt_titles, 
+    SELECT id, title, description, alt_titles, 
            isco_group, hierarchy_level, parent_job_id, is_broader_job
     FROM job_profiles
-    WHERE id = ? OR esco_id = ?
+    WHERE id = ?
   `;
 
-  const jobs = await query(jobQuery, [id, id]);
+  const jobs = await query(jobQuery, [id]);
   if (!jobs || (jobs as any[]).length === 0) {
     return null;
   }
@@ -569,7 +569,7 @@ export async function getJobProfile(id: string) {
   let parentJob = null;
   if (job.parent_job_id) {
     const parentJobQuery = `
-      SELECT id, esco_id, title, description 
+      SELECT id, title, description 
       FROM job_profiles
       WHERE id = ?
     `;
@@ -583,7 +583,7 @@ export async function getJobProfile(id: string) {
   let childJobs: any[] = [];
   if (job.is_broader_job) {
     const childJobsQuery = `
-      SELECT id, esco_id, title, description
+      SELECT id, title, description
       FROM job_profiles
       WHERE parent_job_id = ?
       ORDER BY title
@@ -606,7 +606,7 @@ export async function getJobProfile(id: string) {
  */
 export async function getAllJobProfiles(limit: number = 100, offset: number = 0) {
   const jobsQuery = `
-    SELECT id, esco_id, title, description, alt_titles,
+    SELECT id, title, description, alt_titles,
            isco_group, hierarchy_level, is_broader_job
     FROM job_profiles
     ORDER BY title
@@ -621,7 +621,7 @@ export async function getAllJobProfiles(limit: number = 100, offset: number = 0)
  */
 export async function searchJobProfiles(searchTerm: string, limit: number = 20) {
   const searchQuery = `
-    SELECT id, esco_id, title, description
+    SELECT id, title, description
     FROM job_profiles
     WHERE title LIKE ? OR description LIKE ? OR alt_titles LIKE ?
     LIMIT ${Number(limit)}
