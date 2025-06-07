@@ -1,12 +1,20 @@
 import Link from 'next/link';
-import { getAllInstitutions } from '@/lib/db';
+import { getAllInstitutions, getInstitutionsBySource } from '@/lib/db';
 import { Container } from '@/components/Container';
 
 // Force dynamic rendering to ensure data is fetched at runtime, not build time
 export const dynamic = 'force-dynamic';
 
-export default async function InstitutionsPage() {
-  const institutionsResult = await getAllInstitutions(100, 0);
+interface PageProps {
+  searchParams: { source?: string };
+}
+
+export default async function InstitutionsPage({ searchParams }: PageProps) {
+  const { source } = searchParams;
+
+  const institutionsResult = source
+    ? await getInstitutionsBySource(source, 100, 0)
+    : await getAllInstitutions(100, 0);
   const institutions = Array.isArray(institutionsResult) ? institutionsResult : [];
 
   return (
@@ -50,11 +58,9 @@ export default async function InstitutionsPage() {
                     </Link>
                   </h3>
 
-                  {institution.courseCount && (
-                    <p className="mt-1 text-sm text-gray-500">
-                      {institution.courseCount} courses available
-                    </p>
-                  )}
+                  <p className="mt-1 text-sm text-gray-500">
+                    {institution.courseCount || 0} courses available
+                  </p>
                 </div>
               </div>
 

@@ -250,12 +250,36 @@ export async function getAllSkills(limit: number = 100, offset: number = 0) {
 export async function getAllInstitutions(limit: number = 100, offset: number = 0) {
   // Convert limit and offset to numbers and use them directly in the query
   const institutionsQuery = `
-    SELECT id, name, description, logo_url
-    FROM institutions
+    SELECT i.id, i.name, i.description, i.logo_url,
+           COUNT(c.id) as courseCount
+    FROM institutions i
+    LEFT JOIN courses c ON i.id = c.institution_id
+    GROUP BY i.id, i.name, i.description, i.logo_url
+    ORDER BY i.name
     LIMIT ${Number(limit)} OFFSET ${Number(offset)}
   `;
 
   return await query(institutionsQuery, []);
+}
+
+export async function getInstitutionsBySource(
+  source: string,
+  limit: number = 100,
+  offset: number = 0
+) {
+  // Get institutions that have courses from the specified source
+  const institutionsQuery = `
+    SELECT i.id, i.name, i.description, i.logo_url,
+           COUNT(c.id) as courseCount
+    FROM institutions i
+    JOIN courses c ON i.id = c.institution_id
+    WHERE c.source = ?
+    GROUP BY i.id, i.name, i.description, i.logo_url
+    ORDER BY i.name
+    LIMIT ${Number(limit)} OFFSET ${Number(offset)}
+  `;
+
+  return await query(institutionsQuery, [source]);
 }
 
 export async function searchCourses(searchTerm: string, limit: number = 20) {
