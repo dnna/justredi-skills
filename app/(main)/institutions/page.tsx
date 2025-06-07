@@ -28,9 +28,17 @@ export default async function InstitutionsPage() {
               className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
             >
               <div className="flex items-center space-x-4">
-                <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-gray-200 font-bold text-gray-500">
-                  {institution.name.substring(0, 2).toUpperCase()}
-                </div>
+                {institution.logo_url ? (
+                  <img
+                    src={institution.logo_url}
+                    alt={`${institution.name} logo`}
+                    className="h-12 w-12 flex-shrink-0 rounded-full object-contain bg-white border border-gray-200 p-1"
+                  />
+                ) : (
+                  <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-gray-200 font-bold text-gray-500">
+                    {institution.name.substring(0, 2).toUpperCase()}
+                  </div>
+                )}
 
                 <div>
                   <h3 className="text-lg font-semibold text-gray-900">

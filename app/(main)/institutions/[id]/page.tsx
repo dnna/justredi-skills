@@ -95,9 +95,17 @@ export default async function InstitutionPage({ params }: Props) {
         </div>
 
         <div className="flex items-start justify-center">
-          <div className="flex h-36 w-36 items-center justify-center rounded-full bg-gray-200 text-xl font-bold text-gray-500">
-            LOGO
-          </div>
+          {institution.logo_url ? (
+            <img
+              src={institution.logo_url}
+              alt={`${institution.name} logo`}
+              className="h-36 w-36 rounded-full object-contain bg-white border border-gray-200 p-4"
+            />
+          ) : (
+            <div className="flex h-36 w-36 items-center justify-center rounded-full bg-gray-200 text-xl font-bold text-gray-500">
+              LOGO
+            </div>
+          )}
         </div>
       </div>
 

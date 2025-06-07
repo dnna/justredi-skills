@@ -176,7 +176,7 @@ export async function getSkill(id: string) {
 
 export async function getInstitution(id: string) {
   const institutionQuery = `
-    SELECT id, name, description, website
+    SELECT id, name, description, website, logo_url
     FROM institutions
     WHERE id = ?
   `;
@@ -250,7 +250,7 @@ export async function getAllSkills(limit: number = 100, offset: number = 0) {
 export async function getAllInstitutions(limit: number = 100, offset: number = 0) {
   // Convert limit and offset to numbers and use them directly in the query
   const institutionsQuery = `
-    SELECT id, name
+    SELECT id, name, logo_url
     FROM institutions
     LIMIT ${Number(limit)} OFFSET ${Number(offset)}
   `;
