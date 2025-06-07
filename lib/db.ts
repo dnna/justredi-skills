@@ -198,7 +198,7 @@ export async function getInstitution(id: string) {
   const courses = await query(coursesQuery, [institution.id]);
 
   // Get skills for each course
-  const coursesWithSkills = [];
+  const coursesWithSkills: any[] = [];
   for (const course of courses as any[]) {
     const skillsQuery = `
       SELECT s.id, s.preferred_label, s.skill_type, s.is_digital_skill
