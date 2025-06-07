@@ -197,9 +197,27 @@ export async function getInstitution(id: string) {
 
   const courses = await query(coursesQuery, [institution.id]);
 
+  // Get skills for each course
+  const coursesWithSkills = [];
+  for (const course of courses as any[]) {
+    const skillsQuery = `
+      SELECT s.id, s.preferred_label, s.skill_type, s.is_digital_skill
+      FROM skills s
+      JOIN course_skills cs ON s.id = cs.skill_id
+      WHERE cs.course_id = ?
+      ORDER BY cs.retrieval_score DESC, s.preferred_label
+    `;
+
+    const skills = await query(skillsQuery, [course.id]);
+    coursesWithSkills.push({
+      ...course,
+      skills: skills || [],
+    });
+  }
+
   return {
     ...institution,
-    courses: courses || [],
+    courses: coursesWithSkills,
   };
 }
 

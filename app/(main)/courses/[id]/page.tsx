@@ -157,7 +157,7 @@ export default async function CoursePage({ params, searchParams }: Props) {
             href={course.external_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex justify-center items-center rounded-lg py-2 px-3 text-sm font-semibold transition-colors bg-indigo-600 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            className="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           >
             View Course →
           </a>

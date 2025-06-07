@@ -104,37 +104,62 @@ export default async function InstitutionPage({ params }: Props) {
 
         <div className="mt-10 space-y-12">
           {institution.courses.length > 0 ? (
-            institution.courses.map((course: any) => (
-              <div key={course.id} className="border-b border-gray-200 pb-8">
-                <h3 className="text-xl font-semibold text-gray-900">
-                  <Link href={`/courses/${course.id}`} className="hover:text-indigo-600">
-                    {course.courseName}
-                  </Link>
-                </h3>
+            institution.courses
+              .sort((a: any, b: any) => {
+                // Sort courses with skills first, then by name
+                const aHasSkills = a.skills && a.skills.length > 0 ? 1 : 0;
+                const bHasSkills = b.skills && b.skills.length > 0 ? 1 : 0;
+                if (aHasSkills !== bHasSkills) {
+                  return bHasSkills - aHasSkills; // Courses with skills first
+                }
+                return a.courseName.localeCompare(b.courseName); // Then alphabetically
+              })
+              .map((course: any) => (
+                <div key={course.id} className="border-b border-gray-200 pb-8">
+                  <h3 className="text-xl font-semibold text-gray-900">
+                    <Link href={`/courses/${course.id}`} className="hover:text-indigo-600">
+                      {course.courseName}
+                    </Link>
+                  </h3>
 
-                {course.skills && (
-                  <div className="mt-4">
-                    <div className="flex flex-wrap gap-2">
-                      {course.skills.slice(0, 5).map((skill: any) => (
-                        <Link
-                          key={skill.id}
-                          href={`/skills/${skill.id}`}
-                          className="inline-flex items-center rounded-md bg-gray-100 px-3 py-1 text-sm font-medium text-gray-800 hover:bg-gray-200"
-                        >
-                          {skill.preferred_label}
-                        </Link>
-                      ))}
+                  {course.skills && course.skills.length > 0 && (
+                    <div className="mt-4">
+                      <div className="flex flex-wrap gap-2">
+                        {course.skills.slice(0, 5).map((skill: any) => (
+                          <Link
+                            key={skill.id}
+                            href={`/skills/${skill.id}`}
+                            className="inline-flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-800"
+                          >
+                            {skill.preferred_label}
+                            {Boolean(skill.is_digital_skill) && (
+                              <span className="ml-1 rounded-full bg-emerald-600 px-1.5 py-0.5 text-xs text-white">
+                                Digital
+                              </span>
+                            )}
+                            {skill.skill_type === 'knowledge' && (
+                              <span className="ml-1 rounded-full bg-blue-50 px-1.5 py-0.5 text-xs text-blue-700">
+                                Knowledge
+                              </span>
+                            )}
+                            {skill.skill_type === 'skill/competence' && (
+                              <span className="ml-1 rounded-full bg-green-50 px-1.5 py-0.5 text-xs text-green-700">
+                                Skill
+                              </span>
+                            )}
+                          </Link>
+                        ))}
 
-                      {course.skills.length > 5 && (
-                        <span className="inline-flex items-center rounded-md bg-gray-50 px-3 py-1 text-sm font-medium text-gray-500">
-                          +{course.skills.length - 5} more
-                        </span>
-                      )}
+                        {course.skills.length > 5 && (
+                          <span className="inline-flex items-center rounded-md bg-gray-50 px-2.5 py-1 text-sm font-medium text-gray-500">
+                            +{course.skills.length - 5} more
+                          </span>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                )}
-              </div>
-            ))
+                  )}
+                </div>
+              ))
           ) : (
             <p className="text-gray-500">No courses found for this institution.</p>
           )}
