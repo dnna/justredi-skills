@@ -41,7 +41,7 @@ export async function query(sql: string, params: any[] = []) {
 
 export async function getCourse(id: string) {
   const courseQuery = `
-    SELECT c.id, c.name as courseName, i.name as institutionName, i.id as institution_id, c.language, c.provider 
+    SELECT c.id, c.name as courseName, i.name as institutionName, i.id as institution_id, c.language, c.provider, c.external_url 
     FROM courses c
     LEFT JOIN institutions i ON c.institution_id = i.id
     WHERE c.id = ?

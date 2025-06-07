@@ -151,11 +151,18 @@ export default async function CoursePage({ params, searchParams }: Props) {
         )}
       </div>
 
-      <div className="mt-8">
-        <Button href="#" variant="outline" className="w-auto">
-          Website
-        </Button>
-      </div>
+      {course.external_url && (
+        <div className="mt-8">
+          <a
+            href={course.external_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex justify-center items-center rounded-lg py-2 px-3 text-sm font-semibold transition-colors bg-indigo-600 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          >
+            View Course →
+          </a>
+        </div>
+      )}
 
       {jobProfiles && jobProfiles.length > 0 && (
         <div className="mt-20">
