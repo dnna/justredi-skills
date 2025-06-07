@@ -11,6 +11,7 @@ interface Review {
   title: string;
   body: string;
   id?: string;
+  logo_url?: string;
 }
 
 const reviews: Array<Review> = [
@@ -81,6 +82,15 @@ function Review({
       {...props}
     >
       <blockquote className="text-gray-900">
+        {props.logo_url && (
+          <div className="mb-4 flex justify-center">
+            <img
+              src={props.logo_url}
+              alt={`${title} logo`}
+              className="h-12 w-12 rounded-full border border-gray-200 bg-white object-contain p-1"
+            />
+          </div>
+        )}
         <p className="mt-4 text-lg font-semibold leading-6">
           {props.id ? (
             <a
@@ -206,8 +216,11 @@ export function InstitutionsList({ institutions = [] }: { institutions?: any[] }
     institutions.length > 0
       ? institutions.map((institution) => ({
           title: institution.name || 'Unknown Institution',
-          body: institution.description || `ID: ${institution.id}`,
+          body:
+            institution.description ||
+            'Educational institution providing various learning opportunities.',
           id: String(institution.id),
+          logo_url: institution.logo_url,
         }))
       : reviews;
 
