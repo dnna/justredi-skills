@@ -1,9 +1,10 @@
 import { NextResponse } from 'next/server';
 import { query } from '@/lib/db';
 
-export async function GET(request: Request, { params }: { params: { category: string } }) {
+export async function GET(request: Request, { params }: { params: Promise<{ category: string }> }) {
   try {
-    const category = decodeURIComponent(params.category);
+    const { category } = await params;
+    const decodedCategory = decodeURIComponent(category);
 
     const jobProfiles = await query(
       `
@@ -16,7 +17,7 @@ export async function GET(request: Request, { params }: { params: { category: st
       WHERE category = ?
       ORDER BY hierarchy_level, title
     `,
-      [category]
+      [decodedCategory]
     );
 
     return NextResponse.json(jobProfiles);
