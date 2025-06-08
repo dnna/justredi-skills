@@ -540,7 +540,7 @@ export async function getJobProfile(id: string) {
   // Get skills for this job profile
   const skillsQuery = `
     SELECT s.id, s.esco_id, s.preferred_label, s.description,
-           js.is_essential, js.skill_level
+           js.is_essential, js.skill_level, s.is_digital_skill
     FROM skills s
     JOIN job_skills js ON s.id = js.skill_id
     WHERE js.job_id = ?
@@ -620,7 +620,7 @@ export async function getAllJobProfiles(limit: number = 100, offset: number = 0)
   for (const job of jobs as any[]) {
     const skillsQuery = `
       SELECT s.id, s.esco_id, s.preferred_label, s.description,
-             js.is_essential, js.skill_level
+             js.is_essential, js.skill_level, s.is_digital_skill
       FROM skills s
       JOIN job_skills js ON s.id = js.skill_id
       WHERE js.job_id = ?

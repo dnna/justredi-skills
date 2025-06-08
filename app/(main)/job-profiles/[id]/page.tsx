@@ -116,16 +116,34 @@ export default async function JobProfilePage({ params }: JobProfilePageProps) {
                     </span>
                   </h3>
                   <div className="flex flex-wrap gap-2">
-                    {essentialSkills.map((skill: any) => (
-                      <Link
-                        key={skill.id}
-                        href={`/skills/${skill.id}`}
-                        className="inline-flex items-center rounded-full border border-red-200 bg-red-50 px-3 py-1.5 text-sm font-medium text-red-800 transition-colors hover:border-red-300 hover:bg-red-100"
-                        title={skill.description}
-                      >
-                        {skill.preferred_label}
-                      </Link>
-                    ))}
+                    {essentialSkills.map((skill: any) => {
+                      // Determine styling based on digital status
+                      let baseClassName =
+                        'inline-flex items-center rounded-full px-3 py-1.5 text-sm font-medium transition-colors ';
+                      let className = '';
+
+                      if (skill.is_digital_skill) {
+                        // Digital + Essential: Emerald background
+                        className =
+                          baseClassName + 'bg-emerald-600 text-white hover:bg-emerald-700';
+                      } else {
+                        // Essential only: Red styling
+                        className =
+                          baseClassName +
+                          'bg-red-50 text-red-800 border border-red-200 hover:bg-red-100 hover:border-red-300';
+                      }
+
+                      return (
+                        <Link
+                          key={skill.id}
+                          href={`/skills/${skill.id}`}
+                          className={className}
+                          title={skill.description}
+                        >
+                          {skill.preferred_label}
+                        </Link>
+                      );
+                    })}
                   </div>
                 </div>
               )}
@@ -140,16 +158,34 @@ export default async function JobProfilePage({ params }: JobProfilePageProps) {
                     </span>
                   </h3>
                   <div className="flex flex-wrap gap-2">
-                    {optionalSkills.map((skill: any) => (
-                      <Link
-                        key={skill.id}
-                        href={`/skills/${skill.id}`}
-                        className="inline-flex items-center rounded-full border border-gray-200 bg-gray-50 px-3 py-1.5 text-sm font-medium text-gray-700 transition-colors hover:border-gray-300 hover:bg-gray-100"
-                        title={skill.description}
-                      >
-                        {skill.preferred_label}
-                      </Link>
-                    ))}
+                    {optionalSkills.map((skill: any) => {
+                      // Determine styling based on digital status
+                      let baseClassName =
+                        'inline-flex items-center rounded-full px-3 py-1.5 text-sm font-medium transition-colors ';
+                      let className = '';
+
+                      if (skill.is_digital_skill) {
+                        // Digital optional: Emerald styling
+                        className =
+                          baseClassName + 'bg-emerald-600 text-white hover:bg-emerald-700';
+                      } else {
+                        // Regular optional: Gray styling
+                        className =
+                          baseClassName +
+                          'bg-gray-50 text-gray-700 border border-gray-200 hover:bg-gray-100 hover:border-gray-300';
+                      }
+
+                      return (
+                        <Link
+                          key={skill.id}
+                          href={`/skills/${skill.id}`}
+                          className={className}
+                          title={skill.description}
+                        >
+                          {skill.preferred_label}
+                        </Link>
+                      );
+                    })}
                   </div>
                 </div>
               )}

@@ -43,25 +43,72 @@ export default async function JobProfilesPage() {
 
             {/* Skills */}
             {profile.skills && profile.skills.length > 0 && (
-              <div className="mb-4">
-                <h4 className="mb-2 text-xs font-medium text-gray-900">
-                  Skills ({profile.skills.length}):
-                </h4>
-                <div className="flex flex-wrap gap-1">
-                  {profile.skills.map((skill: any) => (
-                    <span
-                      key={skill.id}
-                      className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${
-                        skill.is_essential
-                          ? 'border border-red-200 bg-red-50 text-red-800'
-                          : 'border border-gray-200 bg-gray-50 text-gray-700'
-                      }`}
-                      title={skill.description}
-                    >
-                      {skill.preferred_label}
-                    </span>
-                  ))}
-                </div>
+              <div className="mb-4 space-y-3">
+                {/* Essential Skills */}
+                {profile.skills.filter((skill: any) => skill.is_essential).length > 0 && (
+                  <div>
+                    <h4 className="mb-2 text-xs font-medium text-gray-900">
+                      Essential Skills (
+                      {profile.skills.filter((skill: any) => skill.is_essential).length}):
+                    </h4>
+                    <div className="flex flex-wrap gap-1">
+                      {profile.skills
+                        .filter((skill: any) => skill.is_essential)
+                        .map((skill: any) => {
+                          // Determine styling based on digital status
+                          let className =
+                            'inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ';
+
+                          if (skill.is_digital_skill) {
+                            // Digital + Essential: Emerald background
+                            className += 'bg-emerald-600 text-white';
+                          } else {
+                            // Essential only: Red styling
+                            className += 'bg-red-50 text-red-800 border border-red-200';
+                          }
+
+                          return (
+                            <span key={skill.id} className={className} title={skill.description}>
+                              {skill.preferred_label}
+                            </span>
+                          );
+                        })}
+                    </div>
+                  </div>
+                )}
+
+                {/* Additional Skills */}
+                {profile.skills.filter((skill: any) => !skill.is_essential).length > 0 && (
+                  <div>
+                    <h4 className="mb-2 text-xs font-medium text-gray-900">
+                      Additional Skills (
+                      {profile.skills.filter((skill: any) => !skill.is_essential).length}):
+                    </h4>
+                    <div className="flex flex-wrap gap-1">
+                      {profile.skills
+                        .filter((skill: any) => !skill.is_essential)
+                        .map((skill: any) => {
+                          // Determine styling based on digital status
+                          let className =
+                            'inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ';
+
+                          if (skill.is_digital_skill) {
+                            // Digital only: Emerald styling
+                            className += 'bg-emerald-600 text-white';
+                          } else {
+                            // Regular skill: Gray styling
+                            className += 'bg-gray-50 text-gray-700 border border-gray-200';
+                          }
+
+                          return (
+                            <span key={skill.id} className={className} title={skill.description}>
+                              {skill.preferred_label}
+                            </span>
+                          );
+                        })}
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 
