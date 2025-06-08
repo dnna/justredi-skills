@@ -613,7 +613,28 @@ export async function getAllJobProfiles(limit: number = 100, offset: number = 0)
     LIMIT ${Number(limit)} OFFSET ${Number(offset)}
   `;
 
-  return await query(jobsQuery, []);
+  const jobs = await query(jobsQuery, []);
+
+  // Get skills for each job profile
+  const jobsWithSkills = [];
+  for (const job of jobs as any[]) {
+    const skillsQuery = `
+      SELECT s.id, s.esco_id, s.preferred_label, s.description,
+             js.is_essential, js.skill_level
+      FROM skills s
+      JOIN job_skills js ON s.id = js.skill_id
+      WHERE js.job_id = ?
+      ORDER BY js.is_essential DESC, s.preferred_label
+    `;
+
+    const skills = await query(skillsQuery, [job.id]);
+    jobsWithSkills.push({
+      ...job,
+      skills: skills || [],
+    });
+  }
+
+  return jobsWithSkills;
 }
 
 /**
