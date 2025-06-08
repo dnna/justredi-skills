@@ -599,19 +599,14 @@ export async function getJobProfile(id: string) {
       WHERE lpc.learning_path_id = ?
       ORDER BY lpc.sequence_order
     `;
-    
+
     const pathCourses = await query(pathCoursesQuery, [path.id]);
-    
+
     // Get skills for each course that are relevant to this job
     const coursesWithSkills: any[] = [];
     const cumulativeEssentialSkills = new Set();
-    // Get essential skills for this job
-    const jobEssentialSkills = await query(`
-      SELECT DISTINCT skill_id FROM job_skills WHERE job_id = ? AND is_essential = 1
-    `, [job.id]);
-    const totalEssentialSkills = (jobEssentialSkills as any[]).length;
-    let essentialSkillsCompleteIndex = -1;
-    
+
+    // First pass: collect all course skills
     for (let i = 0; i < (pathCourses as any[]).length; i++) {
       const course = (pathCourses as any[])[i];
       const courseSkillsQuery = `
@@ -623,36 +618,44 @@ export async function getJobProfile(id: string) {
         WHERE cs.course_id = ? AND js.job_id = ?
         ORDER BY js.is_essential DESC, s.preferred_label
       `;
-      
+
       const courseSkills = await query(courseSkillsQuery, [course.id, job.id]);
-      
+
       // Track cumulative essential skills
-      (courseSkills as any[]).forEach(skill => {
+      (courseSkills as any[]).forEach((skill) => {
         if (skill.is_essential) {
           cumulativeEssentialSkills.add(skill.id);
         }
       });
-      
-      // Check if this course completes all essential skills
-      const isLastEssentialCourse = essentialSkillsCompleteIndex === -1 && 
-                                    cumulativeEssentialSkills.size === totalEssentialSkills &&
-                                    totalEssentialSkills > 0;
-      
-      if (isLastEssentialCourse) {
-        essentialSkillsCompleteIndex = i;
-      }
-      
+
       coursesWithSkills.push({
         ...course,
         skills: courseSkills || [],
         cumulativeEssentialCount: cumulativeEssentialSkills.size,
-        isLastEssentialCourse
+        isLastEssentialCourse: false, // Will be determined in second pass
       });
     }
-    
+
+    // Second pass: find the last course that teaches essential skills
+    let lastEssentialCourseIndex = -1;
+    for (let i = coursesWithSkills.length - 1; i >= 0; i--) {
+      const hasEssentialSkills = coursesWithSkills[i].skills.some(
+        (skill: any) => skill.is_essential
+      );
+      if (hasEssentialSkills) {
+        lastEssentialCourseIndex = i;
+        break;
+      }
+    }
+
+    // Mark the last essential course
+    if (lastEssentialCourseIndex >= 0) {
+      coursesWithSkills[lastEssentialCourseIndex].isLastEssentialCourse = true;
+    }
+
     learningPathsWithCourses.push({
       ...path,
-      courses: coursesWithSkills
+      courses: coursesWithSkills,
     });
   }
 
