@@ -565,6 +565,97 @@ export async function getJobProfile(id: string) {
 
   const courses = await query(coursesQuery, [job.id]);
 
+  // Get learning paths for this job with skill counts
+  const learningPathsQuery = `
+    SELECT lp.id, lp.name, lp.description,
+           lp.essential_skills_match_percent, lp.total_skills_match_percent,
+           lp.score, COUNT(lpc.course_id) as course_count,
+           (SELECT COUNT(DISTINCT js.skill_id) FROM job_skills js WHERE js.job_id = ? AND js.is_essential = 1) as total_essential_skills,
+           (SELECT COUNT(DISTINCT js.skill_id) FROM job_skills js WHERE js.job_id = ? AND js.is_essential = 0) as total_non_essential_skills,
+           (SELECT COUNT(DISTINCT lpsc.skill_id) FROM learning_path_skill_coverage lpsc 
+            JOIN job_skills js ON lpsc.skill_id = js.skill_id 
+            WHERE lpsc.learning_path_id = lp.id AND js.job_id = ? AND js.is_essential = 1) as covered_essential_skills,
+           (SELECT COUNT(DISTINCT lpsc.skill_id) FROM learning_path_skill_coverage lpsc 
+            JOIN job_skills js ON lpsc.skill_id = js.skill_id 
+            WHERE lpsc.learning_path_id = lp.id AND js.job_id = ? AND js.is_essential = 0) as covered_non_essential_skills
+    FROM learning_paths lp
+    LEFT JOIN learning_path_courses lpc ON lp.id = lpc.learning_path_id
+    WHERE lp.job_id = ?
+    GROUP BY lp.id
+    ORDER BY lp.score DESC, lp.essential_skills_match_percent DESC, lp.total_skills_match_percent DESC
+  `;
+
+  const learningPaths = await query(learningPathsQuery, [job.id, job.id, job.id, job.id, job.id]);
+
+  // Get courses for each learning path
+  const learningPathsWithCourses: any[] = [];
+  for (const path of learningPaths as any[]) {
+    const pathCoursesQuery = `
+      SELECT c.id, c.name, i.name as institution_name,
+             lpc.sequence_order, lpc.is_prerequisite
+      FROM learning_path_courses lpc
+      JOIN courses c ON lpc.course_id = c.id
+      JOIN institutions i ON c.institution_id = i.id
+      WHERE lpc.learning_path_id = ?
+      ORDER BY lpc.sequence_order
+    `;
+    
+    const pathCourses = await query(pathCoursesQuery, [path.id]);
+    
+    // Get skills for each course that are relevant to this job
+    const coursesWithSkills: any[] = [];
+    const cumulativeEssentialSkills = new Set();
+    // Get essential skills for this job
+    const jobEssentialSkills = await query(`
+      SELECT DISTINCT skill_id FROM job_skills WHERE job_id = ? AND is_essential = 1
+    `, [job.id]);
+    const totalEssentialSkills = (jobEssentialSkills as any[]).length;
+    let essentialSkillsCompleteIndex = -1;
+    
+    for (let i = 0; i < (pathCourses as any[]).length; i++) {
+      const course = (pathCourses as any[])[i];
+      const courseSkillsQuery = `
+        SELECT DISTINCT s.id, s.preferred_label, s.is_digital_skill,
+               js.is_essential, js.skill_level
+        FROM skills s
+        JOIN course_skills cs ON s.id = cs.skill_id
+        JOIN job_skills js ON s.id = js.skill_id
+        WHERE cs.course_id = ? AND js.job_id = ?
+        ORDER BY js.is_essential DESC, s.preferred_label
+      `;
+      
+      const courseSkills = await query(courseSkillsQuery, [course.id, job.id]);
+      
+      // Track cumulative essential skills
+      (courseSkills as any[]).forEach(skill => {
+        if (skill.is_essential) {
+          cumulativeEssentialSkills.add(skill.id);
+        }
+      });
+      
+      // Check if this course completes all essential skills
+      const isLastEssentialCourse = essentialSkillsCompleteIndex === -1 && 
+                                    cumulativeEssentialSkills.size === totalEssentialSkills &&
+                                    totalEssentialSkills > 0;
+      
+      if (isLastEssentialCourse) {
+        essentialSkillsCompleteIndex = i;
+      }
+      
+      coursesWithSkills.push({
+        ...course,
+        skills: courseSkills || [],
+        cumulativeEssentialCount: cumulativeEssentialSkills.size,
+        isLastEssentialCourse
+      });
+    }
+    
+    learningPathsWithCourses.push({
+      ...path,
+      courses: coursesWithSkills
+    });
+  }
+
   // Get parent job if exists
   let parentJob = null;
   if (job.parent_job_id) {
@@ -596,6 +687,7 @@ export async function getJobProfile(id: string) {
     ...job,
     skills: skills || [],
     courses: courses || [],
+    learningPaths: learningPathsWithCourses || [],
     parentJob,
     childJobs,
   };
