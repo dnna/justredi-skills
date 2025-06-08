@@ -1,7 +1,7 @@
 import { CallToAction } from '@/components/CallToAction';
 import { Faqs } from '@/components/Faqs';
 import { Hero } from '@/components/Hero';
-import { FeaturedCourses } from '@/components/Pricing';
+import { FeaturedLearningPaths } from '@/components/Pricing';
 import { TopSkills } from '@/components/PrimaryFeatures';
 import { InstitutionsList } from '@/components/Reviews';
 import { FeaturedSkills } from '@/components/SecondaryFeatures';
@@ -14,6 +14,7 @@ import {
   getSkillsByGroup,
   getAllJobProfiles,
   getPopularSkills,
+  getFeaturedLearningPaths,
 } from '@/lib/db';
 
 // Force dynamic rendering to ensure data is fetched at runtime, not build time
@@ -21,17 +22,22 @@ export const dynamic = 'force-dynamic';
 
 export default async function Home() {
   // Fetch data from database
-  const [coursesResult, skillsResult, institutionsResult, jobProfilesResult, popularSkillsResult] =
-    await Promise.all([
-      getAllCourses(6, 0),
-      getAllSkills(6, 0),
-      getAllInstitutions(10, 0),
-      getAllJobProfiles(6, 0),
-      getPopularSkills(6),
-    ]);
+  const [
+    learningPathsResult,
+    skillsResult,
+    institutionsResult,
+    jobProfilesResult,
+    popularSkillsResult,
+  ] = await Promise.all([
+    getFeaturedLearningPaths(6),
+    getAllSkills(6, 0),
+    getAllInstitutions(10, 0),
+    getAllJobProfiles(6, 0),
+    getPopularSkills(6),
+  ]);
 
   // Convert each query result to array
-  const courses = Array.isArray(coursesResult) ? coursesResult : [];
+  const learningPaths = Array.isArray(learningPathsResult) ? learningPathsResult : [];
   const skills = Array.isArray(skillsResult) ? skillsResult : [];
   const institutions = Array.isArray(institutionsResult) ? institutionsResult : [];
   const jobProfiles = Array.isArray(jobProfilesResult) ? jobProfilesResult : [];
@@ -75,7 +81,7 @@ export default async function Home() {
   return (
     <HomePageWrapper>
       <Hero />
-      <FeaturedCourses courses={courses} />
+      <FeaturedLearningPaths learningPaths={learningPaths} />
       <FeaturedSkills skills={popularSkills} />
       <CallToAction />
       <InstitutionsList institutions={institutions} />

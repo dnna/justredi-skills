@@ -29,11 +29,13 @@ function CheckIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   );
 }
 
-function CourseCard({
+function LearningPathCard({
   name,
   description,
   button,
-  features,
+  skills,
+  jobTitle,
+  courseCount,
   featured = false,
 }: {
   name: string;
@@ -42,108 +44,133 @@ function CourseCard({
     label: string;
     href: string;
   };
-  features: Array<string>;
+  skills: Array<{
+    id: string;
+    preferred_label: string;
+    skill_type: string;
+    is_digital_skill: boolean;
+  }>;
+  jobTitle: string;
+  courseCount: number;
   featured?: boolean;
 }) {
   return (
-    <section
-      className={clsx(
-        'flex flex-col overflow-hidden rounded-3xl p-6 shadow-lg shadow-gray-900/5',
-        featured ? 'order-first bg-gray-800 lg:order-none' : 'bg-white'
-      )}
-    >
-      <h3
-        className={clsx(
-          'flex items-center text-2xl font-semibold',
-          featured ? 'text-white' : 'text-gray-900'
-        )}
-      >
-        <span>{name}</span>
-      </h3>
-      {/*<p className={clsx("relative mt-5 flex text-3xl tracking-tight", featured ? "text-white" : "text-gray-900")}>
-        TEST
-      </p>*/}
-      <p
-        className={clsx('mt-3 min-h-[70px] text-sm', featured ? 'text-gray-300' : 'text-gray-700')}
-      >
-        {description}
-      </p>
-      <div className="mt-6">
-        <ul
-          role="list"
-          className={clsx(
-            '-my-2 divide-y text-sm',
-            featured ? 'divide-gray-800 text-gray-300' : 'divide-gray-200 text-gray-700'
-          )}
-        >
-          {features.map((feature) => (
-            <li key={feature} className="flex py-2">
-              <CheckIcon
-                className={clsx('h-6 w-6 flex-none', featured ? 'text-white' : 'text-[#59a946]')}
-              />
-              <span className="ml-4">{feature}</span>
-            </li>
-          ))}
-        </ul>
+    <section className="flex h-full flex-col overflow-hidden rounded-3xl border border-gray-200 bg-white p-6 shadow-lg shadow-gray-900/5 transition-all duration-300 hover:scale-105 hover:shadow-xl">
+      <h3 className="text-xl font-semibold leading-tight text-gray-900">{jobTitle}</h3>
+
+      <p className="mt-3 line-clamp-3 min-h-[60px] text-sm text-gray-700">{description}</p>
+
+      <div className="mt-4 flex items-center gap-4">
+        <div className="flex items-center gap-1 text-xs text-gray-500">
+          <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+            />
+          </svg>
+          {courseCount} courses
+        </div>
+        <div className="flex items-center gap-1 text-xs text-gray-500">
+          <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+            />
+          </svg>
+          {skills.length} skills
+        </div>
       </div>
-      <Button href={button.href} color={featured ? 'green' : 'gray'} className="mt-6">
+
+      <div className="mt-6 flex-grow">
+        <h4 className="mb-3 text-sm font-medium text-gray-800">Skills:</h4>
+        <div className="flex flex-wrap gap-2">
+          {skills.slice(0, 6).map((skill, index) => (
+            <span
+              key={skill.id}
+              className="inline-flex items-center rounded-full border border-gray-200 bg-gray-100 px-2 py-1 text-xs font-medium text-gray-700"
+            >
+              {!!skill.is_digital_skill && (
+                <svg className="mr-1 h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"
+                  />
+                </svg>
+              )}
+              {skill.preferred_label}
+            </span>
+          ))}
+          {skills.length > 6 && (
+            <span className="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium text-gray-500">
+              +{skills.length - 6} more
+            </span>
+          )}
+        </div>
+      </div>
+
+      <Button href={button.href} color="gray" className="mt-6">
         {button.label}
       </Button>
     </section>
   );
 }
 
-export function FeaturedCourses({ courses = [] }: { courses?: any[] }) {
-  let [activePeriod, setActivePeriod] = useState<'Monthly' | 'Annually'>('Monthly');
-
-  // Create course items from database data
-  const courseItems =
-    courses.length > 0
-      ? courses.slice(0, 3).map((course, index) => ({
-          name: course.courseName || 'Course',
-          featured: index === 0, // First course is featured
-          description: `Course offered by ${course.institutionName || 'Unknown Institution'}`,
+export function FeaturedLearningPaths({ learningPaths = [] }: { learningPaths?: any[] }) {
+  // Create learning path items from database data
+  const pathItems =
+    learningPaths.length > 0
+      ? learningPaths.slice(0, 3).map((path, index) => ({
+          name: path.name || 'Learning Path',
+          description: path.description || `Structured learning path for ${path.job_title}`,
+          jobTitle: path.job_title || 'Various Roles',
+          courseCount: path.course_count || 0,
+          skills: path.skills || [],
           button: {
             label: 'Explore',
-            href: `/courses/${course.id}`,
+            href: `/job-profiles/${path.job_id}#learning-path-${path.id}`,
           },
-          features: [`Course ID: ${course.id}`],
-          logomarkClassName:
-            index === 0 ? 'fill-gray-300' : index === 1 ? 'fill-gray-500' : 'fill-cyan-500',
         }))
       : [];
 
   return (
     <section
-      id="pricing"
-      aria-labelledby="pricing-title"
+      id="learning-paths"
+      aria-labelledby="learning-paths-title"
       className="border-t border-gray-200 bg-gray-900 py-20 sm:py-32"
     >
       <Container>
         <div className="mx-auto max-w-2xl text-center">
-          <h2 id="pricing-title" className="text-3xl font-medium tracking-tight text-white">
-            Featured Courses
+          <h2 id="learning-paths-title" className="text-3xl font-medium tracking-tight text-white">
+            Featured Learning Paths
           </h2>
           <p className="mt-2 text-lg text-gray-100">
-            Explore our most popular learning opportunities.
+            Discover structured learning journeys with the highest skill alignment scores.
           </p>
         </div>
 
-        {courseItems.length > 0 ? (
-          <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 items-start gap-x-8 gap-y-10 sm:mt-20 lg:max-w-none lg:grid-cols-3">
-            {courseItems.map((course) => (
-              <CourseCard key={course.name} {...course} />
+        {pathItems.length > 0 ? (
+          <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 items-stretch gap-x-8 gap-y-10 sm:mt-20 lg:max-w-none lg:grid-cols-3">
+            {pathItems.map((path, index) => (
+              <LearningPathCard key={path.name + index} {...path} />
             ))}
           </div>
         ) : (
           <div className="mx-auto mt-16 max-w-2xl text-center">
-            <p className="text-lg text-gray-300">No courses available. Please check back later.</p>
+            <p className="text-lg text-gray-300">
+              No learning paths available. Please check back later.
+            </p>
           </div>
         )}
 
         <div className="mt-12 flex justify-center">
-          <Button href="/courses" color="green">
-            Explore all courses
+          <Button href="/job-profiles" color="green">
+            See all job profiles
           </Button>
         </div>
       </Container>

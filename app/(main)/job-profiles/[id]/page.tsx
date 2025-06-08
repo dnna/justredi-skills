@@ -74,6 +74,7 @@ export default async function JobProfilePage({ params }: JobProfilePageProps) {
             {jobProfile.learningPaths.map((path: any, pathIndex: number) => (
               <div
                 key={path.id}
+                id={`learning-path-${path.id}`}
                 className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-lg"
               >
                 {/* Path Header with Visual Progress */}
@@ -192,7 +193,7 @@ export default async function JobProfilePage({ params }: JobProfilePageProps) {
                                         {course.skills && course.skills.length > 0 && (
                                           <div className="mt-2">
                                             <div className="flex flex-wrap gap-1">
-                                              {course.skills.slice(0, 3).map((skill: any) => (
+                                              {course.skills.map((skill: any) => (
                                                 <span
                                                   key={skill.id}
                                                   className={`inline-flex items-center rounded px-1.5 py-0.5 text-xs font-medium ${
@@ -201,14 +202,24 @@ export default async function JobProfilePage({ params }: JobProfilePageProps) {
                                                       : 'bg-indigo-100 text-indigo-700'
                                                   }`}
                                                 >
+                                                  {!!skill.is_digital_skill && (
+                                                    <svg
+                                                      className="mr-1 h-3 w-3"
+                                                      fill="none"
+                                                      stroke="currentColor"
+                                                      viewBox="0 0 24 24"
+                                                    >
+                                                      <path
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        strokeWidth={2}
+                                                        d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"
+                                                      />
+                                                    </svg>
+                                                  )}
                                                   {skill.preferred_label}
                                                 </span>
                                               ))}
-                                              {course.skills.length > 3 && (
-                                                <span className="text-xs text-gray-500">
-                                                  +{course.skills.length - 3}
-                                                </span>
-                                              )}
                                             </div>
                                           </div>
                                         )}
@@ -431,13 +442,24 @@ export default async function JobProfilePage({ params }: JobProfilePageProps) {
                     <Link
                       key={skill.id}
                       href={`/skills/${skill.id}`}
-                      className={`inline-flex items-center rounded-full px-3 py-1.5 text-sm font-medium transition-colors ${
-                        skill.is_digital_skill
-                          ? 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200'
-                          : 'bg-red-100 text-red-800 hover:bg-red-200'
-                      }`}
+                      className="inline-flex items-center rounded-full bg-red-100 px-3 py-1.5 text-sm font-medium text-red-800 transition-colors hover:bg-red-200"
                       title={skill.description}
                     >
+                      {!!skill.is_digital_skill && (
+                        <svg
+                          className="mr-1 h-3 w-3"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"
+                          />
+                        </svg>
+                      )}
                       {skill.preferred_label}
                     </Link>
                   ))}
@@ -455,13 +477,24 @@ export default async function JobProfilePage({ params }: JobProfilePageProps) {
                     <Link
                       key={skill.id}
                       href={`/skills/${skill.id}`}
-                      className={`inline-flex items-center rounded-full px-3 py-1.5 text-sm font-medium transition-colors ${
-                        skill.is_digital_skill
-                          ? 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200'
-                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
+                      className="inline-flex items-center rounded-full bg-gray-100 px-3 py-1.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-200"
                       title={skill.description}
                     >
+                      {!!skill.is_digital_skill && (
+                        <svg
+                          className="mr-1 h-3 w-3"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"
+                          />
+                        </svg>
+                      )}
                       {skill.preferred_label}
                     </Link>
                   ))}

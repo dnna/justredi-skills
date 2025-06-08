@@ -794,3 +794,55 @@ export async function getPopularSkills(limit: number = 6) {
 
   return await query(popularSkillsQuery, []);
 }
+
+/**
+ * Get featured learning paths diversified across different job profiles
+ */
+export async function getFeaturedLearningPaths(limit: number = 6) {
+  const featuredPathsQuery = `
+    SELECT * FROM (
+      SELECT lp.id, lp.name, lp.description,
+             lp.essential_skills_match_percent, lp.total_skills_match_percent,
+             jp.title as job_title, jp.id as job_id,
+             COUNT(DISTINCT lpc.course_id) as course_count,
+             COALESCE(
+               (lp.essential_skills_match_percent * 0.7 + lp.total_skills_match_percent * 0.3),
+               0
+             ) as score,
+             ROW_NUMBER() OVER (PARTITION BY jp.id ORDER BY 
+               COALESCE((lp.essential_skills_match_percent * 0.7 + lp.total_skills_match_percent * 0.3), 0) DESC
+             ) as job_rank
+      FROM learning_paths lp
+      JOIN job_profiles jp ON lp.job_id = jp.id
+      LEFT JOIN learning_path_courses lpc ON lp.id = lpc.learning_path_id
+      GROUP BY lp.id, lp.name, lp.description, lp.essential_skills_match_percent, 
+               lp.total_skills_match_percent, jp.title, jp.id
+    ) ranked_paths
+    WHERE job_rank = 1
+    ORDER BY score DESC, essential_skills_match_percent DESC
+    LIMIT ${Number(limit)}
+  `;
+
+  const learningPaths = await query(featuredPathsQuery, []);
+
+  // Get skills for each learning path
+  const pathsWithSkills: any[] = [];
+  for (const path of learningPaths as any[]) {
+    const skillsQuery = `
+      SELECT DISTINCT s.id, s.preferred_label, s.skill_type, s.is_digital_skill
+      FROM learning_path_skill_coverage lpsc
+      JOIN skills s ON lpsc.skill_id = s.id
+      WHERE lpsc.learning_path_id = ?
+      ORDER BY s.preferred_label
+      LIMIT 8
+    `;
+
+    const skills = await query(skillsQuery, [path.id]);
+    pathsWithSkills.push({
+      ...path,
+      skills: Array.isArray(skills) ? skills : [],
+    });
+  }
+
+  return pathsWithSkills;
+}
