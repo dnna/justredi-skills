@@ -21,19 +21,14 @@ export const dynamic = 'force-dynamic';
 
 export default async function Home() {
   // Fetch data from database
-  const [
-    coursesResult,
-    skillsResult,
-    institutionsResult,
-    jobProfilesResult,
-    popularSkillsResult,
-  ] = await Promise.all([
-    getAllCourses(6, 0),
-    getAllSkills(6, 0),
-    getAllInstitutions(10, 0),
-    getAllJobProfiles(6, 0),
-    getPopularSkills(6),
-  ]);
+  const [coursesResult, skillsResult, institutionsResult, jobProfilesResult, popularSkillsResult] =
+    await Promise.all([
+      getAllCourses(6, 0),
+      getAllSkills(6, 0),
+      getAllInstitutions(10, 0),
+      getAllJobProfiles(6, 0),
+      getPopularSkills(6),
+    ]);
 
   // Convert each query result to array
   const courses = Array.isArray(coursesResult) ? coursesResult : [];

@@ -1,14 +1,12 @@
 import { NextResponse } from 'next/server';
 import { query } from '@/lib/db';
 
-export async function GET(
-  request: Request,
-  { params }: { params: { category: string } }
-) {
+export async function GET(request: Request, { params }: { params: { category: string } }) {
   try {
     const category = decodeURIComponent(params.category);
-    
-    const jobProfiles = await query(`
+
+    const jobProfiles = await query(
+      `
       SELECT 
         id,
         title,
@@ -17,7 +15,9 @@ export async function GET(
       FROM job_profiles
       WHERE category = ?
       ORDER BY hierarchy_level, title
-    `, [category]);
+    `,
+      [category]
+    );
 
     return NextResponse.json(jobProfiles);
   } catch (error) {

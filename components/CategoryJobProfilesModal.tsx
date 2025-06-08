@@ -74,7 +74,9 @@ export function CategoryJobProfilesModal({ isOpen, onClose }: CategoryJobProfile
     const fetchJobProfiles = async () => {
       setIsLoadingProfiles(true);
       try {
-        const response = await fetch(`/api/categories/${encodeURIComponent(selectedCategory.id)}/job-profiles`);
+        const response = await fetch(
+          `/api/categories/${encodeURIComponent(selectedCategory.id)}/job-profiles`
+        );
         if (response.ok) {
           const data = await response.json();
           setJobProfiles(data);
@@ -96,7 +98,6 @@ export function CategoryJobProfilesModal({ isOpen, onClose }: CategoryJobProfile
   const handleCategorySelect = useCallback((category: CategoryItem) => {
     setSelectedCategory(category);
   }, []);
-
 
   return (
     <Transition appear show={isOpen} as="div">
@@ -176,11 +177,13 @@ export function CategoryJobProfilesModal({ isOpen, onClose }: CategoryJobProfile
                             <div className="flex items-center justify-between">
                               <span className="font-medium">{category.name}</span>
                               {category.job_count && (
-                                <span className={`text-sm ${
-                                  selectedCategory?.id === category.id
-                                    ? 'text-blue-600'
-                                    : 'text-gray-500'
-                                }`}>
+                                <span
+                                  className={`text-sm ${
+                                    selectedCategory?.id === category.id
+                                      ? 'text-blue-600'
+                                      : 'text-gray-500'
+                                  }`}
+                                >
                                   {category.job_count} {category.job_count === 1 ? 'job' : 'jobs'}
                                 </span>
                               )}

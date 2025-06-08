@@ -28,10 +28,7 @@ export function HomePageWrapper({ children }: HomePageWrapperProps) {
       {/* Render the FeaturedCourses and other components but skip the Hero */}
       {React.Children.toArray(children).slice(1)}
 
-      <CategoryJobProfilesModal
-        isOpen={isJobProfilesModalOpen}
-        onClose={closeJobProfilesModal}
-      />
+      <CategoryJobProfilesModal isOpen={isJobProfilesModalOpen} onClose={closeJobProfilesModal} />
     </>
   );
 }

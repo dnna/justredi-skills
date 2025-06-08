@@ -3,7 +3,8 @@ import { query } from '@/lib/db';
 
 export async function GET() {
   try {
-    const categories = await query(`
+    const categories = await query(
+      `
       SELECT DISTINCT 
         category as id,
         category as name,
@@ -12,7 +13,9 @@ export async function GET() {
       WHERE category IS NOT NULL
       GROUP BY category
       ORDER BY category
-    `, []);
+    `,
+      []
+    );
 
     return NextResponse.json(categories);
   } catch (error) {

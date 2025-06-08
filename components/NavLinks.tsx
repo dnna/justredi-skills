@@ -11,7 +11,11 @@ type NavLinksProps = {
   onOpenJobProfilesModal: () => void;
 };
 
-export function NavLinks({ categories = [], onOpenSkillsModal, onOpenJobProfilesModal }: NavLinksProps) {
+export function NavLinks({
+  categories = [],
+  onOpenSkillsModal,
+  onOpenJobProfilesModal,
+}: NavLinksProps) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const timeoutRef = useRef<number | null>(null);

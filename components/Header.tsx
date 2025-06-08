@@ -93,8 +93,8 @@ export function Header() {
               <Logo className="h-10 w-auto" />
             </Link>
             <div className="hidden lg:flex lg:gap-10">
-              <NavLinks 
-                categories={categories} 
+              <NavLinks
+                categories={categories}
                 onOpenSkillsModal={openSkillsModal}
                 onOpenJobProfilesModal={openJobProfilesModal}
               />
@@ -141,7 +141,9 @@ export function Header() {
                         >
                           <div className="space-y-4">
                             <div className="space-y-2">
-                              <p className="text-xs font-semibold uppercase tracking-wider text-gray-900">Explore</p>
+                              <p className="text-xs font-semibold uppercase tracking-wider text-gray-900">
+                                Explore
+                              </p>
                               <button
                                 className="block w-full text-left text-base leading-7 tracking-tight text-gray-700 hover:text-gray-900"
                                 onClick={() => {
@@ -185,10 +187,7 @@ export function Header() {
         onClose={closeSkillsModal}
         categories={categories}
       />
-      <CategoryJobProfilesModal
-        isOpen={isJobProfilesModalOpen}
-        onClose={closeJobProfilesModal}
-      />
+      <CategoryJobProfilesModal isOpen={isJobProfilesModalOpen} onClose={closeJobProfilesModal} />
     </header>
   );
 }
