@@ -7,6 +7,7 @@ import clsx from 'clsx';
 import { Button } from '@/components/Button';
 import { Container } from '@/components/Container';
 import { Logomark } from '@/components/Logo';
+import { SkillTags } from '@/components/SkillTags';
 
 function CheckIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   return (
@@ -87,31 +88,7 @@ function LearningPathCard({
 
       <div className="mt-6 flex-grow">
         <h4 className="mb-3 text-sm font-medium text-gray-800">Skills:</h4>
-        <div className="flex flex-wrap gap-2">
-          {skills.slice(0, 6).map((skill, index) => (
-            <span
-              key={skill.id}
-              className="inline-flex items-center rounded-full border border-gray-200 bg-gray-100 px-2 py-1 text-xs font-medium text-gray-700"
-            >
-              {!!skill.is_digital_skill && (
-                <svg className="mr-1 h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"
-                  />
-                </svg>
-              )}
-              {skill.preferred_label}
-            </span>
-          ))}
-          {skills.length > 6 && (
-            <span className="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium text-gray-500">
-              +{skills.length - 6} more
-            </span>
-          )}
-        </div>
+        <SkillTags skills={skills} maxDisplay={6} size="sm" />
       </div>
 
       <Button href={button.href} color="gray" className="mt-6">

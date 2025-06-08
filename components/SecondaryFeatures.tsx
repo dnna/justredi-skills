@@ -2,7 +2,9 @@ import { useId } from 'react';
 
 import { Container } from '@/components/Container';
 import { Button } from '@/components/Button';
+import { SkillTags } from '@/components/SkillTags';
 import { CiSearch } from 'react-icons/ci';
+import { FaExternalLinkAlt, FaGraduationCap, FaBriefcase } from 'react-icons/fa';
 
 const defaultSkills = [
   {
@@ -144,6 +146,78 @@ export function FeaturedSkills({ skills = [] }: { skills?: any[] }) {
           <div className="mt-12 flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
             <Button href="/skills" color="green">
               <span>Explore all skills</span>
+            </Button>
+          </div>
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+export function FeaturedCourses({ courses = [] }: { courses?: any[] }) {
+  return (
+    <section id="featured-courses" aria-label="Featured courses" className="py-20 sm:py-32">
+      <Container>
+        <div className="mx-auto max-w-2xl sm:text-center">
+          <h2 className="text-3xl font-medium tracking-tight text-gray-900">Featured Courses</h2>
+          <p className="mt-2 text-lg text-gray-600">
+            Top courses whose skills match the most job profiles in our database.
+          </p>
+        </div>
+        <ul
+          role="list"
+          className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-6 text-sm sm:mt-20 sm:grid-cols-2 md:gap-y-10 lg:max-w-none lg:grid-cols-3"
+        >
+          {courses.slice(0, 6).map((course) => (
+            <li
+              key={course.id}
+              className="rounded-2xl border border-gray-200 p-8 transition-colors hover:border-green-300"
+            >
+              <div className="mb-4 flex items-center justify-between">
+                <FaGraduationCap className="h-8 w-8 text-green-600" />
+                {course.external_url && (
+                  <a
+                    href={course.external_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-400 transition-colors hover:text-green-600"
+                  >
+                    <FaExternalLinkAlt className="h-4 w-4" />
+                  </a>
+                )}
+              </div>
+              <h3 className="mb-2 font-semibold text-gray-900">
+                <a
+                  href={`/courses/${course.id}`}
+                  className="transition-colors hover:text-green-600"
+                >
+                  {course.name}
+                </a>
+              </h3>
+              <p className="mb-3 text-sm text-gray-600">{course.institution_name}</p>
+              <div className="mb-3 flex items-center gap-2 text-xs text-gray-500">
+                <FaBriefcase className="h-3 w-3" />
+                <span>
+                  {course.job_profile_matches} matching job profile
+                  {course.job_profile_matches !== 1 ? 's' : ''}
+                </span>
+              </div>
+
+              {course.skills && course.skills.length > 0 && (
+                <div className="mb-3">
+                  <h4 className="mb-2 text-xs font-medium text-gray-600">Skills:</h4>
+                  <SkillTags skills={course.skills} maxDisplay={4} size="sm" variant="compact" />
+                </div>
+              )}
+
+              <p className="line-clamp-2 text-xs text-gray-400">{course.matching_job_titles}</p>
+            </li>
+          ))}
+        </ul>
+        <div>
+          <div className="mt-12 flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
+            <Button href="/courses" color="green">
+              <span>Explore all courses</span>
             </Button>
           </div>
         </div>

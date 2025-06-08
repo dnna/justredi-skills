@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { getAllJobProfiles } from '@/lib/db';
 import { Container } from '@/components/Container';
+import { SkillTags } from '@/components/SkillTags';
 
 // Force dynamic rendering to ensure data is fetched at runtime, not build time
 export const dynamic = 'force-dynamic';
@@ -51,39 +52,14 @@ export default async function JobProfilesPage() {
                       Essential Skills (
                       {profile.skills.filter((skill: any) => skill.is_essential).length}):
                     </h4>
-                    <div className="flex flex-wrap gap-1">
-                      {profile.skills
-                        .filter((skill: any) => skill.is_essential)
-                        .map((skill: any) => {
-                          // Determine styling based on essential status only
-                          let className =
-                            'inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ';
-
-                          // Essential skills get red styling regardless of digital status
-                          className += 'bg-red-50 text-red-800 border border-red-200';
-
-                          return (
-                            <span key={skill.id} className={className} title={skill.description}>
-                              {!!skill.is_digital_skill && (
-                                <svg
-                                  className="mr-1 h-3 w-3"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  viewBox="0 0 24 24"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"
-                                  />
-                                </svg>
-                              )}
-                              {skill.preferred_label}
-                            </span>
-                          );
-                        })}
-                    </div>
+                    <SkillTags
+                      skills={profile.skills.filter((skill: any) => skill.is_essential)}
+                      maxDisplay={10}
+                      size="sm"
+                      colorScheme="red"
+                      interactive={true}
+                      variant="default"
+                    />
                   </div>
                 )}
 
@@ -94,39 +70,14 @@ export default async function JobProfilesPage() {
                       Additional Skills (
                       {profile.skills.filter((skill: any) => !skill.is_essential).length}):
                     </h4>
-                    <div className="flex flex-wrap gap-1">
-                      {profile.skills
-                        .filter((skill: any) => !skill.is_essential)
-                        .map((skill: any) => {
-                          // Determine styling based on essential status only
-                          let className =
-                            'inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ';
-
-                          // Additional skills get gray styling regardless of digital status
-                          className += 'bg-gray-50 text-gray-700 border border-gray-200';
-
-                          return (
-                            <span key={skill.id} className={className} title={skill.description}>
-                              {!!skill.is_digital_skill && (
-                                <svg
-                                  className="mr-1 h-3 w-3"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  viewBox="0 0 24 24"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"
-                                  />
-                                </svg>
-                              )}
-                              {skill.preferred_label}
-                            </span>
-                          );
-                        })}
-                    </div>
+                    <SkillTags
+                      skills={profile.skills.filter((skill: any) => !skill.is_essential)}
+                      maxDisplay={8}
+                      size="sm"
+                      colorScheme="gray"
+                      interactive={true}
+                      variant="default"
+                    />
                   </div>
                 )}
               </div>

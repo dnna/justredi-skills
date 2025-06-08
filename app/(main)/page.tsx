@@ -4,7 +4,7 @@ import { Hero } from '@/components/Hero';
 import { FeaturedLearningPaths } from '@/components/Pricing';
 import { TopSkills } from '@/components/PrimaryFeatures';
 import { InstitutionsList } from '@/components/Reviews';
-import { FeaturedSkills } from '@/components/SecondaryFeatures';
+import { FeaturedCourses } from '@/components/SecondaryFeatures';
 import { HomePageWrapper } from './HomePageWrapper';
 import {
   getAllCourses,
@@ -15,6 +15,7 @@ import {
   getAllJobProfiles,
   getPopularSkills,
   getFeaturedLearningPaths,
+  getFeaturedCourses,
 } from '@/lib/db';
 
 // Force dynamic rendering to ensure data is fetched at runtime, not build time
@@ -27,13 +28,13 @@ export default async function Home() {
     skillsResult,
     institutionsResult,
     jobProfilesResult,
-    popularSkillsResult,
+    featuredCoursesResult,
   ] = await Promise.all([
     getFeaturedLearningPaths(6),
     getAllSkills(6, 0),
     getAllInstitutions(10, 0),
     getAllJobProfiles(6, 0),
-    getPopularSkills(6),
+    getFeaturedCourses(6),
   ]);
 
   // Convert each query result to array
@@ -41,7 +42,7 @@ export default async function Home() {
   const skills = Array.isArray(skillsResult) ? skillsResult : [];
   const institutions = Array.isArray(institutionsResult) ? institutionsResult : [];
   const jobProfiles = Array.isArray(jobProfilesResult) ? jobProfilesResult : [];
-  const popularSkills = Array.isArray(popularSkillsResult) ? popularSkillsResult : [];
+  const featuredCourses = Array.isArray(featuredCoursesResult) ? featuredCoursesResult : [];
 
   // Extract skill IDs and fetch related data for each skill
   const enrichedSkills: any[] = [];
@@ -82,7 +83,7 @@ export default async function Home() {
     <HomePageWrapper>
       <Hero />
       <FeaturedLearningPaths learningPaths={learningPaths} />
-      <FeaturedSkills skills={popularSkills} />
+      <FeaturedCourses courses={featuredCourses} />
       <CallToAction />
       <InstitutionsList institutions={institutions} />
       <TopSkills skills={enrichedSkills} />

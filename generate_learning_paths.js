@@ -6,7 +6,8 @@ require('dotenv').config({ path: '.env.local' });
 // 2. Find courses that teach these skills
 // 3. Use a greedy algorithm to select minimum courses that maximize skill coverage
 // 4. Prioritize courses that cover essential skills
-// 5. Create multiple paths if there are different valid combinations
+// 5. Apply bonus for courses from the same provider to encourage consolidation
+// 6. Create multiple paths if there are different valid combinations
 
 async function generateLearningPaths() {
   const connection = await mysql.createConnection({
@@ -65,6 +66,7 @@ async function generateLearningPaths() {
         SELECT 
           c.id as course_id,
           c.name as course_name,
+          c.institution_id as provider_id,
           cs.skill_id,
           cs.rerank_score,
           js.is_essential,
@@ -175,6 +177,7 @@ function generateOptimalPaths(job, jobSkills, coursesWithSkills) {
       courseMap.set(row.course_id, {
         course_id: row.course_id,
         course_name: row.course_name,
+        provider_id: row.provider_id,
         skills: new Set(),
         essentialSkills: new Set(),
         additionalSkills: new Set(),
@@ -406,9 +409,13 @@ function calculateFitness(path, essentialSkills, additionalSkills, totalSkills) 
 
   const coveredSkills = new Set();
   const skillDuplicates = new Map(); // Track how many times each skill is taught
+  const providerCount = new Map(); // Track courses per provider
 
-  // Calculate skill coverage and duplicates
+  // Calculate skill coverage, duplicates, and provider distribution
   for (const course of path) {
+    // Track provider distribution
+    providerCount.set(course.provider_id, (providerCount.get(course.provider_id) || 0) + 1);
+
     for (const skillId of course.skills) {
       if (essentialSkills.has(skillId) || additionalSkills.has(skillId)) {
         coveredSkills.add(skillId);
@@ -437,13 +444,33 @@ function calculateFitness(path, essentialSkills, additionalSkills, totalSkills) 
     }
   }
 
+  // Provider consolidation bonus - reward fewer providers
+  let providerBonus = 0;
+  const totalProviders = providerCount.size;
+  const totalCourses = path.length;
+
+  if (totalCourses > 1 && totalProviders > 0) {
+    // Calculate bonus based on how consolidated the providers are
+    // More courses from fewer providers = higher bonus
+    const consolidationRatio = totalCourses / totalProviders;
+    providerBonus = (consolidationRatio - 1) * 15; // Bonus multiplier for provider consolidation
+
+    // Additional bonus for having multiple courses from the same provider
+    for (const [providerId, courseCount] of providerCount) {
+      if (courseCount > 1) {
+        providerBonus += (courseCount - 1) * 10; // Extra bonus for each additional course from same provider
+      }
+    }
+  }
+
   // Bonus for covering all essential skills
   const essentialBonus = essentialCoverage >= 1.0 ? 50 : 0;
 
   const fitness =
     essentialCoverage * 300 + // Essential skills at 3x rate (was 100, now 300)
     nonEssentialCoverage * 100 + // Non-essential skills at base rate
-    essentialBonus - // Bonus for 100% essential coverage
+    essentialBonus + // Bonus for 100% essential coverage
+    providerBonus - // Bonus for provider consolidation
     efficiencyPenalty - // Penalty for too many courses
     coursePenalty - // Additional penalty for more courses (tiebreaker)
     duplicatePenalty; // Heavy penalty for duplicates

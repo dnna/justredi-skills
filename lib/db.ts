@@ -103,10 +103,24 @@ export async function getCourse(id: string) {
     }
   });
 
+  // Get learning paths that include this course
+  const learningPathsQuery = `
+    SELECT lp.id, lp.name, lp.description, lp.essential_skills_match_percent, 
+           lp.total_skills_match_percent, jp.id as job_id, jp.title as job_title
+    FROM learning_paths lp
+    JOIN learning_path_courses lpc ON lp.id = lpc.learning_path_id
+    JOIN job_profiles jp ON lp.job_id = jp.id
+    WHERE lpc.course_id = ?
+    ORDER BY lp.essential_skills_match_percent DESC, lp.total_skills_match_percent DESC
+  `;
+
+  const learningPaths = await query(learningPathsQuery, [id]);
+
   return {
     ...course,
     skills: skills || [],
     content: rootNodes || [],
+    learningPaths: learningPaths || [],
   };
 }
 
@@ -232,6 +246,56 @@ export async function getAllCourses(limit: number = 100, offset: number = 0) {
   `;
 
   return await query(coursesQuery, []);
+}
+
+export async function getAllCoursesWithJobProfiles(limit: number = 100, offset: number = 0) {
+  const coursesQuery = `
+    SELECT 
+      c.id, 
+      c.name as courseName, 
+      i.name as institutionName, 
+      c.language, 
+      c.provider,
+      c.external_url,
+      COUNT(DISTINCT jp.id) as matching_job_profiles,
+      COUNT(DISTINCT cs.skill_id) as skill_count,
+      AVG(cs.rerank_score) as avg_skill_score,
+      GROUP_CONCAT(DISTINCT jp.title ORDER BY jp.title SEPARATOR ', ') as job_profile_titles
+    FROM courses c
+    LEFT JOIN institutions i ON c.institution_id = i.id
+    LEFT JOIN course_skills cs ON c.id = cs.course_id AND cs.rerank_score > 0.5
+    LEFT JOIN job_skills js ON cs.skill_id = js.skill_id
+    LEFT JOIN job_profiles jp ON js.job_id = jp.id
+    GROUP BY c.id, c.name, i.name, c.language, c.provider, c.external_url
+    ORDER BY matching_job_profiles DESC, avg_skill_score DESC
+    LIMIT ${Number(limit)} OFFSET ${Number(offset)}
+  `;
+
+  const courses = await query(coursesQuery, []);
+
+  // Get top skills for each course
+  const coursesWithSkills = await Promise.all(
+    (courses as any[]).map(async (course) => {
+      const skillsQuery = `
+        SELECT s.id, s.preferred_label, s.skill_type, s.skill_group,
+               CAST(CASE WHEN s.skill_type = 'skill' THEN 1 ELSE 0 END AS UNSIGNED) as is_digital_skill,
+               cs.rerank_score
+        FROM course_skills cs
+        JOIN skills s ON cs.skill_id = s.id
+        WHERE cs.course_id = ? AND cs.rerank_score > 0.5
+        ORDER BY cs.rerank_score DESC
+        LIMIT 5
+      `;
+
+      const skills = await query(skillsQuery, [course.id]);
+      return {
+        ...course,
+        skills: Array.isArray(skills) ? skills : [],
+      };
+    })
+  );
+
+  return coursesWithSkills;
 }
 
 export async function getAllSkills(limit: number = 100, offset: number = 0) {
@@ -793,6 +857,64 @@ export async function getPopularSkills(limit: number = 6) {
   `;
 
   return await query(popularSkillsQuery, []);
+}
+
+/**
+ * Get featured courses ranked by how many job profiles their skills match
+ */
+export async function getFeaturedCourses(limit: number = 6) {
+  const featuredCoursesQuery = `
+    SELECT 
+      c.id,
+      c.name,
+      c.external_url,
+      c.language,
+      i.name as institution_name,
+      i.id as institution_id,
+      COUNT(DISTINCT jp.id) as job_profile_matches,
+      COUNT(DISTINCT cs.skill_id) as total_skills,
+      AVG(cs.rerank_score) as avg_skill_score,
+      GROUP_CONCAT(DISTINCT jp.title ORDER BY jp.title SEPARATOR ', ') as matching_job_titles
+    FROM courses c
+    JOIN institutions i ON c.institution_id = i.id
+    JOIN course_skills cs ON c.id = cs.course_id
+    JOIN job_skills js ON cs.skill_id = js.skill_id
+    JOIN job_profiles jp ON js.job_id = jp.id
+    WHERE cs.rerank_score > 0.5
+    GROUP BY c.id, c.name, c.external_url, c.language, i.name, i.id
+    HAVING COUNT(DISTINCT jp.id) >= 2
+    ORDER BY 
+      job_profile_matches DESC,
+      avg_skill_score DESC,
+      total_skills DESC
+    LIMIT ${Number(limit)}
+  `;
+
+  const courses = await query(featuredCoursesQuery, []);
+
+  // Get skills for each course
+  const coursesWithSkills = await Promise.all(
+    (courses as any[]).map(async (course) => {
+      const skillsQuery = `
+        SELECT s.id, s.preferred_label, s.skill_type, s.skill_group,
+               CAST(CASE WHEN s.skill_type = 'skill' THEN 1 ELSE 0 END AS UNSIGNED) as is_digital_skill,
+               cs.rerank_score
+        FROM course_skills cs
+        JOIN skills s ON cs.skill_id = s.id
+        WHERE cs.course_id = ? AND cs.rerank_score > 0.5
+        ORDER BY cs.rerank_score DESC
+        LIMIT 10
+      `;
+
+      const skills = await query(skillsQuery, [course.id]);
+      return {
+        ...course,
+        skills: Array.isArray(skills) ? skills : [],
+      };
+    })
+  );
+
+  return coursesWithSkills;
 }
 
 /**

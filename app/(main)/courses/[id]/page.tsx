@@ -4,6 +4,8 @@ import { getCourse, getRelatedJobProfiles } from '@/lib/db';
 import { Container } from '@/components/Container';
 import { Button } from '@/components/Button';
 import { CourseContent } from '@/components/CourseContent';
+import { SkillTags } from '@/components/SkillTags';
+import { FaRoute, FaBullseye, FaBriefcase } from 'react-icons/fa';
 
 // Force dynamic rendering to ensure data is fetched at runtime, not build time
 export const dynamic = 'force-dynamic';
@@ -103,43 +105,18 @@ export default async function CoursePage({ params, searchParams }: Props) {
                       className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm"
                     >
                       <h3 className="mb-4 text-lg font-semibold text-gray-900">{group}</h3>
-                      <ul className="space-y-2">
-                        {/* Sort skills by digital first, then alphabetically */}
-                        {skillsByGroup[group]
-                          .sort((a: any, b: any) => {
-                            // Sort by digital skills first, then alphabetically
-                            if (Boolean(a.is_digital_skill) && !Boolean(b.is_digital_skill))
-                              return -1;
-                            if (!Boolean(a.is_digital_skill) && Boolean(b.is_digital_skill))
-                              return 1;
-                            return a.preferred_label.localeCompare(b.preferred_label);
-                          })
-                          .map((skill: any) => (
-                            <li key={skill.id}>
-                              <Link
-                                href={`/skills/${skill.id}`}
-                                className="text-indigo-600 hover:text-indigo-800"
-                              >
-                                • {skill.preferred_label}
-                                {Boolean(skill.is_digital_skill) && (
-                                  <span className="ml-2 rounded-full bg-emerald-600 px-2 py-0.5 text-xs text-white">
-                                    Digital
-                                  </span>
-                                )}
-                                {skill.skill_type === 'knowledge' && (
-                                  <span className="ml-2 rounded-full bg-blue-50 px-2 py-0.5 text-xs text-blue-700">
-                                    Knowledge
-                                  </span>
-                                )}
-                                {skill.skill_type === 'skill/competence' && (
-                                  <span className="ml-2 rounded-full bg-green-50 px-2 py-0.5 text-xs text-green-700">
-                                    Skill
-                                  </span>
-                                )}
-                              </Link>
-                            </li>
-                          ))}
-                      </ul>
+                      <SkillTags
+                        skills={skillsByGroup[group].sort((a: any, b: any) => {
+                          // Sort by digital skills first, then alphabetically
+                          if (Boolean(a.is_digital_skill) && !Boolean(b.is_digital_skill))
+                            return -1;
+                          if (!Boolean(a.is_digital_skill) && Boolean(b.is_digital_skill)) return 1;
+                          return a.preferred_label.localeCompare(b.preferred_label);
+                        })}
+                        maxDisplay={10}
+                        size="sm"
+                        interactive={true}
+                      />
                     </div>
                   ))}
                 </div>
@@ -164,11 +141,75 @@ export default async function CoursePage({ params, searchParams }: Props) {
         </div>
       )}
 
+      {/* Learning Paths */}
+      {course.learningPaths && course.learningPaths.length > 0 && (
+        <div className="mt-20">
+          <div className="mb-6 flex items-center gap-3">
+            <FaRoute className="h-6 w-6 text-indigo-600" />
+            <h2 className="text-2xl font-bold tracking-tight text-gray-900">Learning Paths</h2>
+          </div>
+          <p className="mt-4 text-base text-gray-600">
+            This course is part of structured learning paths designed to help you achieve specific
+            career goals.
+          </p>
+
+          <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
+            {course.learningPaths.map((path: any) => (
+              <div
+                key={path.id}
+                className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
+              >
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <h3 className="text-lg font-semibold text-gray-900">
+                      <Link
+                        href={`/job-profiles/${path.job_id}#learning-path-${path.id}`}
+                        className="hover:text-indigo-600"
+                      >
+                        {path.name}
+                      </Link>
+                    </h3>
+                    <p className="mt-1 text-sm text-gray-600">For: {path.job_title}</p>
+                  </div>
+                  <FaBullseye className="mt-1 h-5 w-5 text-green-600" />
+                </div>
+
+                {path.description && (
+                  <p className="mt-3 line-clamp-3 text-sm text-gray-700">{path.description}</p>
+                )}
+
+                <div className="mt-4 flex items-center gap-4 text-xs text-gray-500">
+                  {path.essential_skills_match_percent && (
+                    <div className="flex items-center gap-1">
+                      <div className="h-2 w-2 rounded-full bg-red-500"></div>
+                      <span>
+                        {Math.round(path.essential_skills_match_percent)}% essential skills
+                      </span>
+                    </div>
+                  )}
+                  {path.total_skills_match_percent && (
+                    <div className="flex items-center gap-1">
+                      <div className="h-2 w-2 rounded-full bg-gray-400"></div>
+                      <span>{Math.round(path.total_skills_match_percent)}% total skills</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {jobProfiles && jobProfiles.length > 0 && (
         <div className="mt-20">
-          <h2 className="text-2xl font-bold tracking-tight text-gray-900">Job profiles</h2>
+          <div className="mb-6 flex items-center gap-3">
+            <FaBriefcase className="h-6 w-6 text-indigo-600" />
+            <h2 className="text-2xl font-bold tracking-tight text-gray-900">
+              Matching Job Profiles
+            </h2>
+          </div>
           <p className="mt-4 text-base text-gray-600">
-            The skills learned from this course are applicable to the below job profiles.
+            The skills learned from this course are applicable to the following job profiles.
           </p>
 
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
@@ -180,35 +221,34 @@ export default async function CoursePage({ params, searchParams }: Props) {
                   </Link>
                 </h3>
                 <div className="mt-4">
-                  <p className="text-sm font-medium text-gray-600">Related skills:</p>
-                  <div className="mt-1 flex flex-wrap gap-1">
-                    {job.skill_labels ? (
-                      <span className="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600">
-                        {job.skill_labels}
-                      </span>
-                    ) : job.matching_skills ? (
-                      <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-600">
-                        {job.matching_skills} matching skills
-                      </span>
-                    ) : job.skills ? (
-                      // Legacy format - handle array of skill IDs
-                      job.skills.map((skillId: string) => {
-                        const skill = course.skills.find((s: any) => s.id === skillId);
-                        return skill ? (
-                          <span
-                            key={skill.id}
-                            className="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600"
-                          >
-                            {skill.preferred_label}
-                          </span>
-                        ) : null;
-                      })
-                    ) : (
-                      <span className="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600">
-                        Job profile details
-                      </span>
-                    )}
-                  </div>
+                  <p className="mb-2 text-sm font-medium text-gray-600">Related skills:</p>
+                  {job.skill_labels ? (
+                    <span className="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600">
+                      {job.skill_labels}
+                    </span>
+                  ) : job.matching_skills ? (
+                    <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-600">
+                      {job.matching_skills} matching skills
+                    </span>
+                  ) : job.skills ? (
+                    // Legacy format - handle array of skill IDs
+                    <SkillTags
+                      skills={job.skills
+                        .map((skillId: string) => {
+                          const skill = course.skills.find((s: any) => s.id === skillId);
+                          return skill || { id: skillId, preferred_label: 'Unknown skill' };
+                        })
+                        .filter(Boolean)}
+                      maxDisplay={3}
+                      size="sm"
+                      variant="compact"
+                      interactive={true}
+                    />
+                  ) : (
+                    <span className="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600">
+                      Job profile details
+                    </span>
+                  )}
                 </div>
               </div>
             ))}
