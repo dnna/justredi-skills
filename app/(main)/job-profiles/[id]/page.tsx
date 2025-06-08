@@ -7,13 +7,14 @@ import { Container } from '@/components/Container';
 export const dynamic = 'force-dynamic';
 
 interface JobProfilePageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 export default async function JobProfilePage({ params }: JobProfilePageProps) {
-  const jobProfile = await getJobProfile(params.id);
+  const { id } = await params;
+  const jobProfile = await getJobProfile(id);
 
   if (!jobProfile) {
     notFound();

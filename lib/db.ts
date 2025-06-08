@@ -616,7 +616,7 @@ export async function getAllJobProfiles(limit: number = 100, offset: number = 0)
   const jobs = await query(jobsQuery, []);
 
   // Get skills for each job profile
-  const jobsWithSkills = [];
+  const jobsWithSkills: any[] = [];
   for (const job of jobs as any[]) {
     const skillsQuery = `
       SELECT s.id, s.esco_id, s.preferred_label, s.description,
