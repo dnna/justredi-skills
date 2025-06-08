@@ -121,22 +121,8 @@ export default async function JobProfilesPage() {
               </div>
             )}
 
-            {/* Hierarchy level indicator */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <span className="text-xs text-gray-500">Level:</span>
-                <div className="ml-2 flex space-x-1">
-                  {[1, 2, 3].map((level) => (
-                    <div
-                      key={level}
-                      className={`h-2 w-2 rounded-full ${
-                        level <= profile.hierarchy_level ? 'bg-indigo-600' : 'bg-gray-200'
-                      }`}
-                    />
-                  ))}
-                </div>
-              </div>
-
+            {/* View details link */}
+            <div className="flex justify-end">
               <Link
                 href={`/job-profiles/${profile.id}`}
                 className="text-sm font-medium text-indigo-600 hover:text-indigo-500"

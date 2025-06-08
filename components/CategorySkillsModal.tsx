@@ -30,7 +30,7 @@ type CategoryModalProps = {
   categories: CategoryItem[];
 };
 
-export function CategoryModal({ isOpen, onClose, categories }: CategoryModalProps) {
+export function CategorySkillsModal({ isOpen, onClose, categories }: CategoryModalProps) {
   const [selectedLevel1, setSelectedLevel1] = useState<CategoryItem | null>(null);
   const [selectedSkill, setSelectedSkill] = useState<CategoryItem | null>(null);
   const [courses, setCourses] = useState<CourseItem[]>([]);

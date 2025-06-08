@@ -107,7 +107,7 @@ export function Hero({ onOpenCategoryModal }: HeroProps) {
                 onClick={handleCategoryClick}
                 className="flex cursor-pointer items-center justify-center rounded-md px-4 py-2 font-medium text-gray-700 shadow-sm transition-colors hover:bg-gray-100 hover:text-gray-900"
               >
-                Explore Categories <IoIosArrowDown className="ml-1 h-4 w-4" />
+                Explore Job Profiles <IoIosArrowDown className="ml-1 h-4 w-4" />
               </button>
               <div className="flex-grow">
                 <input

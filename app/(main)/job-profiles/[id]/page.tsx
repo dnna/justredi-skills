@@ -62,28 +62,6 @@ export default async function JobProfilePage({ params }: JobProfilePageProps) {
                 </span>
               )}
 
-              <div className="flex items-center">
-                <span className="mr-2 text-sm text-gray-500">Level:</span>
-                <div className="flex space-x-1">
-                  {[1, 2, 3].map((level) => (
-                    <div
-                      key={level}
-                      className={`h-3 w-3 rounded-full ${
-                        level <= jobProfile.hierarchy_level ? 'bg-indigo-600' : 'bg-gray-200'
-                      }`}
-                    />
-                  ))}
-                </div>
-                <span className="ml-2 text-sm text-gray-500">
-                  (
-                  {jobProfile.hierarchy_level === 1
-                    ? 'Senior'
-                    : jobProfile.hierarchy_level === 2
-                      ? 'Mid-level'
-                      : 'Entry-level'}
-                  )
-                </span>
-              </div>
             </div>
           </div>
         </div>
@@ -248,13 +226,7 @@ export default async function JobProfilePage({ params }: JobProfilePageProps) {
           <div className="mt-8 rounded-lg border border-blue-200 bg-blue-50 p-4">
             <h3 className="text-sm font-medium text-blue-900">Career Development</h3>
             <p className="mt-2 text-sm text-blue-700">
-              This is a{' '}
-              {jobProfile.hierarchy_level === 1
-                ? 'senior-level'
-                : jobProfile.hierarchy_level === 2
-                  ? 'mid-level'
-                  : 'entry-level'}{' '}
-              position. Focus on developing the essential skills first, then expand into additional
+              Focus on developing the essential skills first, then expand into additional
               skills to advance your career.
             </p>
           </div>

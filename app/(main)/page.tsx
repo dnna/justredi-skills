@@ -15,7 +15,6 @@ import {
   getAllJobProfiles,
   getPopularSkills,
 } from '@/lib/db';
-import { getCategoryHierarchy } from '@/lib/categories';
 
 // Force dynamic rendering to ensure data is fetched at runtime, not build time
 export const dynamic = 'force-dynamic';
@@ -27,14 +26,12 @@ export default async function Home() {
     skillsResult,
     institutionsResult,
     jobProfilesResult,
-    categories,
     popularSkillsResult,
   ] = await Promise.all([
     getAllCourses(6, 0),
     getAllSkills(6, 0),
     getAllInstitutions(10, 0),
     getAllJobProfiles(6, 0),
-    getCategoryHierarchy(),
     getPopularSkills(6),
   ]);
 
@@ -81,7 +78,7 @@ export default async function Home() {
   }
 
   return (
-    <HomePageWrapper categories={categories}>
+    <HomePageWrapper>
       <Hero />
       <FeaturedCourses courses={courses} />
       <FeaturedSkills skills={popularSkills} />

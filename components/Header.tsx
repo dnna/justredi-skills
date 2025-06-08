@@ -9,7 +9,8 @@ import { Button } from '@/components/Button';
 import { Container } from '@/components/Container';
 import { Logo } from '@/components/Logo';
 import { NavLinks } from '@/components/NavLinks';
-import { CategoryModal } from '@/components/CategoryModal';
+import { CategorySkillsModal } from '@/components/CategorySkillsModal';
+import { CategoryJobProfilesModal } from '@/components/CategoryJobProfilesModal';
 import type { CategoryItem } from '@/lib/categories';
 
 function MenuIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
@@ -47,14 +48,23 @@ function MobileNavLink(
 
 export function Header() {
   const [categories, setCategories] = useState<CategoryItem[]>([]);
-  const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
+  const [isSkillsModalOpen, setIsSkillsModalOpen] = useState(false);
+  const [isJobProfilesModalOpen, setIsJobProfilesModalOpen] = useState(false);
 
-  const openCategoryModal = () => {
-    setIsCategoryModalOpen(true);
+  const openSkillsModal = () => {
+    setIsSkillsModalOpen(true);
   };
 
-  const closeCategoryModal = () => {
-    setIsCategoryModalOpen(false);
+  const closeSkillsModal = () => {
+    setIsSkillsModalOpen(false);
+  };
+
+  const openJobProfilesModal = () => {
+    setIsJobProfilesModalOpen(true);
+  };
+
+  const closeJobProfilesModal = () => {
+    setIsJobProfilesModalOpen(false);
   };
 
   // Fetch categories on component mount
@@ -83,7 +93,11 @@ export function Header() {
               <Logo className="h-10 w-auto" />
             </Link>
             <div className="hidden lg:flex lg:gap-10">
-              <NavLinks categories={categories} onOpenCategoryModal={openCategoryModal} />
+              <NavLinks 
+                categories={categories} 
+                onOpenSkillsModal={openSkillsModal}
+                onOpenJobProfilesModal={openJobProfilesModal}
+              />
             </div>
           </div>
           <div className="flex items-center gap-6">
@@ -126,12 +140,25 @@ export function Header() {
                           className="absolute inset-x-0 top-0 z-0 origin-top rounded-b-2xl bg-gray-50 px-6 pb-6 pt-32 shadow-2xl shadow-gray-900/20"
                         >
                           <div className="space-y-4">
-                            <button
-                              className="block text-base leading-7 tracking-tight text-gray-700"
-                              onClick={openCategoryModal}
-                            >
-                              Categories
-                            </button>
+                            <div className="space-y-2">
+                              <p className="text-xs font-semibold uppercase tracking-wider text-gray-900">Explore</p>
+                              <button
+                                className="block w-full text-left text-base leading-7 tracking-tight text-gray-700 hover:text-gray-900"
+                                onClick={() => {
+                                  openJobProfilesModal();
+                                }}
+                              >
+                                Job Profiles
+                              </button>
+                              <button
+                                className="block w-full text-left text-base leading-7 tracking-tight text-gray-700 hover:text-gray-900"
+                                onClick={() => {
+                                  openSkillsModal();
+                                }}
+                              >
+                                Skills
+                              </button>
+                            </div>
                           </div>
                           <div className="mt-8 flex flex-col gap-4">
                             {/*<Button href="/login" variant="outline">*/}
@@ -152,11 +179,15 @@ export function Header() {
         </Container>
       </nav>
 
-      {/* Category modal - shown for both mobile and desktop */}
-      <CategoryModal
-        isOpen={isCategoryModalOpen}
-        onClose={closeCategoryModal}
+      {/* Modals - shown for both mobile and desktop */}
+      <CategorySkillsModal
+        isOpen={isSkillsModalOpen}
+        onClose={closeSkillsModal}
         categories={categories}
+      />
+      <CategoryJobProfilesModal
+        isOpen={isJobProfilesModalOpen}
+        onClose={closeJobProfilesModal}
       />
     </header>
   );
