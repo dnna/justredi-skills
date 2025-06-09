@@ -118,9 +118,7 @@ export default async function JobProfilePage({ params }: JobProfilePageProps) {
                   <div className="flex items-start justify-between">
                     <div>
                       <h3 className="text-xl font-bold text-gray-900">
-                        {path.name.includes('Option')
-                          ? path.name.split(' - ').pop()
-                          : `Option ${pathIndex + 1}`}
+                        Option {pathIndex + 1}
                       </h3>
                       <p className="mt-1 text-gray-600">
                         This learning path consists of{' '}
