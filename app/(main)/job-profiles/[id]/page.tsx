@@ -117,9 +117,7 @@ export default async function JobProfilePage({ params }: JobProfilePageProps) {
                 <div className="border-b border-gray-200 bg-gradient-to-r from-indigo-50 to-purple-50 p-6">
                   <div className="flex items-start justify-between">
                     <div>
-                      <h3 className="text-xl font-bold text-gray-900">
-                        Option {pathIndex + 1}
-                      </h3>
+                      <h3 className="text-xl font-bold text-gray-900">Option {pathIndex + 1}</h3>
                       <p className="mt-1 text-gray-600">
                         This learning path consists of{' '}
                         <span className="font-bold">{path.courses.length} courses</span> that cover:
