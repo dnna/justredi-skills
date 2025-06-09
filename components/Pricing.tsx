@@ -127,7 +127,7 @@ export function FeaturedLearningPaths({ learningPaths = [] }: { learningPaths?: 
             Featured Learning Paths
           </h2>
           <p className="mt-2 text-lg text-gray-100">
-            Discover structured learning journeys with the highest skill alignment scores.
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
           </p>
         </div>
 
