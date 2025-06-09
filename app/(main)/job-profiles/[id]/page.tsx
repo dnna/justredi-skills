@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getJobProfile } from '@/lib/db';
 import { Container } from '@/components/Container';
+import { CollapsibleSkillSection } from '@/components/CollapsibleSkillSection';
 
 // Force dynamic rendering
 export const dynamic = 'force-dynamic';
@@ -48,11 +49,11 @@ export default async function JobProfilePage({ params }: JobProfilePageProps) {
       </nav>
 
       {/* Header */}
-      <div className="mb-12">
+      <div className="mb-4">
         <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
           {jobProfile.title}
         </h1>
-        <p className="mt-4 max-w-4xl text-lg leading-8 text-gray-600">{jobProfile.description}</p>
+        <p className="mt-4 text-lg leading-8 text-gray-600">{jobProfile.description}</p>
         {jobProfile.alt_titles && (
           <div className="mt-3 text-sm text-gray-500">
             <span className="font-medium">Also known as:</span> {jobProfile.alt_titles}
@@ -60,10 +61,45 @@ export default async function JobProfilePage({ params }: JobProfilePageProps) {
         )}
       </div>
 
+      {/* Required Skills Section */}
+      <div className="mb-4 rounded-lg border border-gray-200 bg-gray-50 p-4">
+        <h2 className="mb-3 text-lg font-semibold text-gray-900">
+          Required skills for this job profile
+        </h2>
+
+        {jobProfile.skills && jobProfile.skills.length > 0 ? (
+          <div className="space-y-4">
+            {essentialSkills.length > 0 && (
+              <CollapsibleSkillSection
+                title="Essential Skills"
+                skills={essentialSkills}
+                count={essentialSkills.length}
+                isExpanded={false}
+                skillColorClass="bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-800 hover:from-indigo-200 hover:to-purple-200"
+              />
+            )}
+
+            {optionalSkills.length > 0 && (
+              <CollapsibleSkillSection
+                title="Non-Essential Skills"
+                skills={optionalSkills}
+                count={optionalSkills.length}
+                isExpanded={false}
+                skillColorClass="bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 hover:from-gray-200 hover:to-gray-300"
+              />
+            )}
+          </div>
+        ) : (
+          <p className="text-xs text-gray-500">
+            No specific skills have been mapped to this job profile yet.
+          </p>
+        )}
+      </div>
+
       {/* Learning Paths - Visual Journey */}
       <div className="mb-16">
         <div className="mb-8">
-          <h2 className="text-3xl font-bold text-gray-900">Learning Paths</h2>
+          <h2 className="text-3xl font-bold text-gray-900">Suggested Learning Paths</h2>
           <p className="mt-2 text-lg text-gray-600">
             Choose your journey to master the skills needed for this role
           </p>
@@ -81,71 +117,63 @@ export default async function JobProfilePage({ params }: JobProfilePageProps) {
                 <div className="border-b border-gray-200 bg-gradient-to-r from-indigo-50 to-purple-50 p-6">
                   <div className="flex items-start justify-between">
                     <div>
-                      <h3 className="text-xl font-bold text-gray-900">{path.name}</h3>
-                      <p className="mt-1 text-gray-600">{path.description}</p>
+                      <h3 className="text-xl font-bold text-gray-900">
+                        {path.name.includes('Option')
+                          ? path.name.split(' - ').pop()
+                          : `Option ${pathIndex + 1}`}
+                      </h3>
+                      <p className="mt-1 text-gray-600">
+                        This learning path consists of{' '}
+                        <span className="font-bold">{path.courses.length} courses</span> that cover:
+                      </p>
                     </div>
                   </div>
 
                   {/* Visual Skill Coverage */}
-                  <div className="mt-6 grid grid-cols-2 gap-6">
-                    <div>
-                      <div className="mb-2 flex items-center justify-between">
-                        <span className="text-sm font-medium text-gray-700">
-                          Essential Skills Coverage
-                        </span>
-                        <span className="text-sm font-bold text-red-600">
-                          {path.essential_skills_match_percent}% (
-                          {path.covered_essential_skills || 0}/{path.total_essential_skills || 0})
-                        </span>
-                      </div>
-                      <div className="h-3 overflow-hidden rounded-full bg-gray-200">
+                  <div className="mt-6 max-w-lg space-y-6">
+                    <div className="flex items-center gap-4">
+                      <span className="w-48 text-sm font-bold text-indigo-600">
+                        {path.covered_essential_skills || 0}/{path.total_essential_skills || 0}{' '}
+                        Essential Skills
+                      </span>
+                      <div className="h-3 flex-1 overflow-hidden rounded-full bg-gray-200">
                         <div
-                          className="h-full rounded-full bg-gradient-to-r from-red-500 to-red-600 transition-all duration-500"
+                          className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 transition-all duration-500"
                           style={{ width: `${path.essential_skills_match_percent}%` }}
                         />
                       </div>
                     </div>
-                    <div>
-                      <div className="mb-2 flex items-center justify-between">
-                        <span className="text-sm font-medium text-gray-700">
-                          Non-Essential Skills Coverage
+                    {optionalSkills.length > 0 && (
+                      <div className="flex items-center gap-4">
+                        <span className="w-48 text-sm font-bold text-gray-600">
+                          {path.covered_non_essential_skills || 0}/
+                          {path.total_non_essential_skills || 0} Non-Essential Skills
                         </span>
-                        <span className="text-sm font-bold text-indigo-600">
-                          {path.total_non_essential_skills > 0
-                            ? Math.round(
-                                (path.covered_non_essential_skills /
-                                  path.total_non_essential_skills) *
-                                  100
-                              )
-                            : 0}
-                          % ({path.covered_non_essential_skills || 0}/
-                          {path.total_non_essential_skills || 0})
-                        </span>
+                        <div className="h-3 flex-1 overflow-hidden rounded-full bg-gray-200">
+                          <div
+                            className="h-full rounded-full bg-gradient-to-r from-gray-400 to-gray-500 transition-all duration-500"
+                            style={{
+                              width: `${
+                                path.total_non_essential_skills > 0
+                                  ? Math.round(
+                                      (path.covered_non_essential_skills /
+                                        path.total_non_essential_skills) *
+                                        100
+                                    )
+                                  : 0
+                              }%`,
+                            }}
+                          />
+                        </div>
                       </div>
-                      <div className="h-3 overflow-hidden rounded-full bg-gray-200">
-                        <div
-                          className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 transition-all duration-500"
-                          style={{
-                            width: `${
-                              path.total_non_essential_skills > 0
-                                ? Math.round(
-                                    (path.covered_non_essential_skills /
-                                      path.total_non_essential_skills) *
-                                      100
-                                  )
-                                : 0
-                            }%`,
-                          }}
-                        />
-                      </div>
-                    </div>
+                    )}
                   </div>
                 </div>
 
                 {/* Learning Journey - Horizontal Layout */}
                 <div className="p-6">
                   <h4 className="mb-6 text-sm font-semibold uppercase tracking-wider text-gray-700">
-                    Learning Journey - {path.courses.length} Steps
+                    Courses
                   </h4>
 
                   {/* Course Sequence */}
@@ -163,16 +191,16 @@ export default async function JobProfilePage({ params }: JobProfilePageProps) {
                       return (
                         essentialCourses.length > 0 && (
                           <div>
-                            <div className="flex flex-wrap gap-3">
+                            <div className="flex flex-wrap items-stretch gap-3">
                               {essentialCourses.map((course: any, courseIndex: number) => (
-                                <div key={course.id} className="flex items-center">
+                                <div key={course.id} className="flex items-stretch">
                                   {/* Course Card */}
                                   <div
-                                    className="min-w-0 flex-shrink-0 rounded-lg border border-red-200 bg-red-50 p-3 transition-colors hover:bg-red-100"
+                                    className="flex h-full min-w-0 flex-shrink-0 flex-col rounded-lg border border-indigo-200 bg-gradient-to-r from-indigo-50 to-purple-50 p-3 transition-colors hover:from-indigo-100 hover:to-purple-100"
                                     style={{ maxWidth: '280px' }}
                                   >
                                     <div className="flex items-start">
-                                      <div className="mr-3 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-red-500">
+                                      <div className="mr-3 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-r from-indigo-500 to-purple-600">
                                         <span className="text-xs font-bold text-white">
                                           {courseIndex + 1}
                                         </span>
@@ -180,7 +208,7 @@ export default async function JobProfilePage({ params }: JobProfilePageProps) {
                                       <div className="min-w-0 flex-1">
                                         <Link
                                           href={`/courses/${course.id}`}
-                                          className="block truncate text-sm font-medium text-gray-900 hover:text-red-600"
+                                          className="block truncate text-sm font-medium text-gray-900 hover:text-indigo-600"
                                           title={course.name}
                                         >
                                           {course.name}
@@ -198,8 +226,8 @@ export default async function JobProfilePage({ params }: JobProfilePageProps) {
                                                   key={skill.id}
                                                   className={`inline-flex items-center rounded px-1.5 py-0.5 text-xs font-medium ${
                                                     skill.is_essential
-                                                      ? 'bg-red-100 text-red-700'
-                                                      : 'bg-indigo-100 text-indigo-700'
+                                                      ? 'bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700'
+                                                      : 'bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700'
                                                   }`}
                                                 >
                                                   {!!skill.is_digital_skill && (
@@ -226,23 +254,6 @@ export default async function JobProfilePage({ params }: JobProfilePageProps) {
                                       </div>
                                     </div>
                                   </div>
-
-                                  {/* Arrow */}
-                                  {courseIndex < essentialCourses.length - 1 && (
-                                    <svg
-                                      className="mx-2 h-4 w-4 text-gray-400"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      viewBox="0 0 24 24"
-                                    >
-                                      <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M9 5l7 7-7 7"
-                                      />
-                                    </svg>
-                                  )}
                                 </div>
                               ))}
                             </div>
@@ -293,7 +304,7 @@ export default async function JobProfilePage({ params }: JobProfilePageProps) {
                                   </svg>
                                   {path.essential_skills_match_percent >= 100
                                     ? 'All Essential Skills Complete'
-                                    : 'Additional Skills'}
+                                    : 'Non-Essential Skills'}
                                 </div>
                               </div>
                               <div className="h-px flex-1 bg-gray-300"></div>
@@ -318,16 +329,16 @@ export default async function JobProfilePage({ params }: JobProfilePageProps) {
                       return (
                         additionalCourses.length > 0 && (
                           <div>
-                            <div className="flex flex-wrap gap-3">
+                            <div className="flex flex-wrap items-stretch gap-3">
                               {additionalCourses.map((course: any, courseIndex: number) => (
-                                <div key={course.id} className="flex items-center">
+                                <div key={course.id} className="flex items-stretch">
                                   {/* Course Card */}
                                   <div
-                                    className="min-w-0 flex-shrink-0 rounded-lg border border-indigo-200 bg-indigo-50 p-3 transition-colors hover:bg-indigo-100"
+                                    className="flex h-full min-w-0 flex-shrink-0 flex-col rounded-lg border border-gray-200 bg-gradient-to-r from-gray-50 to-gray-100 p-3 transition-colors hover:from-gray-100 hover:to-gray-200"
                                     style={{ maxWidth: '280px' }}
                                   >
                                     <div className="flex items-start">
-                                      <div className="mr-3 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-indigo-500">
+                                      <div className="mr-3 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-r from-gray-500 to-gray-600">
                                         <span className="text-xs font-bold text-white">
                                           {essentialCompleteIndex + 2 + courseIndex}
                                         </span>
@@ -335,7 +346,7 @@ export default async function JobProfilePage({ params }: JobProfilePageProps) {
                                       <div className="min-w-0 flex-1">
                                         <Link
                                           href={`/courses/${course.id}`}
-                                          className="block truncate text-sm font-medium text-gray-900 hover:text-indigo-600"
+                                          className="block truncate text-sm font-medium text-gray-900 hover:text-gray-600"
                                           title={course.name}
                                         >
                                           {course.name}
@@ -353,8 +364,8 @@ export default async function JobProfilePage({ params }: JobProfilePageProps) {
                                                   key={skill.id}
                                                   className={`inline-flex items-center rounded px-1.5 py-0.5 text-xs font-medium ${
                                                     skill.is_essential
-                                                      ? 'bg-red-100 text-red-700'
-                                                      : 'bg-indigo-100 text-indigo-700'
+                                                      ? 'bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700'
+                                                      : 'bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700'
                                                   }`}
                                                 >
                                                   {skill.preferred_label}
@@ -371,23 +382,6 @@ export default async function JobProfilePage({ params }: JobProfilePageProps) {
                                       </div>
                                     </div>
                                   </div>
-
-                                  {/* Arrow */}
-                                  {courseIndex < additionalCourses.length - 1 && (
-                                    <svg
-                                      className="mx-2 h-4 w-4 text-gray-400"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      viewBox="0 0 24 24"
-                                    >
-                                      <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M9 5l7 7-7 7"
-                                      />
-                                    </svg>
-                                  )}
                                 </div>
                               ))}
                             </div>
@@ -423,89 +417,6 @@ export default async function JobProfilePage({ params }: JobProfilePageProps) {
               soon!
             </p>
           </div>
-        )}
-      </div>
-
-      {/* Detailed Skills Section */}
-      <div id="skills-detail" className="rounded-xl bg-gray-50 p-6">
-        <h2 className="mb-4 text-xl font-bold text-gray-900">All Required Skills</h2>
-
-        {jobProfile.skills && jobProfile.skills.length > 0 ? (
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            {essentialSkills.length > 0 && (
-              <div>
-                <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-gray-700">
-                  Essential Skills ({essentialSkills.length})
-                </h3>
-                <div className="flex flex-wrap gap-2">
-                  {essentialSkills.map((skill: any) => (
-                    <Link
-                      key={skill.id}
-                      href={`/skills/${skill.id}`}
-                      className="inline-flex items-center rounded-full bg-red-100 px-3 py-1.5 text-sm font-medium text-red-800 transition-colors hover:bg-red-200"
-                      title={skill.description}
-                    >
-                      {!!skill.is_digital_skill && (
-                        <svg
-                          className="mr-1 h-3 w-3"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"
-                          />
-                        </svg>
-                      )}
-                      {skill.preferred_label}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {optionalSkills.length > 0 && (
-              <div>
-                <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-gray-700">
-                  Additional Skills ({optionalSkills.length})
-                </h3>
-                <div className="flex flex-wrap gap-2">
-                  {optionalSkills.map((skill: any) => (
-                    <Link
-                      key={skill.id}
-                      href={`/skills/${skill.id}`}
-                      className="inline-flex items-center rounded-full bg-gray-100 px-3 py-1.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-200"
-                      title={skill.description}
-                    >
-                      {!!skill.is_digital_skill && (
-                        <svg
-                          className="mr-1 h-3 w-3"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"
-                          />
-                        </svg>
-                      )}
-                      {skill.preferred_label}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        ) : (
-          <p className="text-sm text-gray-500">
-            No specific skills have been mapped to this job profile yet.
-          </p>
         )}
       </div>
     </Container>

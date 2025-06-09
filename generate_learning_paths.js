@@ -111,7 +111,7 @@ async function generateLearningPaths() {
           [
             job.id,
             pathName,
-            `Curated learning path for ${job.title} covering ${path.coveredSkills.size} out of ${jobSkills.length} required skills`,
+            `This learning path covers:`,
             path.essentialMatch,
             path.totalMatch,
             path.score,

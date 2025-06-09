@@ -52,11 +52,12 @@ export function SkillTags({
   const getColorClasses = (skill: Skill) => {
     if (colorScheme === 'essential') {
       return skill.is_essential
-        ? 'bg-red-50 text-red-800 border border-red-200'
-        : 'bg-gray-50 text-gray-700 border border-gray-200';
+        ? 'bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-800 border border-indigo-200'
+        : 'bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 border border-gray-200';
     }
-    if (colorScheme === 'red') return 'bg-red-100 text-red-800';
-    if (colorScheme === 'gray') return 'bg-gray-100 text-gray-700';
+    if (colorScheme === 'red')
+      return 'bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-800';
+    if (colorScheme === 'gray') return 'bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700';
     return 'bg-gray-100 text-gray-700';
   };
 
