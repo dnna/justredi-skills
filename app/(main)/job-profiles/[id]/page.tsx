@@ -101,7 +101,7 @@ export default async function JobProfilePage({ params }: JobProfilePageProps) {
         <div className="mb-8">
           <h2 className="text-3xl font-bold text-gray-900">Suggested Learning Paths</h2>
           <p className="mt-2 text-lg text-gray-600">
-            Choose your journey to master the skills needed for this role
+            Explore different options for mastering the skills required for this job role
           </p>
         </div>
 
@@ -289,19 +289,6 @@ export default async function JobProfilePage({ params }: JobProfilePageProps) {
                                       : 'text-yellow-800'
                                   }`}
                                 >
-                                  <svg
-                                    className="mr-2 h-4 w-4"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      strokeWidth={2}
-                                      d="M9 12l2 2 4-4"
-                                    />
-                                  </svg>
                                   {path.essential_skills_match_percent >= 100
                                     ? 'All Essential Skills Complete'
                                     : 'Non-Essential Skills'}
