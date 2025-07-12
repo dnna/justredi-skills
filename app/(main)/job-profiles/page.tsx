@@ -19,7 +19,7 @@ export default async function JobProfilesPage() {
       <p className="mt-6 text-lg leading-8 text-gray-600">
         Εξερευνήστε εργασιακές ευκαιρίες και εργασιακά προφίλ. Κάθε προφίλ δείχνει τις απαιτούμενες
         δεξιότητες και σας συνδέει με σχετικές μαθησιακές διαδρομές για να σας βοηθήσει να επιτύχετε
-        τους εργασιακούς σας στόχους.
+        τους επαγγελματικούς σας στόχους.
       </p>
 
       {/* Summary statistics */}
@@ -52,7 +52,7 @@ export default async function JobProfilesPage() {
                 {profile.skills.filter((skill: any) => skill.is_essential).length > 0 && (
                   <div>
                     <h4 className="mb-2 text-xs font-medium text-gray-900">
-                      Βασικές Δεξιότητες (
+                      Απαραίτητες Δεξιότητες (
                       {profile.skills.filter((skill: any) => skill.is_essential).length}):
                     </h4>
                     <SkillTags

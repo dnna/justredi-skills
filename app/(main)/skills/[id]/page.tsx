@@ -70,7 +70,7 @@ export default async function SkillPage({ params }: Props) {
                 clipRule="evenodd"
               />
             </svg>
-            Digital Skill
+            Ψηφιακή Δεξιότητα
           </span>
         )}
       </div>
@@ -82,11 +82,11 @@ export default async function SkillPage({ params }: Props) {
       <div className="mt-4 flex flex-wrap gap-4">
         {skill.skill_type && (
           <div className="inline-flex items-center rounded-md bg-blue-50 px-3 py-2 text-sm font-medium text-blue-700">
-            <span className="mr-2">Type:</span>
+            <span className="mr-2">Τύπος:</span>
             {skill.skill_type === 'knowledge'
-              ? 'Knowledge'
+              ? 'Γνώση'
               : skill.skill_type === 'skill/competence'
-                ? 'Skill/Competence'
+                ? 'Δεξιότητα/Ικανότητα'
                 : skill.skill_type}
           </div>
         )}
@@ -107,7 +107,7 @@ export default async function SkillPage({ params }: Props) {
 
         {skill.hierarchy_level !== undefined && (
           <div className="inline-flex items-center rounded-md bg-yellow-50 px-3 py-2 text-sm font-medium text-yellow-700">
-            <span className="mr-2">Hierarchy Level:</span>
+            <span className="mr-2">Επίπεδο Ιεραρχίας:</span>
             {skill.hierarchy_level}
           </div>
         )}
@@ -165,7 +165,9 @@ export default async function SkillPage({ params }: Props) {
 
       {altLabels.length > 0 && (
         <div className="mt-8">
-          <h2 className="text-xl font-semibold tracking-tight text-gray-900">Alternative labels</h2>
+          <h2 className="text-xl font-semibold tracking-tight text-gray-900">
+            Εναλλακτικές ετικέτες
+          </h2>
           <div className="mt-2 flex flex-wrap gap-2">
             {altLabels.map((label, index) => (
               <span
@@ -180,7 +182,7 @@ export default async function SkillPage({ params }: Props) {
       )}
 
       <div className="mt-12">
-        <h2 className="text-2xl font-bold tracking-tight text-gray-900">Related skills</h2>
+        <h2 className="text-2xl font-bold tracking-tight text-gray-900">Σχετικές δεξιότητες</h2>
 
         {relatedSkills.length > 0 ? (
           <div className="mt-6">
@@ -188,27 +190,27 @@ export default async function SkillPage({ params }: Props) {
               // Group related skills by relation type first, then by skill_group
               const skillsByRelation: any = {
                 parent: {
-                  title: 'Parent Skill',
+                  title: 'Γονική Δεξιότητα',
                   skills: [],
                   priority: 1,
                 },
                 sibling: {
-                  title: 'Similar Skills',
+                  title: 'Παρόμοιες Δεξιότητες',
                   skills: [],
                   priority: 2,
                 },
                 child: {
-                  title: 'Specialized Skills',
+                  title: 'Εξειδικευμένες Δεξιότητες',
                   skills: [],
                   priority: 3,
                 },
                 course: {
-                  title: 'Skills from Same Courses',
+                  title: 'Δεξιότητες από τα ίδια Μαθήματα',
                   skills: [],
                   priority: 4,
                 },
                 group: {
-                  title: 'Skills in Same Group',
+                  title: 'Δεξιότητες στην ίδια Ομάδα',
                   skills: [],
                   priority: 5,
                 },
@@ -238,7 +240,7 @@ export default async function SkillPage({ params }: Props) {
                       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
                         {(() => {
                           // For parent skills, don't group them, just list them
-                          if (relation.title === 'Parent Skill') {
+                          if (relation.title === 'Γονική Δεξιότητα') {
                             return relation.skills.map((skill: any) => (
                               <div
                                 key={skill.id}
@@ -251,7 +253,7 @@ export default async function SkillPage({ params }: Props) {
                                   {skill.preferred_label}
                                   {skill.skill_type === 'group' && (
                                     <span className="ml-2 rounded-full bg-purple-50 px-2 py-0.5 text-xs text-purple-700">
-                                      Skill Group
+                                      Ομάδα Δεξιοτήτων
                                     </span>
                                   )}
                                 </Link>
@@ -263,7 +265,7 @@ export default async function SkillPage({ params }: Props) {
                           const skillsByGroup = relation.skills.reduce(
                             (acc: any, relatedSkill: any) => {
                               // Use "Other Skills" as default group if no group is specified
-                              const group = relatedSkill.skill_group || 'Other Skills';
+                              const group = relatedSkill.skill_group || 'Άλλες Δεξιότητες';
                               if (!acc[group]) {
                                 acc[group] = [];
                               }
@@ -298,17 +300,17 @@ export default async function SkillPage({ params }: Props) {
                                         • {relatedSkill.preferred_label}
                                         {relatedSkill.is_digital_skill && (
                                           <span className="ml-2 rounded-full bg-emerald-600 px-2 py-0.5 text-xs text-white">
-                                            Digital
+                                            Ψηφιακή
                                           </span>
                                         )}
                                         {relatedSkill.skill_type === 'knowledge' && (
                                           <span className="ml-2 rounded-full bg-blue-50 px-2 py-0.5 text-xs text-blue-700">
-                                            Knowledge
+                                            Γνώση
                                           </span>
                                         )}
                                         {relatedSkill.skill_type === 'skill/competence' && (
                                           <span className="ml-2 rounded-full bg-green-50 px-2 py-0.5 text-xs text-green-700">
-                                            Skill
+                                            Δεξιότητα
                                           </span>
                                         )}
                                       </Link>
@@ -326,12 +328,12 @@ export default async function SkillPage({ params }: Props) {
             })()}
           </div>
         ) : (
-          <p className="mt-4 text-gray-600">No related skills found.</p>
+          <p className="mt-4 text-gray-600">Δεν βρέθηκαν σχετικές δεξιότητες.</p>
         )}
       </div>
 
       <div className="mt-20">
-        <h2 className="text-2xl font-bold tracking-tight text-gray-900">Learning Opportunities</h2>
+        <h2 className="text-2xl font-bold tracking-tight text-gray-900">Ευκαιρίες Μάθησης</h2>
 
         <div className="mt-6 space-y-8">
           {skill.courses && skill.courses.length > 0 ? (
@@ -345,30 +347,30 @@ export default async function SkillPage({ params }: Props) {
                 <p className="mt-2 text-sm text-gray-500">{course.institutionName}</p>
                 {(course.retrieval_score || course.rerank_score) && (
                   <div className="mt-1 text-xs text-gray-400">
-                    Match score:{' '}
+                    Βαθμολογία αντιστοίχισης:{' '}
                     {Math.round(((course.retrieval_score + course.rerank_score) / 2) * 100)}%
                   </div>
                 )}
               </div>
             ))
           ) : (
-            <p className="text-gray-500">No courses found for this skill.</p>
+            <p className="text-gray-500">Δεν βρέθηκαν μαθήματα για αυτήν τη δεξιότητα.</p>
           )}
         </div>
 
         {skill.courses && skill.courses.length > 5 && (
           <div className="mt-8">
             <Button href="#" variant="solid" className="bg-black text-white hover:bg-gray-800">
-              Show more
+              Εμφάνιση περισσότερων
             </Button>
           </div>
         )}
       </div>
 
       <div className="mt-20">
-        <h2 className="text-2xl font-bold tracking-tight text-gray-900">Job profiles</h2>
+        <h2 className="text-2xl font-bold tracking-tight text-gray-900">Επαγγελματικά προφίλ</h2>
         <p className="mt-4 text-base text-gray-600">
-          This skill is relevant to the following job profiles.
+          Αυτή η δεξιότητα είναι σχετική με τα παρακάτω επαγγελματικά προφίλ.
         </p>
 
         <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
@@ -406,7 +408,7 @@ export default async function SkillPage({ params }: Props) {
 
         <div className="mt-10">
           <Button href="#" variant="solid" className="bg-black text-white hover:bg-gray-800">
-            Show more
+            Εμφάνιση περισσότερων
           </Button>
         </div>
       </div>

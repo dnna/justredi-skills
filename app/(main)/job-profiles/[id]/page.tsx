@@ -32,7 +32,7 @@ export default async function JobProfilePage({ params }: JobProfilePageProps) {
         <ol className="flex items-center space-x-2 text-sm">
           <li>
             <Link href="/job-profiles" className="text-gray-500 hover:text-gray-700">
-              Job Profiles
+              Επαγγελματικά Προφίλ
             </Link>
           </li>
           <li>
@@ -56,7 +56,7 @@ export default async function JobProfilePage({ params }: JobProfilePageProps) {
         <p className="mt-4 text-lg leading-8 text-gray-600">{jobProfile.description}</p>
         {jobProfile.alt_titles && (
           <div className="mt-3 text-sm text-gray-500">
-            <span className="font-medium">Also known as:</span> {jobProfile.alt_titles}
+            <span className="font-medium">Γνωστό και ως:</span> {jobProfile.alt_titles}
           </div>
         )}
       </div>
@@ -64,14 +64,14 @@ export default async function JobProfilePage({ params }: JobProfilePageProps) {
       {/* Required Skills Section */}
       <div className="mb-4 rounded-lg border border-gray-200 bg-gray-50 p-4">
         <h2 className="mb-3 text-lg font-semibold text-gray-900">
-          Required skills for this job profile
+          Απαιτούμενες δεξιότητες για αυτό το επαγγελματικό προφίλ
         </h2>
 
         {jobProfile.skills && jobProfile.skills.length > 0 ? (
           <div className="space-y-4">
             {essentialSkills.length > 0 && (
               <CollapsibleSkillSection
-                title="Essential Skills"
+                title="Απαραίτητες Δεξιότητες"
                 skills={essentialSkills}
                 count={essentialSkills.length}
                 isExpanded={false}
@@ -81,7 +81,7 @@ export default async function JobProfilePage({ params }: JobProfilePageProps) {
 
             {optionalSkills.length > 0 && (
               <CollapsibleSkillSection
-                title="Non-Essential Skills"
+                title="Προαιρετικές Δεξιότητες"
                 skills={optionalSkills}
                 count={optionalSkills.length}
                 isExpanded={false}
@@ -91,7 +91,7 @@ export default async function JobProfilePage({ params }: JobProfilePageProps) {
           </div>
         ) : (
           <p className="text-xs text-gray-500">
-            No specific skills have been mapped to this job profile yet.
+            Δεν έχουν αντιστοιχιστεί συγκεκριμένες δεξιότητες σε αυτό το επαγγελματικό προφίλ ακόμη.
           </p>
         )}
       </div>
@@ -99,9 +99,10 @@ export default async function JobProfilePage({ params }: JobProfilePageProps) {
       {/* Learning Paths - Visual Journey */}
       <div className="mb-16">
         <div className="mb-8">
-          <h2 className="text-3xl font-bold text-gray-900">Suggested Learning Paths</h2>
+          <h2 className="text-3xl font-bold text-gray-900">Προτεινόμενες Μαθησιακές διαδρομές</h2>
           <p className="mt-2 text-lg text-gray-600">
-            Explore different options for mastering the skills required for this job role
+            Εξερευνήστε διαφορετικές επιλογές για να αποκτήσετε τις δεξιότητες που απαιτούνται για
+            αυτόν τον επαγγελματικό ρόλο
           </p>
         </div>
 
@@ -117,10 +118,11 @@ export default async function JobProfilePage({ params }: JobProfilePageProps) {
                 <div className="border-b border-gray-200 bg-gradient-to-r from-indigo-50 to-purple-50 p-6">
                   <div className="flex items-start justify-between">
                     <div>
-                      <h3 className="text-xl font-bold text-gray-900">Option {pathIndex + 1}</h3>
+                      <h3 className="text-xl font-bold text-gray-900">Επιλογή {pathIndex + 1}</h3>
                       <p className="mt-1 text-gray-600">
-                        This learning path consists of{' '}
-                        <span className="font-bold">{path.courses.length} courses</span> that cover:
+                        Αυτή η μαθησιακή διαδρομή αποτελείται από{' '}
+                        <span className="font-bold">{path.courses.length} μαθήματα</span> που
+                        καλύπτουν:
                       </p>
                     </div>
                   </div>
@@ -130,7 +132,7 @@ export default async function JobProfilePage({ params }: JobProfilePageProps) {
                     <div className="flex items-center gap-4">
                       <span className="w-48 text-sm font-bold text-indigo-600">
                         {path.covered_essential_skills || 0}/{path.total_essential_skills || 0}{' '}
-                        Essential Skills
+                        Απαραίτητες Δεξιότητες
                       </span>
                       <div className="h-3 flex-1 overflow-hidden rounded-full bg-gray-200">
                         <div
@@ -143,7 +145,7 @@ export default async function JobProfilePage({ params }: JobProfilePageProps) {
                       <div className="flex items-center gap-4">
                         <span className="w-48 text-sm font-bold text-gray-600">
                           {path.covered_non_essential_skills || 0}/
-                          {path.total_non_essential_skills || 0} Non-Essential Skills
+                          {path.total_non_essential_skills || 0} Προαιρετικές Δεξιότητες
                         </span>
                         <div className="h-3 flex-1 overflow-hidden rounded-full bg-gray-200">
                           <div
@@ -169,7 +171,7 @@ export default async function JobProfilePage({ params }: JobProfilePageProps) {
                 {/* Learning Journey - Horizontal Layout */}
                 <div className="p-6">
                   <h4 className="mb-6 text-sm font-semibold uppercase tracking-wider text-gray-700">
-                    Courses
+                    Μαθήματα
                   </h4>
 
                   {/* Course Sequence */}
@@ -286,8 +288,8 @@ export default async function JobProfilePage({ params }: JobProfilePageProps) {
                                   }`}
                                 >
                                   {path.essential_skills_match_percent >= 100
-                                    ? 'All Essential Skills Complete'
-                                    : 'Non-Essential Skills'}
+                                    ? 'Όλες οι Απαραίτητες Δεξιότητες Καλύφθηκαν'
+                                    : 'Προαιρετικές Δεξιότητες'}
                                 </div>
                               </div>
                               <div className="h-px flex-1 bg-gray-300"></div>
@@ -393,11 +395,11 @@ export default async function JobProfilePage({ params }: JobProfilePageProps) {
               />
             </svg>
             <h3 className="mt-4 text-lg font-medium text-gray-900">
-              No learning paths available yet
+              Δεν υπάρχουν ακόμη διαθέσιμες μαθησιακές διαδρομές
             </h3>
             <p className="mx-auto mt-2 max-w-md text-gray-500">
-              We're working on creating curated learning paths for this job profile. Check back
-              soon!
+              Εργαζόμαστε για τη δημιουργία επιμελημένων μαθησιακών διαδρομών για αυτό το
+              επαγγελματικό προφίλ. Ελέγξτε ξανά σύντομα!
             </p>
           </div>
         )}
