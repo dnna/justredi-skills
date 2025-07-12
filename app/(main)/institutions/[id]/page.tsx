@@ -80,15 +80,15 @@ export default async function InstitutionPage({ params }: Props) {
           <div className="mt-6 text-lg leading-8 text-gray-600">
             <p>
               {institution.description ||
-                `${institution.name} is an educational institution providing various learning opportunities across multiple disciplines. 
-                 Explore the courses offered by this institution to enhance your skills and knowledge.`}
+                `${institution.name} είναι ένα εκπαιδευτικό ίδρυμα που παρέχει διάφορες ευκαιρίες μάθησης σε πολλούς κλάδους.
+                 Εξερευνήστε ��α μαθήματα που προσφέρονται από αυτό το ίδρυμα για να ενισχύσετε τις δεξιότητες και τις γνώσεις σας.`}
             </p>
           </div>
 
           {institution.website && (
             <div className="mt-8">
               <Button href={institution.website} variant="outline" className="w-auto">
-                Visit Website
+                Επισκεφθείτε την ιστοσελίδα
               </Button>
             </div>
           )}
@@ -103,14 +103,16 @@ export default async function InstitutionPage({ params }: Props) {
             />
           ) : (
             <div className="flex h-36 w-36 items-center justify-center rounded-full bg-gray-200 text-xl font-bold text-gray-500">
-              LOGO
+              ΛΟΓΟΤΥΠΟ
             </div>
           )}
         </div>
       </div>
 
       <div className="mt-20">
-        <h2 className="text-2xl font-bold tracking-tight text-gray-900">Learning Opportunities</h2>
+        <h2 className="text-2xl font-bold tracking-tight text-gray-900">
+          Εκπαιδευτικά Προγράμματα
+        </h2>
 
         <div className="mt-10 space-y-12">
           {institution.courses.length > 0 ? (
@@ -144,17 +146,17 @@ export default async function InstitutionPage({ params }: Props) {
                             {skill.preferred_label}
                             {Boolean(skill.is_digital_skill) && (
                               <span className="ml-1 rounded-full bg-emerald-600 px-1.5 py-0.5 text-xs text-white">
-                                Digital
+                                Ψηφιακή
                               </span>
                             )}
                             {skill.skill_type === 'knowledge' && (
                               <span className="ml-1 rounded-full bg-blue-50 px-1.5 py-0.5 text-xs text-blue-700">
-                                Knowledge
+                                Γνώση
                               </span>
                             )}
                             {skill.skill_type === 'skill/competence' && (
                               <span className="ml-1 rounded-full bg-green-50 px-1.5 py-0.5 text-xs text-green-700">
-                                Skill
+                                Δεξιότητα
                               </span>
                             )}
                           </Link>
@@ -162,7 +164,7 @@ export default async function InstitutionPage({ params }: Props) {
 
                         {course.skills.length > 5 && (
                           <span className="inline-flex items-center rounded-md bg-gray-50 px-2.5 py-1 text-sm font-medium text-gray-500">
-                            +{course.skills.length - 5} more
+                            +{course.skills.length - 5} περισσότερες
                           </span>
                         )}
                       </div>
@@ -171,14 +173,14 @@ export default async function InstitutionPage({ params }: Props) {
                 </div>
               ))
           ) : (
-            <p className="text-gray-500">No courses found for this institution.</p>
+            <p className="text-gray-500">Δεν βρέθηκαν μαθήματα για αυτό το ίδρυμα.</p>
           )}
         </div>
 
         {institution.courses.length > 6 && (
           <div className="mt-10">
             <Button href="#" variant="solid" className="bg-black text-white hover:bg-gray-800">
-              Show more
+              Δείτε περισσότερα
             </Button>
           </div>
         )}

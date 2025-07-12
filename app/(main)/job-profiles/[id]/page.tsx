@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { getJobProfile } from '@/lib/db';
 import { Container } from '@/components/Container';
 import { CollapsibleSkillSection } from '@/components/CollapsibleSkillSection';
+import { LearningPathTracker } from '@/components/LearningPathTracker';
 
 // Force dynamic rendering
 export const dynamic = 'force-dynamic';
@@ -32,7 +33,7 @@ export default async function JobProfilePage({ params }: JobProfilePageProps) {
         <ol className="flex items-center space-x-2 text-sm">
           <li>
             <Link href="/job-profiles" className="text-gray-500 hover:text-gray-700">
-              Επαγγελματικά Προφίλ
+              Εργασιακά Προφίλ
             </Link>
           </li>
           <li>
@@ -114,6 +115,7 @@ export default async function JobProfilePage({ params }: JobProfilePageProps) {
                 id={`learning-path-${path.id}`}
                 className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-lg"
               >
+                <LearningPathTracker learningPathId={path.id} />
                 {/* Path Header with Visual Progress */}
                 <div className="border-b border-gray-200 bg-gradient-to-r from-indigo-50 to-purple-50 p-6">
                   <div className="flex items-start justify-between">

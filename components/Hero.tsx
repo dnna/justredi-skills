@@ -102,8 +102,13 @@ export function Hero({ onOpenCategoryModal }: HeroProps) {
             <h1 className="mx-auto text-center text-4xl font-medium tracking-tight text-gray-900 lg:w-4/5">
               Αναζητήστε εργασιακά προφίλ και ευκαιρίες μάθησης για να βελτιώσετε τις δεξιότητές σας
             </h1>
-            <div className="mx-auto mt-10 flex w-2/3 flex-col items-center gap-4 lg:mt-0 lg:mt-8 lg:flex-row">
+            <form
+              action="/search"
+              method="GET"
+              className="mx-auto mt-10 flex w-2/3 flex-col items-center gap-4 lg:mt-0 lg:mt-8 lg:flex-row"
+            >
               <button
+                type="button"
                 onClick={handleCategoryClick}
                 className="flex cursor-pointer items-center justify-center rounded-md px-4 py-2 font-medium text-gray-700 shadow-sm transition-colors hover:bg-gray-100 hover:text-gray-900"
               >
@@ -112,6 +117,7 @@ export function Hero({ onOpenCategoryModal }: HeroProps) {
               <div className="flex-grow">
                 <input
                   type="text"
+                  name="q"
                   placeholder="Αναζητήστε εργασιακά προφίλ, ευκαιρίες ή δεξιότητες"
                   className="w-full rounded border border-gray-300 p-2 text-sm text-gray-600"
                 />
@@ -122,7 +128,7 @@ export function Hero({ onOpenCategoryModal }: HeroProps) {
                   <span className="ml-2.5">Αναζήτηση</span>
                 </Button>
               </div>
-            </div>
+            </form>
           </div>
           {/*<div className="relative -mt-4 lg:col-span-12 lg:mt-0 xl:col-span-12">
             <p className="mt-12 text-center text-sm font-semibold text-gray-900 lg:mt-0 lg:text-left">

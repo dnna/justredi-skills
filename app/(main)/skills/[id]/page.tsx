@@ -368,9 +368,9 @@ export default async function SkillPage({ params }: Props) {
       </div>
 
       <div className="mt-20">
-        <h2 className="text-2xl font-bold tracking-tight text-gray-900">Επαγγελματικά προφίλ</h2>
+        <h2 className="text-2xl font-bold tracking-tight text-gray-900">Εργασιακά προφίλ</h2>
         <p className="mt-4 text-base text-gray-600">
-          Αυτή η δεξιότητα είναι σχετική με τα παρακάτω επαγγελματικά προφίλ.
+          Αυτή η δεξιότητα είναι σχετική με τα παρακάτω εργασιακά προφίλ.
         </p>
 
         <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">

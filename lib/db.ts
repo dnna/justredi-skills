@@ -537,7 +537,7 @@ export async function getRelatedJobProfiles(skillIds: string[], limit: number = 
     FROM job_profiles jp
     JOIN job_skills js ON jp.id = js.job_id
     JOIN skills s ON js.skill_id = s.id
-    WHERE js.skill_id IN (?)
+    WHERE js.skill_id IN (?) 
     GROUP BY jp.id
     ORDER BY matching_skills DESC, jp.title
     LIMIT ${numLimit}
@@ -806,13 +806,37 @@ export async function getAllJobProfiles(limit: number = 100, offset: number = 0)
  */
 export async function searchJobProfiles(searchTerm: string, limit: number = 20) {
   const searchQuery = `
-    SELECT id, title, description
+    SELECT id, COALESCE(title, title_en) as title, COALESCE(description, description_en) as description
     FROM job_profiles
-    WHERE title LIKE ? OR description LIKE ? OR alt_titles LIKE ?
+    WHERE title LIKE ? OR title_en LIKE ? OR description LIKE ? OR description_en LIKE ? OR alt_titles LIKE ?
     LIMIT ${Number(limit)}
   `;
 
-  return await query(searchQuery, [`%${searchTerm}%`, `%${searchTerm}%`, `%${searchTerm}%`]);
+  return await query(searchQuery, [
+    `%${searchTerm}%`,
+    `%${searchTerm}%`,
+    `%${searchTerm}%`,
+    `%${searchTerm}%`,
+    `%${searchTerm}%`,
+  ]);
+}
+
+/**
+ * Search institutions by name
+ */
+export async function searchInstitutions(searchTerm: string, limit: number = 20) {
+  const searchQuery = `
+    SELECT i.id, i.name, i.description, i.website, i.logo_url,
+           COUNT(c.id) as courseCount
+    FROM institutions i
+    LEFT JOIN courses c ON i.id = c.institution_id
+    WHERE i.name LIKE ? OR i.description LIKE ?
+    GROUP BY i.id, i.name, i.description, i.website, i.logo_url
+    ORDER BY i.name
+    LIMIT ${Number(limit)}
+  `;
+
+  return await query(searchQuery, [`%${searchTerm}%`, `%${searchTerm}%`]);
 }
 
 export async function getSkillsByGroup(skillId: string, limit: number = 8) {
@@ -925,7 +949,7 @@ export async function getFeaturedCourses(limit: number = 6) {
 /**
  * Get featured learning paths diversified across different job profiles
  */
-export async function getFeaturedLearningPaths(limit: number = 6) {
+export async function getTopScoringLearningPaths(limit: number = 6) {
   const featuredPathsQuery = `
     SELECT * FROM (
       SELECT lp.id, lp.name, lp.description,
@@ -972,4 +996,77 @@ export async function getFeaturedLearningPaths(limit: number = 6) {
   }
 
   return pathsWithSkills;
+}
+
+export async function getPopularLearningPaths(limit: number = 2) {
+  const popularPathsQuery = `
+    SELECT lp.id, lp.name, lp.description,
+           jp.title as job_title, jp.id as job_id,
+           lp.view_count
+    FROM learning_paths lp
+    JOIN job_profiles jp ON lp.job_id = jp.id
+    ORDER BY lp.view_count DESC
+    LIMIT ${Number(limit)}
+  `;
+  return await query(popularPathsQuery, []);
+}
+
+export async function getTopInDemandDigitalSkills(limit: number = 5) {
+  const skillsQuery = `
+    SELECT s.id, COALESCE(s.preferred_label_el, s.preferred_label) as preferred_label, COUNT(js.skill_id) as job_count
+    FROM skills s
+    JOIN job_skills js ON s.id = js.skill_id
+    WHERE s.is_digital_skill = 1
+    GROUP BY s.id, preferred_label
+    ORDER BY job_count DESC
+    LIMIT ${Number(limit)}
+  `;
+  return await query(skillsQuery, []);
+}
+
+export async function getJobCategories() {
+  const categoriesQuery = `
+    SELECT category, COUNT(*) as count
+    FROM job_profiles
+    WHERE category IS NOT NULL
+    GROUP BY category
+    ORDER BY count DESC
+  `;
+  return await query(categoriesQuery, []);
+}
+
+export async function searchAll(searchTerm: string, limit: number = 10) {
+  const searchQuery = `
+    (SELECT id, name, 'course' as type, NULL as description, NULL as institution_name, NULL as skill_count 
+     FROM courses WHERE name LIKE ?)
+    UNION
+    (SELECT id, COALESCE(preferred_label_el, preferred_label) as name, 'skill' as type, 
+     COALESCE(description_el, description) as description, NULL as institution_name, NULL as skill_count
+     FROM skills WHERE preferred_label LIKE ? OR preferred_label_el LIKE ? OR description LIKE ? OR description_el LIKE ?)
+    UNION
+    (SELECT id, COALESCE(title, title_en) as name, 'job_profile' as type, 
+     COALESCE(description, description_en) as description, NULL as institution_name, NULL as skill_count
+     FROM job_profiles WHERE title LIKE ? OR title_en LIKE ? OR description LIKE ? OR description_en LIKE ?)
+    UNION
+    (SELECT i.id, i.name, 'institution' as type, NULL as description, NULL as institution_name, 
+     COUNT(DISTINCT c.id) as skill_count
+     FROM institutions i 
+     LEFT JOIN courses c ON i.id = c.institution_id
+     WHERE i.name LIKE ?
+     GROUP BY i.id)
+    LIMIT ${Number(limit)}
+  `;
+  const params = [
+    `%${searchTerm}%`,
+    `%${searchTerm}%`,
+    `%${searchTerm}%`,
+    `%${searchTerm}%`,
+    `%${searchTerm}%`,
+    `%${searchTerm}%`,
+    `%${searchTerm}%`,
+    `%${searchTerm}%`,
+    `%${searchTerm}%`,
+    `%${searchTerm}%`,
+  ];
+  return await query(searchQuery, params);
 }

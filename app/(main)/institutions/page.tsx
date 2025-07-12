@@ -20,12 +20,12 @@ export default async function InstitutionsPage({ searchParams }: PageProps) {
   return (
     <Container className="mb-24 mt-16">
       <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
-        Course Providers
+        Πάροχοι Εκπαιδευτικών Προγραμμάτων
       </h1>
 
       <p className="mt-6 text-lg leading-8 text-gray-600">
-        Discover educational institutions offering courses that can help you develop your skills and
-        advance your career.
+        Ανακαλύψτε εκπαιδευτικά ιδρύματα που προσφέρουν εκπαιδευτικά προγράμματα που μπορούν να σας
+        βοηθήσουν να αναπτύξετε τις δεξιότητές σας και να προωθήσετε την καριέρα σας.
       </p>
 
       <div className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
@@ -59,7 +59,10 @@ export default async function InstitutionsPage({ searchParams }: PageProps) {
                   </h3>
 
                   <p className="mt-1 text-sm text-gray-500">
-                    {institution.courseCount || 0} courses available
+                    {institution.courseCount || 0}{' '}
+                    {institution.courseCount === 1
+                      ? 'διαθέσιμο εκπαιδευτικό πρόγραμμα'
+                      : 'διαθέσιμα εκπαιδευτικά προγράμματα'}
                   </p>
                 </div>
               </div>
@@ -69,15 +72,13 @@ export default async function InstitutionsPage({ searchParams }: PageProps) {
                   href={`/institutions/${institution.id}`}
                   className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
                 >
-                  View courses →
+                  Δείτε τα εκπαιδευτικά προγράμματα →
                 </Link>
               </div>
             </div>
           ))
         ) : (
-          <div className="col-span-full py-10 text-center text-gray-500">
-            No institutions found.
-          </div>
+          <div className="col-span-full py-10 text-center text-gray-500">Δεν βρέθηκαν πάροχοι.</div>
         )}
       </div>
     </Container>

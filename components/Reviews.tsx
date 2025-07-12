@@ -231,7 +231,7 @@ export function InstitutionsList({ institutions = [] }: { institutions?: any[] }
           id="reviews-title"
           className="text-3xl font-medium tracking-tight text-gray-900 sm:text-center"
         >
-          Πάροχοι Ευκαιριών Μάθησης
+          Πάροχοι Εκπαιδευτικών Προγραμμάτων
         </h2>
         {/*<p className="mt-2 text-lg text-gray-600 sm:text-center">*/}
         {/*  Lorem Ipsum*/}
