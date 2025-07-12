@@ -8,18 +8,18 @@ import { FaExternalLinkAlt, FaGraduationCap, FaBriefcase } from 'react-icons/fa'
 
 const defaultSkills = [
   {
-    name: 'Python Programming',
-    description: 'Digital Skill',
+    name: 'Προγραμματισμός Python',
+    description: 'Ψηφιακή Δεξιότητα',
     icon: DeviceArrowIcon,
   },
   {
-    name: 'SEO Fundamentals',
-    description: 'Digital Marketing',
+    name: 'Βασικά SEO',
+    description: 'Ψηφιακό Μάρκετινγκ',
     icon: DeviceCardsIcon,
   },
   {
-    name: 'Data Visualization',
-    description: 'Data Analysis',
+    name: 'Οπτικοποίηση Δεδομένων',
+    description: 'Ανάλυση Δεδομένων',
     icon: DeviceClockIcon,
   },
 ];
@@ -100,8 +100,8 @@ export function FeaturedSkills({ skills = [] }: { skills?: any[] }) {
   const itemsToDisplay =
     skills.length > 0
       ? skills.slice(0, 6).map((skill, index) => ({
-          name: skill.preferred_label || 'Skill',
-          description: skill.skill_group || skill.skill_type || 'Skill',
+          name: skill.preferred_label || 'Δεξιότητα',
+          description: skill.skill_group || skill.skill_type || 'Δεξιότητα',
           icon: [DeviceArrowIcon, DeviceCardsIcon, DeviceClockIcon][index % 3],
           id: skill.id,
         }))
@@ -110,16 +110,16 @@ export function FeaturedSkills({ skills = [] }: { skills?: any[] }) {
   return (
     <section
       id="secondary-features"
-      aria-label="Features for building a portfolio"
+      aria-label="Χαρακτηριστικά για τη δημιουργία χαρτοφυλακίου"
       className="py-20 sm:py-32"
     >
       <Container>
         <div className="mx-auto max-w-2xl sm:text-center">
           <h2 className="text-3xl font-medium tracking-tight text-gray-900">
-            Featured Learning Opportunities
+            Προτεινόμενες Ευκαιρίες Μάθησης
           </h2>
           <p className="mt-2 text-lg text-gray-600">
-            Explore the most in-demand skills across learning opportunities.
+            Εξερευνήστε τις πιο περιζήτητες δεξιότητες σε όλες τις ευκαιρίες μάθησης.
           </p>
         </div>
         <ul
@@ -145,7 +145,7 @@ export function FeaturedSkills({ skills = [] }: { skills?: any[] }) {
         <div>
           <div className="mt-12 flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
             <Button href="/skills" color="green">
-              <span>Explore all skills</span>
+              <span>Εξερευνήστε όλες τις δεξιότητες</span>
             </Button>
           </div>
         </div>
@@ -156,12 +156,15 @@ export function FeaturedSkills({ skills = [] }: { skills?: any[] }) {
 
 export function FeaturedCourses({ courses = [] }: { courses?: any[] }) {
   return (
-    <section id="featured-courses" aria-label="Featured courses" className="py-20 sm:py-32">
+    <section id="featured-courses" aria-label="Προτεινόμενα μαθήματα" className="py-20 sm:py-32">
       <Container>
         <div className="mx-auto max-w-2xl sm:text-center">
-          <h2 className="text-3xl font-medium tracking-tight text-gray-900">Featured Courses</h2>
+          <h2 className="text-3xl font-medium tracking-tight text-gray-900">
+            Προτεινόμενα Μαθήματα
+          </h2>
           <p className="mt-2 text-lg text-gray-600">
-            Top courses whose skills match the most job profiles in our database.
+            Τα κορυφαία μαθήματα των οποίων οι δεξιότητες ταιριάζουν με τα περισσότερα επαγγελματικά
+            προφίλ στη βάση δεδομένων μας.
           </p>
         </div>
         <ul
@@ -198,14 +201,14 @@ export function FeaturedCourses({ courses = [] }: { courses?: any[] }) {
               <div className="mb-3 flex items-center gap-2 text-xs text-gray-500">
                 <FaBriefcase className="h-3 w-3" />
                 <span>
-                  {course.job_profile_matches} matching job profile
-                  {course.job_profile_matches !== 1 ? 's' : ''}
+                  {course.job_profile_matches} ταιριάζον εργασιακά προφίλ
+                  {course.job_profile_matches !== 1 ? '' : ''}
                 </span>
               </div>
 
               {course.skills && course.skills.length > 0 && (
                 <div className="mb-3">
-                  <h4 className="mb-2 text-xs font-medium text-gray-600">Skills:</h4>
+                  <h4 className="mb-2 text-xs font-medium text-gray-600">Δεξιότητες:</h4>
                   <SkillTags skills={course.skills} maxDisplay={4} size="sm" variant="compact" />
                 </div>
               )}
@@ -217,7 +220,7 @@ export function FeaturedCourses({ courses = [] }: { courses?: any[] }) {
         <div>
           <div className="mt-12 flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
             <Button href="/courses" color="green">
-              <span>Explore all courses</span>
+              <span>Εξερευνήστε όλα τα μαθήματα</span>
             </Button>
           </div>
         </div>

@@ -58,7 +58,7 @@ export function NavLinks({
             />
           )}
         </AnimatePresence>
-        <span className="relative z-10">Explore</span>
+        <span className="relative z-10">Εξερευνήστε</span>
         <svg
           className="ml-1 h-4 w-4 transition-transform"
           style={{ transform: isDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
@@ -90,7 +90,7 @@ export function NavLinks({
                 }}
                 className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
               >
-                Job Profiles
+                Εργασιακά προφίλ
               </button>
               <button
                 onClick={() => {
@@ -99,7 +99,7 @@ export function NavLinks({
                 }}
                 className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
               >
-                Skills
+                Δεξιότητες
               </button>
             </div>
           </motion.div>

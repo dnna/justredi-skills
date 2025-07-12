@@ -13,10 +13,10 @@ export function CallToAction() {
       <Container className="relative">
         <div className="mx-auto max-w-md sm:text-center">
           <h2 className="text-3xl font-medium tracking-tight text-white sm:text-4xl">
-            Not sure where to start?
+            Δεν ξέρετε από πού να ξεκινήσετε;
           </h2>
           <p className="mt-4 text-lg text-gray-300">
-            Check our Learning Opportunity Providers below.
+            Ανακαλύψτε τους Παρόχους Ευκαιριών Μάθησης παρακάτω.
           </p>
         </div>
       </Container>

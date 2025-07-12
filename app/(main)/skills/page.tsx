@@ -11,12 +11,12 @@ export default async function SkillsPage() {
 
   return (
     <Container className="mb-24 mt-16">
-      <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">Skills</h1>
+      <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">Δεξιότητες</h1>
 
       <p className="mt-6 text-lg leading-8 text-gray-600">
-        Explore skills that can enhance your career prospects and match them with suitable learning
-        opportunities. Digital skills are specially highlighted to help you identify
-        technology-related competencies.
+        Εξερευνήστε δεξιότητες που μπορούν να βελτιώσουν τις επαγγελματικές σας προοπτικές και
+        συνδυάστέ τις με κατάλληλες ευκαιρίες μάθησης. Οι ψηφιακές δεξιότητες είναι ιδιαίτερα
+        τονισμένες για να σας βοηθήσουν να εντοπίσετε τεχνολογικές ικανότητες.
       </p>
 
       {/* Digital skills info banner */}
@@ -31,10 +31,10 @@ export default async function SkillsPage() {
           </svg>
           <p className="ml-2 text-sm font-medium text-emerald-800">
             <span className="mr-2 inline-flex items-center rounded-full bg-emerald-600 px-2 py-0.5 text-xs font-medium text-white">
-              Digital
+              Ψηφιακή
             </span>
-            Skills marked as "Digital" are technology-related competencies identified by the
-            European Skills, Competences, and Occupations (ESCO) framework.
+            Οι δεξιότητες που σημειώνονται ως "Ψηφιακές" είναι τεχνολογικές ικανότητες που
+            εντοπίζονται από το Ευρωπαϊκό πλαίσιο Δεξιοτήτων, Ικανοτήτων και Επαγγελμάτων (ESCO).
           </p>
         </div>
       </div>
@@ -65,7 +65,7 @@ export default async function SkillsPage() {
                         clipRule="evenodd"
                       />
                     </svg>
-                    Digital
+                    Ψηφιακή
                   </span>
                 )}
               </div>
@@ -77,13 +77,15 @@ export default async function SkillsPage() {
                   href={`/skills/${skill.id}`}
                   className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
                 >
-                  Learn more →
+                  Μάθετε περισσότερα →
                 </Link>
               </div>
             </div>
           ))
         ) : (
-          <div className="col-span-full py-10 text-center text-gray-500">No skills found.</div>
+          <div className="col-span-full py-10 text-center text-gray-500">
+            Δεν βρέθηκαν δεξιότητες.
+          </div>
         )}
       </div>
     </Container>

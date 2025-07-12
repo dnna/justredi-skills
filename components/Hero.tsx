@@ -95,31 +95,31 @@ export function Hero({ onOpenCategoryModal }: HeroProps) {
           </div>
           <div className="relative z-10 mx-auto max-w-2xl lg:col-span-12 lg:max-w-none xl:col-span-12">
             <h1 className="text-center text-2xl font-bold font-medium tracking-tight text-[#6DAB51]">
-              Welcome to JustReDI Skills
+              Καλώς ήρθατε στο JustReDI Skills
             </h1>
           </div>
           <div className="relative z-10 mx-auto mt-10 max-w-2xl lg:col-span-12 lg:mt-0 lg:max-w-none xl:col-span-12">
             <h1 className="mx-auto text-center text-4xl font-medium tracking-tight text-gray-900 lg:w-4/5">
-              Search for job profiles and learning opportunities to enhance your skills
+              Αναζητήστε εργασιακά προφίλ και ευκαιρίες μάθησης για να βελτιώσετε τις δεξιότητές σας
             </h1>
             <div className="mx-auto mt-10 flex w-2/3 flex-col items-center gap-4 lg:mt-0 lg:mt-8 lg:flex-row">
               <button
                 onClick={handleCategoryClick}
                 className="flex cursor-pointer items-center justify-center rounded-md px-4 py-2 font-medium text-gray-700 shadow-sm transition-colors hover:bg-gray-100 hover:text-gray-900"
               >
-                Explore Job Profiles <IoIosArrowDown className="ml-1 h-4 w-4" />
+                Εξερευνήστε Εργασιακά προφίλ <IoIosArrowDown className="ml-1 h-4 w-4" />
               </button>
               <div className="flex-grow">
                 <input
                   type="text"
-                  placeholder="Search for job profiles, opportunities or skills"
+                  placeholder="Αναζητήστε εργασιακά προφίλ, ευκαιρίες ή δεξιότητες"
                   className="w-full rounded border border-gray-300 p-2 text-sm text-gray-600"
                 />
               </div>
               <div className="flex flex-wrap gap-x-6 gap-y-4">
                 <Button type="submit" color="green">
                   <CiSearch className="h-6 w-6 flex-none" />
-                  <span className="ml-2.5">Search</span>
+                  <span className="ml-2.5">Αναζήτηση</span>
                 </Button>
               </div>
             </div>

@@ -215,10 +215,10 @@ export function InstitutionsList({ institutions = [] }: { institutions?: any[] }
   const reviewsToDisplay =
     institutions.length > 0
       ? institutions.map((institution) => ({
-          title: institution.name || 'Unknown Institution',
+          title: institution.name || 'Άγνωστος Φορέας',
           body:
             institution.description ||
-            'Educational institution providing various learning opportunities.',
+            'Εκπαιδευτικός φορέας που παρέχει διάφορες ευκαιρίες μάθησης.',
           id: String(institution.id),
           logo_url: institution.logo_url,
         }))
@@ -231,7 +231,7 @@ export function InstitutionsList({ institutions = [] }: { institutions?: any[] }
           id="reviews-title"
           className="text-3xl font-medium tracking-tight text-gray-900 sm:text-center"
         >
-          Learning Opportunity Providers
+          Πάροχοι Ευκαιριών Μάθησης
         </h2>
         {/*<p className="mt-2 text-lg text-gray-600 sm:text-center">*/}
         {/*  Lorem Ipsum*/}
@@ -240,7 +240,7 @@ export function InstitutionsList({ institutions = [] }: { institutions?: any[] }
         <div>
           <div className="mt-12 flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
             <Button href="/institutions" color="green">
-              <span>See all institutions</span>
+              <span>Δείτε όλους τους φορείς</span>
             </Button>
           </div>
         </div>

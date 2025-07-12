@@ -28,9 +28,9 @@ export function Footer() {
               <div className="ml-4">
                 <p className="text-base font-semibold">JustReDI</p>
                 <p className="mt-1 text-sm">
-                  Resilience, Inclusion and Development
+                  Ανθεκτικότητα, Συμπερίληψη και Ανάπτυξη
                   <br />
-                  Towards a Just Green and Digital Transition of Greek Regions
+                  Προς μια Δίκαιη Πράσινη και Ψηφιακή Μετάβαση των Ελληνικών Περιφερειών
                 </p>
               </div>
             </div>

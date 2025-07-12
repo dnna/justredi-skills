@@ -128,13 +128,13 @@ export function CategoryJobProfilesModal({ isOpen, onClose }: CategoryJobProfile
               <DialogPanel className="w-full max-w-5xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                 <div className="mb-4 flex items-start justify-between">
                   <h3 className="text-lg font-medium leading-6 text-gray-900">
-                    Explore Job Profiles by Category
+                    Εξερευνήστε Εργασιακά προφίλ ανά Κατηγορία
                   </h3>
                   <button
                     type="button"
                     className="text-gray-400 hover:text-gray-500"
                     onClick={onClose}
-                    aria-label="Close"
+                    aria-label="Κλείσιμο"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -156,7 +156,9 @@ export function CategoryJobProfilesModal({ isOpen, onClose }: CategoryJobProfile
                 <div className="mt-4 grid h-[70vh] grid-cols-2 gap-6 overflow-hidden">
                   {/* First column: Categories */}
                   <div className="overflow-y-auto border-r border-gray-200 pr-6">
-                    <h4 className="mb-3 text-sm font-medium text-gray-500">Job Categories</h4>
+                    <h4 className="mb-3 text-sm font-medium text-gray-500">
+                      Κατηγορίες Εργασιακών προφίλ
+                    </h4>
                     {isLoadingCategories ? (
                       <div className="flex h-full items-center justify-center">
                         <div className="h-6 w-6 animate-spin rounded-full border-b-2 border-blue-600"></div>
@@ -184,7 +186,10 @@ export function CategoryJobProfilesModal({ isOpen, onClose }: CategoryJobProfile
                                       : 'text-gray-500'
                                   }`}
                                 >
-                                  {category.job_count} {category.job_count === 1 ? 'job' : 'jobs'}
+                                  {category.job_count}{' '}
+                                  {category.job_count === 1
+                                    ? 'εργασιακό προφίλ'
+                                    : 'εργασιακά προφίλ'}
                                 </span>
                               )}
                             </div>
@@ -193,7 +198,7 @@ export function CategoryJobProfilesModal({ isOpen, onClose }: CategoryJobProfile
                       </ul>
                     ) : (
                       <div className="flex h-full items-center justify-center text-gray-500">
-                        No categories available
+                        Δεν υπάρχουν διαθέσιμες κατηγορίες
                       </div>
                     )}
                   </div>
@@ -209,7 +214,7 @@ export function CategoryJobProfilesModal({ isOpen, onClose }: CategoryJobProfile
                           exit={{ opacity: 0, y: -10 }}
                         >
                           <h4 className="mb-3 text-sm font-medium text-gray-500">
-                            Job Profiles in "{selectedCategory.name}"
+                            Εργασιακά προφίλ σε "{selectedCategory.name}"
                           </h4>
 
                           {isLoadingProfiles ? (
@@ -240,13 +245,13 @@ export function CategoryJobProfilesModal({ isOpen, onClose }: CategoryJobProfile
                             </motion.ul>
                           ) : (
                             <div className="flex h-48 items-center justify-center text-gray-500">
-                              No job profiles found in this category
+                              Δεν βρέθηκαν εργασιακά προφίλ σε αυτή την κατηγορία
                             </div>
                           )}
                         </motion.div>
                       ) : (
                         <div className="flex h-full items-center justify-center text-gray-500">
-                          Select a category to see job profiles
+                          Επιλέξτε μια κατηγορία για να δείτε τα εργασιακά προφίλ
                         </div>
                       )}
                     </AnimatePresence>

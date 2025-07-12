@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={clsx('h-full w-full bg-gray-50 antialiased', inter.variable)}>
+    <html lang="el" className={clsx('h-full w-full bg-gray-50 antialiased', inter.variable)}>
       <body className="h-full w-full">{children}</body>
     </html>
   );

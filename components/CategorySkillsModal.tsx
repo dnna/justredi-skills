@@ -104,13 +104,13 @@ export function CategorySkillsModal({ isOpen, onClose, categories }: CategoryMod
               <DialogPanel className="w-full max-w-6xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                 <div className="mb-4 flex items-start justify-between">
                   <h3 className="text-lg font-medium leading-6 text-gray-900">
-                    Explore Categories
+                    Εξερευνήστε Κατηγορίες
                   </h3>
                   <button
                     type="button"
                     className="text-gray-400 hover:text-gray-500"
                     onClick={onClose}
-                    aria-label="Close"
+                    aria-label="Κλείσιμο"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -169,7 +169,7 @@ export function CategorySkillsModal({ isOpen, onClose, categories }: CategoryMod
                           className="space-y-2"
                         >
                           <h4 className="mb-3 text-sm font-medium text-gray-500">
-                            Skills in "
+                            Δεξιότητες σε "
                             {selectedLevel1.name.charAt(0).toUpperCase() +
                               selectedLevel1.name.slice(1)}
                             "

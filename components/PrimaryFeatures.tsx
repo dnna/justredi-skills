@@ -200,7 +200,7 @@ function Top10TechsScreen(props: ScreenProps) {
 
   // If we have data from props, use it instead
   const displayData = props.data && props.data.length > 0 ? props.data : fallbackData;
-  return <Top10Screen {...props} data={displayData} title="Related Skills" />;
+  return <Top10Screen {...props} data={displayData} title="Σχετικές Δεξιότητες" />;
 }
 
 function Top10PlatformsScreen(props: ScreenProps) {
@@ -215,7 +215,7 @@ function Top10PlatformsScreen(props: ScreenProps) {
 
   // If we have data from props, use it instead
   const displayData = props.data && props.data.length > 0 ? props.data : fallbackData;
-  return <Top10Screen {...props} data={displayData} title="Similar Skills" />;
+  return <Top10Screen {...props} data={displayData} title="Παρόμοιες Δεξιότητες" />;
 }
 
 function Top10DatabasesScreen(props: ScreenProps) {
@@ -230,7 +230,7 @@ function Top10DatabasesScreen(props: ScreenProps) {
 
   // If we have data from props, use it instead
   const displayData = props.data && props.data.length > 0 ? props.data : fallbackData;
-  return <Top10Screen {...props} data={displayData} title="Job Profiles" />;
+  return <Top10Screen {...props} data={displayData} title="Εργασιακά προφίλ" />;
 }
 
 function Top10Screen(props: ScreenProps & { title?: string }) {
@@ -258,7 +258,7 @@ function Top10Screen(props: ScreenProps & { title?: string }) {
           ) : (
             // Fallback for no data
             <div className="flex items-center gap-4 px-4 py-3">
-              <div className="flex-auto text-sm text-gray-700">No related data found</div>
+              <div className="flex-auto text-sm text-gray-700">Δεν βρέθηκαν σχετικά δεδομένα</div>
             </div>
           )}
         </div>
@@ -501,14 +501,14 @@ export function TopSkills({ skills = [] }: { skills?: any[] }) {
   return (
     <section
       id="features"
-      aria-label="Features for investing all your money"
+      aria-label="Χαρακτηριστικά για την εξερεύνηση δεξιοτήτων"
       className="bg-gray-900 py-20 sm:py-32"
     >
       <Container>
         <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-3xl">
-          <h2 className="text-3xl font-medium tracking-tight text-white">Top Skills</h2>
+          <h2 className="text-3xl font-medium tracking-tight text-white">Κεντρικές Δεξιότητες</h2>
           <p className="mt-2 text-lg text-gray-400">
-            Explore these skills and their related job opportunities.
+            Εξερευνήστε αυτές τις δεξιότητες και τις σχετικές επαγγελματικές ευκαιρίες.
           </p>
         </div>
       </Container>

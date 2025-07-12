@@ -89,7 +89,7 @@ export function Header() {
       <nav>
         <Container className="relative z-50 flex justify-between py-8">
           <div className="relative z-10 flex items-center gap-16">
-            <Link href="/" aria-label="Home">
+            <Link href="/" aria-label="Αρχική">
               <Logo className="h-10 w-auto" />
             </Link>
             <div className="hidden lg:flex lg:gap-10">
@@ -106,7 +106,7 @@ export function Header() {
                 <>
                   <PopoverButton
                     className="relative z-10 -m-2 inline-flex items-center rounded-lg stroke-gray-900 p-2 hover:bg-gray-200/50 hover:stroke-gray-600 active:stroke-gray-900 ui-not-focus-visible:outline-none"
-                    aria-label="Toggle site navigation"
+                    aria-label="Εναλλαγή ναβιγάτες"
                   >
                     {({ open }) =>
                       open ? (
@@ -142,7 +142,7 @@ export function Header() {
                           <div className="space-y-4">
                             <div className="space-y-2">
                               <p className="text-xs font-semibold uppercase tracking-wider text-gray-900">
-                                Explore
+                                Εξερευνήστε
                               </p>
                               <button
                                 className="block w-full text-left text-base leading-7 tracking-tight text-gray-700 hover:text-gray-900"
@@ -150,7 +150,7 @@ export function Header() {
                                   openJobProfilesModal();
                                 }}
                               >
-                                Job Profiles
+                                Εργασιακά προφίλ
                               </button>
                               <button
                                 className="block w-full text-left text-base leading-7 tracking-tight text-gray-700 hover:text-gray-900"
@@ -158,7 +158,7 @@ export function Header() {
                                   openSkillsModal();
                                 }}
                               >
-                                Skills
+                                Δεξιότητες
                               </button>
                             </div>
                           </div>

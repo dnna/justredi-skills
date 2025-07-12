@@ -13,11 +13,11 @@ export default async function CoursesPage() {
 
   return (
     <Container className="mb-24 mt-16">
-      <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">Courses</h1>
+      <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">Μαθήματα</h1>
 
       <p className="mt-6 text-lg leading-8 text-gray-600">
-        Browse our catalog of courses to find learning opportunities that match your interests and
-        career goals.
+        Αναζητήστε στον κατάλογό μας μαθημάτων για να βρείτε ευκαιρίες μάθησης που ταιριάζουν με τα
+        ενδιαφέροντά σας και τους επαγγελματικούς σας στόχους.
       </p>
 
       <div className="mt-10 grid gap-8 lg:grid-cols-2">
@@ -55,8 +55,8 @@ export default async function CoursesPage() {
                   <div className="flex items-center gap-2 text-sm text-gray-600">
                     <FaBriefcase className="h-4 w-4" />
                     <span>
-                      Matches {course.matching_job_profiles} job profile
-                      {course.matching_job_profiles !== 1 ? 's' : ''}
+                      Ταιριάζει με {course.matching_job_profiles} επαγγελματικό προφίλ
+                      {course.matching_job_profiles !== 1 ? '' : ''}
                     </span>
                   </div>
                   {course.job_profile_titles && (
@@ -70,7 +70,7 @@ export default async function CoursesPage() {
               {/* Skills */}
               {course.skills && course.skills.length > 0 && (
                 <div className="mt-4">
-                  <h4 className="mb-2 text-xs font-medium text-gray-700">Key Skills:</h4>
+                  <h4 className="mb-2 text-xs font-medium text-gray-700">Κύριες Δεξιότητες:</h4>
                   <SkillTags
                     skills={course.skills}
                     maxDisplay={4}
@@ -84,13 +84,13 @@ export default async function CoursesPage() {
               {/* Course metadata */}
               <div className="mt-4 flex items-center gap-4 text-xs text-gray-500">
                 {course.language && <span className="capitalize">{course.language}</span>}
-                {course.skill_count > 0 && <span>{course.skill_count} skills covered</span>}
+                {course.skill_count > 0 && <span>{course.skill_count} δεξιότητες καλύπτονται</span>}
               </div>
             </div>
           ))
         ) : (
           <div className="col-span-2">
-            <p className="py-10 text-center text-gray-500">No courses found.</p>
+            <p className="py-10 text-center text-gray-500">Δεν βρέθηκαν μαθήματα.</p>
           </div>
         )}
       </div>

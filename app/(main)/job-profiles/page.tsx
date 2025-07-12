@@ -12,16 +12,19 @@ export default async function JobProfilesPage() {
 
   return (
     <Container className="mb-24 mt-16">
-      <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">Job Profiles</h1>
+      <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
+        Εργασιακά προφίλ
+      </h1>
 
       <p className="mt-6 text-lg leading-8 text-gray-600">
-        Explore career opportunities and job profiles. Each profile shows required skills and
-        connects you to relevant learning paths to help you achieve your career goals.
+        Εξερευνήστε εργασιακές ευκαιρίες και εργασιακά προφίλ. Κάθε προφίλ δείχνει τις απαιτούμενες
+        δεξιότητες και σας συνδέει με σχετικές μαθησιακές διαδρομές για να σας βοηθήσει να επιτύχετε
+        τους εργασιακούς σας στόχους.
       </p>
 
       {/* Summary statistics */}
       <div className="mt-8 rounded-lg border border-gray-200 bg-white p-6 text-center">
-        <dt className="text-sm font-medium text-gray-500">Total Job Profiles</dt>
+        <dt className="text-sm font-medium text-gray-500">Σύνολο Εργασιακών προφίλ</dt>
         <dd className="text-3xl font-bold text-gray-900">{jobProfiles.length}</dd>
       </div>
 
@@ -49,7 +52,7 @@ export default async function JobProfilesPage() {
                 {profile.skills.filter((skill: any) => skill.is_essential).length > 0 && (
                   <div>
                     <h4 className="mb-2 text-xs font-medium text-gray-900">
-                      Essential Skills (
+                      Βασικές Δεξιότητες (
                       {profile.skills.filter((skill: any) => skill.is_essential).length}):
                     </h4>
                     <SkillTags
@@ -67,7 +70,7 @@ export default async function JobProfilesPage() {
                 {profile.skills.filter((skill: any) => !skill.is_essential).length > 0 && (
                   <div>
                     <h4 className="mb-2 text-xs font-medium text-gray-900">
-                      Additional Skills (
+                      Επιπλέον Δεξιότητες (
                       {profile.skills.filter((skill: any) => !skill.is_essential).length}):
                     </h4>
                     <SkillTags
@@ -98,7 +101,7 @@ export default async function JobProfilesPage() {
                 href={`/job-profiles/${profile.id}`}
                 className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
               >
-                View details →
+                Δείτε λεπτομέρειες →
               </Link>
             </div>
           </div>
@@ -106,7 +109,7 @@ export default async function JobProfilesPage() {
       </div>
 
       {jobProfiles.length === 0 && (
-        <div className="mt-10 py-10 text-center text-gray-500">No job profiles found.</div>
+        <div className="mt-10 py-10 text-center text-gray-500">Δεν βρέθηκαν εργασιακά προφίλ.</div>
       )}
     </Container>
   );

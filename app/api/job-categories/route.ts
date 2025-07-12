@@ -3,7 +3,7 @@ import { query } from '@/lib/db';
 
 export async function GET() {
   try {
-    const categories = await query(
+    const categories = (await query(
       `
       SELECT DISTINCT 
         category as id,
@@ -15,7 +15,7 @@ export async function GET() {
       ORDER BY category
     `,
       []
-    );
+    )) as Array<{ id: string; name: string; job_count: number }>;
 
     return NextResponse.json(categories);
   } catch (error) {
