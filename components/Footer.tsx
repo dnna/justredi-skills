@@ -60,18 +60,23 @@ export function Footer() {
             </Button>
           </form>*/}
           <div className="mt-6 text-center">
-            <p className="text-xs text-gray-400 mb-4 max-w-4xl leading-relaxed text-center">
-              Δράση ενίσχυσης επενδύσεων «Εμβληματικές δράσεις σε διαθεματικές επιστημονικές περιοχές με ειδικό ενδιαφέρον για την σύνδεση με τον παραγωγικό ιστό» / Ανθεκτικότητα, Συμπερίληψη και Ανάπτυξη: Προς μια Δίκαιη Πράσινη και Ψηφιακή Μετάβαση των Ελληνικών Περιφερειών – TAEDR-0537352.
-              <br /><br />
-              Η δράση υλοποιείται στο πλαίσιο του{' '}
-              <Link 
-                href="https://greece20.gov.gr/" 
-                target="_blank" 
+            <p className="mb-4 max-w-4xl text-center text-xs leading-relaxed text-gray-400">
+              Δράση ενίσχυσης επενδύσεων «Εμβληματικές δράσεις σε διαθεματικές επιστημονικές
+              περιοχές με ειδικό ενδιαφέρον για την σύνδεση με τον παραγωγικό ιστό» / Ανθεκτικότητα,
+              Συμπερίληψη και Ανάπτυξη: Προς μια Δίκαιη Πράσινη και Ψηφιακή Μετάβαση των Ελληνικών
+              Περιφερειών – TAEDR-0537352.
+              <br />
+              <br />Η δράση υλοποιείται στο πλαίσιο του{' '}
+              <Link
+                href="https://greece20.gov.gr/"
+                target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-500 hover:text-gray-700 underline"
+                className="text-gray-500 underline hover:text-gray-700"
               >
-                Εθνικού Σχεδίου Ανάκαμψης και Ανθεκτικότητας Ελλάδα 2.0 με τη χρηματοδότηση της Ευρωπαϊκής Ένωσης – NextGenerationEU
-              </Link>.
+                Εθνικού Σχεδίου Ανάκαμψης και Ανθεκτικότητας Ελλάδα 2.0 με τη χρηματοδότηση της
+                Ευρωπαϊκής Ένωσης – NextGenerationEU
+              </Link>
+              .
             </p>
             <p className="text-xs text-gray-500">
               &copy; Copyright {new Date().getFullYear()}. All rights reserved.

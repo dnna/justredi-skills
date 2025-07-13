@@ -110,7 +110,7 @@ export function Header() {
               <img
                 src="/greece-2.0-nextgeneration.png"
                 alt="Greece 2.0 NextGeneration"
-                className="h-12 w-auto hover:opacity-80 transition-opacity"
+                className="h-12 w-auto transition-opacity hover:opacity-80"
               />
             </Link>
             <Popover className="lg:hidden">

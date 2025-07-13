@@ -485,7 +485,8 @@ export function LearningPathVisualMap({
       {/* Header */}
       <div className="mb-8 text-center">
         <p className="text-gray-600">
-          Εξερευνήστε διαφορετικές επιλογές για να αποκτήσετε τις δεξιότητες που απαιτούνται για αυτό το εργασιακό προφίλ
+          Εξερευνήστε διαφορετικές επιλογές για να αποκτήσετε τις δεξιότητες που απαιτούνται για
+          αυτό το εργασιακό προφίλ
         </p>
       </div>
       {/* Flow Graph */}
@@ -564,7 +565,9 @@ export function LearningPathVisualMap({
                 >
                   <div className="flex h-full w-full items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 shadow-xl">
                     <div className="text-center">
-                      <span className="text-xs font-bold text-white leading-tight">{jobProfileTitle}</span>
+                      <span className="text-xs font-bold leading-tight text-white">
+                        {jobProfileTitle}
+                      </span>
                     </div>
                   </div>
                 </motion.div>
