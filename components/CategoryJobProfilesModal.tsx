@@ -128,7 +128,7 @@ export function CategoryJobProfilesModal({ isOpen, onClose }: CategoryJobProfile
               <DialogPanel className="w-full max-w-5xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                 <div className="mb-4 flex items-start justify-between">
                   <h3 className="text-lg font-medium leading-6 text-gray-900">
-                    Εξερευνήστε Εργασιακά προφίλ ανά Κατηγορία
+                    Εξερευνήστε εργασιακά προφίλ ανά Κατηγορία
                   </h3>
                   <button
                     type="button"

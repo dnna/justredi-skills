@@ -20,7 +20,7 @@ export default async function InstitutionsPage({ searchParams }: PageProps) {
   return (
     <Container className="mb-24 mt-16">
       <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
-        Πάροχοι Εκπαιδευτικών Προγραμμάτων
+        Πάροχοι εκπαιδευτικών προγραμμάτων
       </h1>
 
       <p className="mt-6 text-lg leading-8 text-gray-600">

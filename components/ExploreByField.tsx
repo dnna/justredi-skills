@@ -16,7 +16,7 @@ export function ExploreByField({ categories }: { categories: any[] }) {
       <Container>
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-            Εξερευνήστε ανά Τομέα
+            Εξερευνήστε ανά τομέα
           </h2>
           <p className="mt-4 text-lg leading-8 text-gray-600">
             Βρείτε το εργασιακό προφίλ που σας ταιριάζει, εξερευνώντας ανά τομέα ενδιαφέροντος.

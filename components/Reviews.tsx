@@ -229,9 +229,9 @@ export function InstitutionsList({ institutions = [] }: { institutions?: any[] }
       <Container>
         <h2
           id="reviews-title"
-          className="text-3xl font-medium tracking-tight text-gray-900 sm:text-center"
+          className="text-3xl font-bold tracking-tight text-gray-900 sm:text-center sm:text-4xl"
         >
-          Πάροχοι Εκπαιδευτικών Προγραμμάτων
+          Πάροχοι εκπαιδευτικών προγραμμάτων
         </h2>
         {/*<p className="mt-2 text-lg text-gray-600 sm:text-center">*/}
         {/*  Lorem Ipsum*/}
