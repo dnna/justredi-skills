@@ -44,7 +44,7 @@ export function Footer() {
             </Link>
           </div>
         </div>
-        <div className="flex flex-col items-center border-t border-gray-200 pb-12 pt-8 md:flex-row-reverse md:justify-between md:pt-6">
+        <div className="flex flex-col items-center border-t border-gray-200 pb-12 pt-8 md:pt-6">
           {/*<form className="flex w-full justify-center md:w-auto">
             <TextField
               type="email"
@@ -59,9 +59,24 @@ export function Footer() {
               <span className="lg:hidden">Join newsletter</span>
             </Button>
           </form>*/}
-          <p className="mt-6 text-sm text-gray-500 md:mt-0">
-            &copy; Copyright {new Date().getFullYear()}. All rights reserved.
-          </p>
+          <div className="mt-6 text-center">
+            <p className="text-xs text-gray-400 mb-4 max-w-4xl leading-relaxed text-center">
+              Δράση ενίσχυσης επενδύσεων «Εμβληματικές δράσεις σε διαθεματικές επιστημονικές περιοχές με ειδικό ενδιαφέρον για την σύνδεση με τον παραγωγικό ιστό» / Ανθεκτικότητα, Συμπερίληψη και Ανάπτυξη: Προς μια Δίκαιη Πράσινη και Ψηφιακή Μετάβαση των Ελληνικών Περιφερειών – TAEDR-0537352.
+              <br /><br />
+              Η δράση υλοποιείται στο πλαίσιο του{' '}
+              <Link 
+                href="https://greece20.gov.gr/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-gray-500 hover:text-gray-700 underline"
+              >
+                Εθνικού Σχεδίου Ανάκαμψης και Ανθεκτικότητας Ελλάδα 2.0 με τη χρηματοδότηση της Ευρωπαϊκής Ένωσης – NextGenerationEU
+              </Link>.
+            </p>
+            <p className="text-xs text-gray-500">
+              &copy; Copyright {new Date().getFullYear()}. All rights reserved.
+            </p>
+          </div>
         </div>
       </Container>
     </footer>

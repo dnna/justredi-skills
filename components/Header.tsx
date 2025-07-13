@@ -101,6 +101,18 @@ export function Header() {
             </div>
           </div>
           <div className="flex items-center gap-6">
+            <Link
+              href="https://greece20.gov.gr/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden sm:block"
+            >
+              <img
+                src="/greece-2.0-nextgeneration.png"
+                alt="Greece 2.0 NextGeneration"
+                className="h-12 w-auto hover:opacity-80 transition-opacity"
+              />
+            </Link>
             <Popover className="lg:hidden">
               {({ open }) => (
                 <>

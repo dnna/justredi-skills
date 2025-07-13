@@ -101,10 +101,6 @@ export default async function JobProfilePage({ params }: JobProfilePageProps) {
       <div className="mb-16">
         <div className="mb-8">
           <h2 className="text-3xl font-bold text-gray-900">Προτεινόμενες Μαθησιακές διαδρομές</h2>
-          <p className="mt-2 text-lg text-gray-600">
-            Εξερευνήστε διαφορετικές επιλογές για να αποκτήσετε τις δεξιότητες που απαιτούνται για
-            αυτόν τον επαγγελματικό ρόλο
-          </p>
         </div>
 
         {jobProfile.learningPaths && jobProfile.learningPaths.length > 0 ? (
@@ -113,6 +109,7 @@ export default async function JobProfilePage({ params }: JobProfilePageProps) {
             hasOptionalSkills={optionalSkills.length > 0}
             essentialSkills={essentialSkills}
             optionalSkills={optionalSkills}
+            jobProfileTitle={jobProfile.title}
           />
         ) : (
           <div className="rounded-xl bg-gray-50 p-12 text-center">

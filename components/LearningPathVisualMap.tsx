@@ -34,6 +34,7 @@ interface LearningPathVisualMapProps {
   hasOptionalSkills: boolean;
   essentialSkills: Skill[];
   optionalSkills: Skill[];
+  jobProfileTitle: string;
 }
 
 interface NodePosition {
@@ -53,6 +54,7 @@ export function LearningPathVisualMap({
   hasOptionalSkills,
   essentialSkills,
   optionalSkills,
+  jobProfileTitle,
 }: LearningPathVisualMapProps) {
   const [selectedPath, setSelectedPath] = useState<number | null>(null);
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
@@ -482,9 +484,8 @@ export function LearningPathVisualMap({
     >
       {/* Header */}
       <div className="mb-8 text-center">
-        <h3 className="text-2xl font-bold text-gray-900">Μαθησιακές Διαδρομές</h3>
-        <p className="mt-2 text-gray-600">
-          Ακολουθήστε μία από τις διαδρομές για να αποκτήσετε τις απαιτούμενες δεξιότητες
+        <p className="text-gray-600">
+          Εξερευνήστε διαφορετικές επιλογές για να αποκτήσετε τις δεξιότητες που απαιτούνται για αυτό το εργασιακό προφίλ
         </p>
       </div>
       {/* Flow Graph */}
@@ -563,8 +564,7 @@ export function LearningPathVisualMap({
                 >
                   <div className="flex h-full w-full items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 shadow-xl">
                     <div className="text-center">
-                      <span className="text-sm font-bold text-white">Στόχος</span>
-                      <div className="mt-1 text-xs text-white">Έτοιμος/η!</div>
+                      <span className="text-xs font-bold text-white leading-tight">{jobProfileTitle}</span>
                     </div>
                   </div>
                 </motion.div>
