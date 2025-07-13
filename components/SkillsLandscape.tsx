@@ -21,10 +21,15 @@ export function SkillsLandscape({ skills }: { skills: any[] }) {
     const centerY = 200;
     const radius = 140;
     const innerRadius = 60;
-    
+
     let currentAngle = -90; // Start from top
 
-    const createPath = (startAngle: number, endAngle: number, outerRadius: number, innerRadius: number) => {
+    const createPath = (
+      startAngle: number,
+      endAngle: number,
+      outerRadius: number,
+      innerRadius: number
+    ) => {
       const startAngleRad = (startAngle * Math.PI) / 180;
       const endAngleRad = (endAngle * Math.PI) / 180;
 
@@ -61,7 +66,7 @@ export function SkillsLandscape({ skills }: { skills: any[] }) {
             const path = createPath(startAngle, endAngle, radius, innerRadius);
             const color = getSegmentColor(index, skills.length);
             const labelPos = getLabelPosition(startAngle, endAngle);
-            
+
             currentAngle += segmentAngle;
 
             return (
@@ -72,20 +77,20 @@ export function SkillsLandscape({ skills }: { skills: any[] }) {
                     fill={color}
                     stroke="white"
                     strokeWidth="2"
-                    className="transition-all duration-300 hover:brightness-110 cursor-pointer"
+                    className="cursor-pointer transition-all duration-300 hover:brightness-110"
                     style={{
-                      filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))'
+                      filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))',
                     }}
                   />
                 </Link>
-                
+
                 {segmentAngle > 15 && ( // Only show labels for segments large enough
                   <text
                     x={labelPos.x}
                     y={labelPos.y}
                     textAnchor="middle"
                     dominantBaseline="central"
-                    className="text-xs font-semibold fill-white pointer-events-none"
+                    className="pointer-events-none fill-white text-xs font-semibold"
                     style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.7)' }}
                   >
                     {skill.job_count}
@@ -94,7 +99,7 @@ export function SkillsLandscape({ skills }: { skills: any[] }) {
               </g>
             );
           })}
-          
+
           {/* Center circle with title */}
           <circle
             cx={centerX}
@@ -109,7 +114,7 @@ export function SkillsLandscape({ skills }: { skills: any[] }) {
             y={centerY - 10}
             textAnchor="middle"
             dominantBaseline="central"
-            className="text-sm font-bold fill-gray-900"
+            className="fill-gray-900 text-sm font-bold"
           >
             Δεξιότητες
           </text>
@@ -118,27 +123,27 @@ export function SkillsLandscape({ skills }: { skills: any[] }) {
             y={centerY + 10}
             textAnchor="middle"
             dominantBaseline="central"
-            className="text-xs fill-gray-600"
+            className="fill-gray-600 text-xs"
           >
             {totalJobs} προφίλ
           </text>
         </svg>
 
         {/* Legend */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl">
+        <div className="grid max-w-4xl grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {skills.map((skill, index) => {
             const color = getSegmentColor(index, skills.length);
             const percentage = ((skill.job_count / totalJobs) * 100).toFixed(1);
-            
+
             return (
               <Link key={skill.id} href={`/skills/${skill.id}`}>
-                <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer">
+                <div className="flex cursor-pointer items-center space-x-3 rounded-lg p-3 transition-colors hover:bg-gray-50">
                   <div
-                    className="w-4 h-4 rounded-full flex-shrink-0"
+                    className="h-4 w-4 flex-shrink-0 rounded-full"
                     style={{ backgroundColor: color }}
                   />
-                  <div className="flex-grow min-w-0">
-                    <div className="text-sm font-medium text-gray-900 truncate">
+                  <div className="min-w-0 flex-grow">
+                    <div className="truncate text-sm font-medium text-gray-900">
                       {skill.preferred_label}
                     </div>
                     <div className="text-xs text-gray-500">
@@ -166,7 +171,7 @@ export function SkillsLandscape({ skills }: { skills: any[] }) {
             εργασιακά προφίλ.
           </p>
         </div>
-        
+
         <div className="mx-auto mt-16 max-w-6xl">
           <RadialChart />
         </div>

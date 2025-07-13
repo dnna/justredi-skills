@@ -69,12 +69,15 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
               <p className="mt-1 text-lg text-gray-600">
                 {totalResults > 0 ? (
                   <>
-                    {totalResults === 1 ? 'Βρέθηκε' : 'Βρέθηκαν'} <span className="font-semibold text-green-600">{totalResults}</span>{' '}
-                    {totalResults === 1 ? 'αποτέλεσμα' : 'αποτελέσματα'} για <span className="font-semibold">"{searchTerm}"</span>
+                    {totalResults === 1 ? 'Βρέθηκε' : 'Βρέθηκαν'}{' '}
+                    <span className="font-semibold text-green-600">{totalResults}</span>{' '}
+                    {totalResults === 1 ? 'αποτέλεσμα' : 'αποτελέσματα'} για{' '}
+                    <span className="font-semibold">"{searchTerm}"</span>
                   </>
                 ) : (
                   <>
-                    Δεν βρέθηκαν αποτελέσματα για <span className="font-semibold">"{searchTerm}"</span>
+                    Δεν βρέθηκαν αποτελέσματα για{' '}
+                    <span className="font-semibold">"{searchTerm}"</span>
                   </>
                 )}
               </p>
@@ -125,7 +128,8 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
                     <div>
                       <h2 className="text-2xl font-bold text-gray-900">{title}</h2>
                       <p className="mt-1 text-gray-600">
-                        {items.length} {items.length === 1 ? 'αποτέλεσμα' : 'αποτελέσματα'} • {description}
+                        {items.length} {items.length === 1 ? 'αποτέλεσμα' : 'αποτελέσματα'} •{' '}
+                        {description}
                       </p>
                     </div>
                   </div>
@@ -146,7 +150,9 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
                   {/* Show More */}
                   {items.length > 9 && (
                     <div className="mt-6 text-center">
-                      <p className="text-sm text-gray-600">Εμφάνιση 9 από {items.length} αποτελέσματα</p>
+                      <p className="text-sm text-gray-600">
+                        Εμφάνιση 9 από {items.length} αποτελέσματα
+                      </p>
                     </div>
                   )}
                 </div>

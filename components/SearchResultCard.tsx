@@ -2,13 +2,13 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { 
-  ChevronRightIcon, 
+import {
+  ChevronRightIcon,
   BuildingOfficeIcon,
   BookOpenIcon,
   SparklesIcon,
   BriefcaseIcon,
-  BuildingOfficeIcon as InstitutionIcon
+  BuildingOfficeIcon as InstitutionIcon,
 } from '@heroicons/react/24/outline';
 
 interface SearchResultCardProps {
@@ -60,7 +60,9 @@ export function SearchResultCard({ item, category, index, iconName }: SearchResu
               </p>
             )}
             {item.skill_count && (
-              <p className="mt-2 text-sm text-gray-500">{item.skill_count} δεξιότητες καλύπτονται</p>
+              <p className="mt-2 text-sm text-gray-500">
+                {item.skill_count} δεξιότητες καλύπτονται
+              </p>
             )}
           </div>
           <ChevronRightIcon className="h-5 w-5 flex-shrink-0 text-gray-400 transition-all group-hover/card:translate-x-1 group-hover/card:text-green-600" />
