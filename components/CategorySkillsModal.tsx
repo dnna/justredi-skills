@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   Dialog,
   DialogPanel,
@@ -31,6 +32,7 @@ type CategoryModalProps = {
 };
 
 export function CategorySkillsModal({ isOpen, onClose, categories }: CategoryModalProps) {
+  const router = useRouter();
   const [selectedLevel1, setSelectedLevel1] = useState<CategoryItem | null>(null);
   const [selectedSkill, setSelectedSkill] = useState<CategoryItem | null>(null);
   const [courses, setCourses] = useState<CourseItem[]>([]);
@@ -45,6 +47,11 @@ export function CategorySkillsModal({ isOpen, onClose, categories }: CategoryMod
   const handleSkillSelect = useCallback((skill: CategoryItem) => {
     setSelectedSkill(skill);
   }, []);
+
+  const handleSkillClick = useCallback((skill: CategoryItem) => {
+    onClose();
+    router.push(`/skills/${skill.id}`);
+  }, [router, onClose]);
 
   // Fetch courses when a skill is selected
   useEffect(() => {
@@ -150,7 +157,7 @@ export function CategorySkillsModal({ isOpen, onClose, categories }: CategoryMod
                       </ul>
                     ) : (
                       <div className="flex h-full items-center justify-center text-gray-500">
-                        No categories available
+                        Δεν υπάρχουν διαθέσιμες κατηγορίες
                       </div>
                     )}
                   </div>
@@ -200,21 +207,22 @@ export function CategorySkillsModal({ isOpen, onClose, categories }: CategoryMod
                                     : 'hover:bg-gray-100'
                                 }`}
                                 onMouseEnter={() => handleSkillSelect(skill)}
+                                onClick={() => handleSkillClick(skill)}
                               >
                                 {skill.name.charAt(0).toUpperCase() + skill.name.slice(1)}
                                 {Boolean(skill.is_digital_skill) && (
                                   <span className="ml-2 rounded-full bg-emerald-600 px-2 py-0.5 text-xs text-white">
-                                    Digital
+                                    Ψηφιακή
                                   </span>
                                 )}
                                 {skill.skill_type === 'knowledge' && (
                                   <span className="ml-2 rounded-full bg-blue-50 px-2 py-0.5 text-xs text-blue-700">
-                                    Knowledge
+                                    Γνώση
                                   </span>
                                 )}
                                 {skill.skill_type === 'skill/competence' && (
                                   <span className="ml-2 rounded-full bg-green-50 px-2 py-0.5 text-xs text-green-700">
-                                    Skill
+                                    Δεξιότητα
                                   </span>
                                 )}
                               </li>
@@ -223,8 +231,8 @@ export function CategorySkillsModal({ isOpen, onClose, categories }: CategoryMod
                       ) : (
                         <div className="flex h-full items-center justify-center text-gray-500">
                           {selectedLevel1
-                            ? 'No skills available'
-                            : 'Hover over a category to see skills'}
+                            ? 'Δεν υπάρχουν διαθέσιμες δεξιότητες'
+                            : 'Περάστε πάνω από μια κατηγορία για να δείτε δεξιότητες'}
                         </div>
                       )}
                     </AnimatePresence>
@@ -241,7 +249,7 @@ export function CategorySkillsModal({ isOpen, onClose, categories }: CategoryMod
                           exit={{ opacity: 0, y: -10 }}
                         >
                           <h4 className="mb-3 text-sm font-medium text-gray-500">
-                            Courses teaching "{selectedSkill.name}"
+                            Μαθήματα που διδάσκουν "{selectedSkill.name}"
                           </h4>
 
                           {isLoadingCourses ? (
@@ -268,13 +276,13 @@ export function CategorySkillsModal({ isOpen, onClose, categories }: CategoryMod
                             </motion.ul>
                           ) : (
                             <div className="flex h-48 items-center justify-center text-gray-500">
-                              No courses found for this skill
+                              Δεν βρέθηκαν μαθήματα για αυτή τη δεξιότητα
                             </div>
                           )}
                         </motion.div>
                       ) : (
                         <div className="flex h-full items-center justify-center text-gray-500">
-                          Hover over a skill to see courses
+                          Περάστε πάνω από μια δεξιότητα για να δείτε μαθήματα
                         </div>
                       )}
                     </AnimatePresence>

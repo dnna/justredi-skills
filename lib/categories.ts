@@ -8,6 +8,18 @@ export type CategoryItem = {
   children?: CategoryItem[];
 };
 
+// Greek translations for skill group categories
+const categoryTranslations: Record<string, string> = {
+  'Agriculture & Environment': 'Γεωργία & Περιβάλλον',
+  'Business & Management': 'Επιχειρήσεις & Διοίκηση',
+  'Communication & Media': 'Επικοινωνία & Μέσα',
+  'Education & Training': 'Εκπαίδευση & Κατάρτιση',
+  'Food & Nutrition': 'Τρόφιμα & Διατροφή',
+  'Healthcare & Medical': 'Υγεία & Ιατρική',
+  'Other Skills': 'Άλλες Δεξιότητες',
+  'Technology & Engineering': 'Τεχνολογία & Μηχανική'
+};
+
 /**
  * Get the skill hierarchy data structured for the category modal
  * Modified to use a 2-level hierarchy instead of 3-levels
@@ -26,15 +38,20 @@ export async function getCategoryHierarchy(): Promise<CategoryItem[]> {
 
     // For each top level group, get the skills directly (Level 2)
     for (const group of topLevelGroups) {
+      const originalGroupName = group.id; // Keep original English name for DB query
+      
       const skillsQuery = `
-        SELECT id, preferred_label as name, skill_type, is_digital_skill
+        SELECT id, COALESCE(preferred_label_el, preferred_label) as name, skill_type, is_digital_skill
         FROM skills
         WHERE skill_group = ?
-        ORDER BY preferred_label
+        ORDER BY COALESCE(preferred_label_el, preferred_label)
         LIMIT 50
       `;
 
-      group.children = (await query(skillsQuery, [group.id])) as CategoryItem[];
+      group.children = (await query(skillsQuery, [originalGroupName])) as CategoryItem[];
+      
+      // Translate category name to Greek after fetching children
+      group.name = categoryTranslations[group.name] || group.name;
     }
 
     return topLevelGroups;
