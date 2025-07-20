@@ -119,7 +119,7 @@ export default function AdminDashboard() {
                   <div className="ml-5 w-0 flex-1">
                     <dl>
                       <dt className="truncate text-sm font-medium text-gray-500">
-                        Αναθέσεις Εργασία-Δεξιότητες
+                        Αναθέσεις Εργασιακά Προφίλ-Δεξιότητες
                       </dt>
                       <dd className="text-lg font-medium text-gray-900">
                         {stats.total_job_skills.toLocaleString()}
