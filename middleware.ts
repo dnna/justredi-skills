@@ -8,8 +8,7 @@ import {
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Only protect API admin routes, let admin pages handle their own auth
-  if (pathname.startsWith('/api/admin')) {
+  if (pathname.startsWith('/admin') || pathname.startsWith('/api/admin')) {
     const auth = getAuthFromRequest(request);
 
     if (!auth || !validateAdminCredentials(auth.username, auth.password)) {
