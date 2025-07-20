@@ -48,10 +48,13 @@ export function CategorySkillsModal({ isOpen, onClose, categories }: CategoryMod
     setSelectedSkill(skill);
   }, []);
 
-  const handleSkillClick = useCallback((skill: CategoryItem) => {
-    onClose();
-    router.push(`/skills/${skill.id}`);
-  }, [router, onClose]);
+  const handleSkillClick = useCallback(
+    (skill: CategoryItem) => {
+      onClose();
+      router.push(`/skills/${skill.id}`);
+    },
+    [router, onClose]
+  );
 
   // Fetch courses when a skill is selected
   useEffect(() => {
