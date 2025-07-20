@@ -14,7 +14,12 @@ export async function POST(request: NextRequest) {
 
     if (regenerate) {
       if (jobIds && jobIds.length > 0) {
-        const results = [];
+        const results: Array<{
+          jobId: number;
+          success: boolean;
+          message: string;
+          pathsCreated?: number;
+        }> = [];
         for (const jobId of jobIds) {
           try {
             const result = await regenerateLearningPathsForJob(Number(jobId));
@@ -37,7 +42,10 @@ export async function POST(request: NextRequest) {
       } else {
         const jobProfiles = (await query('SELECT id FROM job_profiles ORDER BY id')) as any[];
         let successCount = 0;
-        const errors = [];
+        const errors: Array<{
+          jobId: number;
+          error: string;
+        }> = [];
 
         for (const job of jobProfiles) {
           try {

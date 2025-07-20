@@ -3,7 +3,8 @@ import { getCourse } from '@/lib/db';
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const courseId = params.id;
+    const { id } = await params;
+    const courseId = id;
 
     if (!courseId) {
       return NextResponse.json({ error: 'Course ID is required' }, { status: 400 });

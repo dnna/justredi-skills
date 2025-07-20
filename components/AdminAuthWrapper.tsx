@@ -40,7 +40,7 @@ export default function AdminAuthWrapper({ children }: AdminAuthWrapperProps) {
     }
   };
 
-  const getAuthHeaders = () => {
+  const getAuthHeaders = (): Record<string, string> => {
     const credentials = localStorage.getItem('admin_credentials');
     if (credentials) {
       return {

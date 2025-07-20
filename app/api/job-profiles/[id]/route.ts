@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getJobProfile } from '@/lib/db';
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const jobId = params.id;
+    const { id } = await params;
+    const jobId = id;
 
     if (!jobId) {
       return NextResponse.json({ error: 'Job profile ID is required' }, { status: 400 });
