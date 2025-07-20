@@ -1,12 +1,15 @@
-import { NextRequest } from 'next/server';
-
-const ADMIN_CREDENTIALS = {
-  username: 'dnna',
-  password: 'z4L9mY28MQDUZs6qT2VkOr17',
-};
+import { NextRequest, NextResponse } from 'next/server';
 
 export function validateAdminCredentials(username: string, password: string): boolean {
-  return username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password;
+  const adminUsername = process.env.ADMIN_USERNAME;
+  const adminPassword = process.env.ADMIN_PASSWORD;
+
+  if (!adminUsername || !adminPassword) {
+    console.error('ADMIN_USERNAME and ADMIN_PASSWORD environment variables must be set');
+    return false;
+  }
+
+  return username === adminUsername && password === adminPassword;
 }
 
 export function getAuthFromRequest(
@@ -29,8 +32,8 @@ export function getAuthFromRequest(
   }
 }
 
-export function createUnauthorizedResponse(): Response {
-  return new Response('Unauthorized', {
+export function createUnauthorizedResponse(): NextResponse {
+  return new NextResponse('Unauthorized', {
     status: 401,
     headers: {
       'WWW-Authenticate': 'Basic realm="Admin Panel"',
