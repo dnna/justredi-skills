@@ -85,7 +85,7 @@ export default function AdminDashboard() {
         <h1 className="mb-6 text-2xl font-bold text-gray-900">Διαχείριση Συστήματος</h1>
 
         {stats && (
-          <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+          <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-3">
             <div className="overflow-hidden rounded-lg bg-white shadow">
               <div className="p-5">
                 <div className="flex items-center">
@@ -151,69 +151,10 @@ export default function AdminDashboard() {
                 </div>
               </div>
             </div>
-
-            <div className="overflow-hidden rounded-lg bg-white shadow">
-              <div className="p-5">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-md bg-red-500">
-                      <span className="text-sm font-medium text-white">!</span>
-                    </div>
-                  </div>
-                  <div className="ml-5 w-0 flex-1">
-                    <dl>
-                      <dt className="truncate text-sm font-medium text-gray-500">
-                        Προβλήματα Ποιότητας
-                      </dt>
-                      <dd className="text-lg font-medium text-gray-900">
-                        {(
-                          stats.courses_without_skills +
-                          stats.skills_without_courses +
-                          stats.jobs_without_skills +
-                          stats.skills_without_jobs
-                        ).toLocaleString()}
-                      </dd>
-                    </dl>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         )}
 
-        <div className="mb-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
-          <div className="rounded-lg bg-white p-6 shadow">
-            <h3 className="mb-4 text-lg font-medium text-gray-900">Προβλήματα Ποιότητας</h3>
-            {stats && (
-              <div className="space-y-3">
-                <div className="flex justify-between">
-                  <span className="text-sm text-gray-600">Μαθήματα χωρίς δεξιότητες:</span>
-                  <span className="text-sm font-medium text-red-600">
-                    {stats.courses_without_skills}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-sm text-gray-600">Δεξιότητες χωρίς μαθήματα:</span>
-                  <span className="text-sm font-medium text-red-600">
-                    {stats.skills_without_courses}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-sm text-gray-600">Εργασίες χωρίς δεξιότητες:</span>
-                  <span className="text-sm font-medium text-red-600">
-                    {stats.jobs_without_skills}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-sm text-gray-600">Δεξιότητες χωρίς εργασίες:</span>
-                  <span className="text-sm font-medium text-red-600">
-                    {stats.skills_without_jobs}
-                  </span>
-                </div>
-              </div>
-            )}
-          </div>
-
+        <div className="mb-8">
           <div className="rounded-lg bg-white p-6 shadow">
             <h3 className="mb-4 text-lg font-medium text-gray-900">Ενέργειες Συστήματος</h3>
             <div className="space-y-4">
