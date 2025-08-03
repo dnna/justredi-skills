@@ -12,6 +12,7 @@ type CourseSkill = {
   rerank_score: number;
   skill_type: string;
   is_digital_skill: boolean;
+  is_green_skill: boolean;
 };
 
 type Skill = {
@@ -19,6 +20,7 @@ type Skill = {
   skill_name: string;
   skill_type: string;
   is_digital_skill: boolean;
+  is_green_skill: boolean;
 };
 
 type Course = {

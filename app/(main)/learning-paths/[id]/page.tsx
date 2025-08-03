@@ -21,6 +21,7 @@ type Skill = {
   description: string;
   skill_type: string;
   is_digital_skill: boolean;
+  is_green_skill: boolean;
   coverage_score: number;
   is_essential: boolean;
   skill_level: string;
