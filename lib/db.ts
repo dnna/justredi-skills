@@ -57,7 +57,7 @@ export async function getCourse(id: string) {
   // Get skills for this course
   const skillsQuery = `
     SELECT s.id, s.esco_id, COALESCE(s.preferred_label_el, s.preferred_label) as preferred_label, COALESCE(s.description_el, s.description) as description, s.alt_labels, 
-           s.skill_type, s.skill_category, s.skill_group, s.is_digital_skill,
+           s.skill_type, s.skill_category, s.skill_group, s.is_digital_skill, s.is_green_skill,
            cs.retrieval_score, cs.rerank_score
     FROM skills s
     JOIN course_skills cs ON s.id = cs.skill_id
@@ -128,7 +128,7 @@ export async function getSkill(id: string) {
   const skillQuery = `
     SELECT id, esco_id, COALESCE(preferred_label_el, preferred_label) as preferred_label, COALESCE(description_el, description) as description, COALESCE(alt_labels_el, alt_labels) as alt_labels,
            skill_type, skill_category, skill_group, parent_skill_id,
-           hierarchy_level, is_broader_skill, is_digital_skill
+           hierarchy_level, is_broader_skill, is_digital_skill, is_green_skill
     FROM skills
     WHERE id = ? OR esco_id = ?
   `;
@@ -215,7 +215,7 @@ export async function getInstitution(id: string) {
   const coursesWithSkills: any[] = [];
   for (const course of courses as any[]) {
     const skillsQuery = `
-      SELECT s.id, COALESCE(s.preferred_label_el, s.preferred_label) as preferred_label, s.skill_type, s.is_digital_skill
+      SELECT s.id, COALESCE(s.preferred_label_el, s.preferred_label) as preferred_label, s.skill_type, s.is_digital_skill, s.is_green_skill
       FROM skills s
       JOIN course_skills cs ON s.id = cs.skill_id
       WHERE cs.course_id = ?
@@ -278,8 +278,7 @@ export async function getAllCoursesWithJobProfiles(limit: number = 100, offset: 
     (courses as any[]).map(async (course) => {
       const skillsQuery = `
         SELECT s.id, COALESCE(s.preferred_label_el, s.preferred_label) as preferred_label, s.skill_type, s.skill_group,
-               CAST(CASE WHEN s.skill_type = 'skill' THEN 1 ELSE 0 END AS UNSIGNED) as is_digital_skill,
-               cs.rerank_score
+               s.is_digital_skill, s.is_green_skill, cs.rerank_score
         FROM course_skills cs
         JOIN skills s ON cs.skill_id = s.id
         WHERE cs.course_id = ? AND cs.rerank_score > 0.5
@@ -302,7 +301,7 @@ export async function getAllSkills(limit: number = 100, offset: number = 0) {
   // Convert limit and offset to numbers and use them directly in the query
   const skillsQuery = `
     SELECT id, esco_id, COALESCE(preferred_label_el, preferred_label) as preferred_label, COALESCE(description_el, description) as description, alt_labels,
-           parent_skill_id, hierarchy_level, is_broader_skill, is_digital_skill
+           parent_skill_id, hierarchy_level, is_broader_skill, is_digital_skill, is_green_skill
     FROM skills
     ORDER BY hierarchy_level ASC, is_broader_skill DESC, preferred_label ASC
     LIMIT ${Number(limit)} OFFSET ${Number(offset)}
@@ -360,7 +359,7 @@ export async function searchCourses(searchTerm: string, limit: number = 20) {
 
 export async function searchSkills(searchTerm: string, limit: number = 20) {
   const searchQuery = `
-    SELECT id, esco_id, COALESCE(preferred_label_el, preferred_label) as preferred_label, COALESCE(description_el, description) as description, is_digital_skill
+    SELECT id, esco_id, COALESCE(preferred_label_el, preferred_label) as preferred_label, COALESCE(description_el, description) as description, is_digital_skill, is_green_skill
     FROM skills
     WHERE preferred_label LIKE ? OR description LIKE ? OR preferred_label_el LIKE ? OR description_el LIKE ?
     LIMIT ${Number(limit)}
@@ -391,7 +390,7 @@ export async function getRelatedSkills(skillId: string, limit: number = 10) {
   // 1. Add sibling skills (skills with the same parent)
   if (skill && skill.parent_skill_id) {
     const siblingSkillsQuery = `
-      SELECT id, esco_id, COALESCE(preferred_label_el, preferred_label) as preferred_label, skill_type, skill_group, is_digital_skill, 'sibling' as relation_type
+      SELECT id, esco_id, COALESCE(preferred_label_el, preferred_label) as preferred_label, skill_type, skill_group, is_digital_skill, is_green_skill, 'sibling' as relation_type
       FROM skills
       WHERE parent_skill_id = ? AND id != ?
       ORDER BY preferred_label
@@ -410,7 +409,7 @@ export async function getRelatedSkills(skillId: string, limit: number = 10) {
   // 2. Add child skills if this is a broader skill
   if (skill && skill.is_broader_skill) {
     const childSkillsQuery = `
-      SELECT id, esco_id, COALESCE(preferred_label_el, preferred_label) as preferred_label, skill_type, skill_group, is_digital_skill, 'child' as relation_type
+      SELECT id, esco_id, COALESCE(preferred_label_el, preferred_label) as preferred_label, skill_type, skill_group, is_digital_skill, is_green_skill, 'child' as relation_type
       FROM skills
       WHERE parent_skill_id = ?
       ORDER BY preferred_label
@@ -426,7 +425,7 @@ export async function getRelatedSkills(skillId: string, limit: number = 10) {
   // 3. Add parent skill if it exists
   if (skill && skill.parent_skill_id) {
     const parentSkillQuery = `
-      SELECT id, esco_id, COALESCE(preferred_label_el, preferred_label) as preferred_label, skill_type, skill_group, is_digital_skill, 'parent' as relation_type
+      SELECT id, esco_id, COALESCE(preferred_label_el, preferred_label) as preferred_label, skill_type, skill_group, is_digital_skill, is_green_skill, 'parent' as relation_type
       FROM skills
       WHERE id = ?
     `;
@@ -451,7 +450,7 @@ export async function getRelatedSkills(skillId: string, limit: number = 10) {
 
     // Find other skills taught in these courses
     const courseRelatedSkillsQuery = `
-      SELECT s.id, s.esco_id, COALESCE(s.preferred_label_el, s.preferred_label) as preferred_label, s.skill_type, s.skill_group, s.is_digital_skill, 
+      SELECT s.id, s.esco_id, COALESCE(s.preferred_label_el, s.preferred_label) as preferred_label, s.skill_type, s.skill_group, s.is_digital_skill, s.is_green_skill, 
              COUNT(cs.course_id) as course_count, 'course' as relation_type
       FROM skills s
       JOIN course_skills cs ON s.id = cs.skill_id
@@ -477,7 +476,7 @@ export async function getRelatedSkills(skillId: string, limit: number = 10) {
 
     try {
       const groupSkillsQuery = `
-        SELECT id, esco_id, COALESCE(preferred_label_el, preferred_label) as preferred_label, skill_type, skill_group, is_digital_skill, 'group' as relation_type
+        SELECT id, esco_id, COALESCE(preferred_label_el, preferred_label) as preferred_label, skill_type, skill_group, is_digital_skill, is_green_skill, 'group' as relation_type
         FROM skills
         WHERE skill_group = ? AND id != ? AND id NOT IN (${existingIds.map(() => '?').join(',')})
         ORDER BY RAND()
@@ -496,7 +495,7 @@ export async function getRelatedSkills(skillId: string, limit: number = 10) {
     } catch (error) {
       // Fallback if the NOT IN clause fails with too many parameters
       const simpleGroupSkillsQuery = `
-        SELECT id, esco_id, COALESCE(preferred_label_el, preferred_label) as preferred_label, skill_type, skill_group, is_digital_skill, 'group' as relation_type
+        SELECT id, esco_id, COALESCE(preferred_label_el, preferred_label) as preferred_label, skill_type, skill_group, is_digital_skill, is_green_skill, 'group' as relation_type
         FROM skills
         WHERE skill_group = ? AND id != ?
         ORDER BY RAND()
@@ -609,7 +608,7 @@ export async function getJobProfile(id: string) {
   // Get skills for this job profile
   const skillsQuery = `
     SELECT s.id, s.esco_id, COALESCE(s.preferred_label_el, s.preferred_label) as preferred_label, COALESCE(s.description_el, s.description) as description,
-           js.is_essential, js.skill_level, s.is_digital_skill
+           js.is_essential, js.skill_level, s.is_digital_skill, s.is_green_skill
     FROM skills s
     JOIN job_skills js ON s.id = js.skill_id
     WHERE js.job_id = ?
@@ -679,7 +678,7 @@ export async function getJobProfile(id: string) {
     for (let i = 0; i < (pathCourses as any[]).length; i++) {
       const course = (pathCourses as any[])[i];
       const courseSkillsQuery = `
-        SELECT DISTINCT s.id, COALESCE(s.preferred_label_el, s.preferred_label) as preferred_label, s.is_digital_skill,
+        SELECT DISTINCT s.id, COALESCE(s.preferred_label_el, s.preferred_label) as preferred_label, s.is_digital_skill, s.is_green_skill,
                js.is_essential, js.skill_level
         FROM skills s
         JOIN course_skills cs ON s.id = cs.skill_id
@@ -784,7 +783,7 @@ export async function getAllJobProfiles(limit: number = 100, offset: number = 0)
   for (const job of jobs as any[]) {
     const skillsQuery = `
       SELECT s.id, s.esco_id, COALESCE(s.preferred_label_el, s.preferred_label) as preferred_label, COALESCE(s.description_el, s.description) as description,
-             js.is_essential, js.skill_level, s.is_digital_skill
+             js.is_essential, js.skill_level, s.is_digital_skill, s.is_green_skill
       FROM skills s
       JOIN job_skills js ON s.id = js.skill_id
       WHERE js.job_id = ?
@@ -926,8 +925,7 @@ export async function getFeaturedCourses(limit: number = 6) {
     (courses as any[]).map(async (course) => {
       const skillsQuery = `
         SELECT s.id, COALESCE(s.preferred_label_el, s.preferred_label) as preferred_label, s.skill_type, s.skill_group,
-               CAST(CASE WHEN s.skill_type = 'skill' THEN 1 ELSE 0 END AS UNSIGNED) as is_digital_skill,
-               cs.rerank_score
+               s.is_digital_skill, s.is_green_skill, cs.rerank_score
         FROM course_skills cs
         JOIN skills s ON cs.skill_id = s.id
         WHERE cs.course_id = ? AND cs.rerank_score > 0.5
@@ -980,7 +978,7 @@ export async function getTopScoringLearningPaths(limit: number = 6) {
   const pathsWithSkills: any[] = [];
   for (const path of learningPaths as any[]) {
     const skillsQuery = `
-      SELECT DISTINCT s.id, COALESCE(s.preferred_label_el, s.preferred_label) as preferred_label, s.skill_type, s.is_digital_skill
+      SELECT DISTINCT s.id, COALESCE(s.preferred_label_el, s.preferred_label) as preferred_label, s.skill_type, s.is_digital_skill, s.is_green_skill
       FROM learning_path_skill_coverage lpsc
       JOIN skills s ON lpsc.skill_id = s.id
       WHERE lpsc.learning_path_id = ?

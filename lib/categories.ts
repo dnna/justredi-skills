@@ -5,6 +5,7 @@ export type CategoryItem = {
   name: string;
   skill_type?: 'knowledge' | 'skill/competence';
   is_digital_skill?: boolean;
+  is_green_skill?: boolean;
   children?: CategoryItem[];
 };
 
@@ -41,7 +42,7 @@ export async function getCategoryHierarchy(): Promise<CategoryItem[]> {
       const originalGroupName = group.id; // Keep original English name for DB query
 
       const skillsQuery = `
-        SELECT id, COALESCE(preferred_label_el, preferred_label) as name, skill_type, is_digital_skill
+        SELECT id, COALESCE(preferred_label_el, preferred_label) as name, skill_type, is_digital_skill, is_green_skill
         FROM skills
         WHERE skill_group = ?
         ORDER BY COALESCE(preferred_label_el, preferred_label)

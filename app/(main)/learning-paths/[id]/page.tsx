@@ -331,8 +331,13 @@ export default function LearningPathDetail() {
                           Βασική
                         </span>
                         {skill.is_digital_skill && (
-                          <span className="inline-flex items-center rounded bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-800">
+                          <span className="inline-flex items-center rounded bg-purple-100 px-2 py-0.5 text-xs font-medium text-purple-800">
                             Ψηφιακή
+                          </span>
+                        )}
+                        {skill.is_green_skill && (
+                          <span className="inline-flex items-center rounded bg-green-100 px-2 py-0.5 text-xs font-medium text-green-800">
+                            Πράσινη
                           </span>
                         )}
                       </div>
@@ -365,8 +370,13 @@ export default function LearningPathDetail() {
                           Επιπλέον
                         </span>
                         {skill.is_digital_skill && (
-                          <span className="inline-flex items-center rounded bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-800">
+                          <span className="inline-flex items-center rounded bg-purple-100 px-2 py-0.5 text-xs font-medium text-purple-800">
                             Ψηφιακή
+                          </span>
+                        )}
+                        {skill.is_green_skill && (
+                          <span className="inline-flex items-center rounded bg-green-100 px-2 py-0.5 text-xs font-medium text-green-800">
+                            Πράσινη
                           </span>
                         )}
                       </div>

@@ -15,27 +15,49 @@ export default async function SkillsPage() {
 
       <p className="mt-6 text-lg leading-8 text-gray-600">
         Εξερευνήστε δεξιότητες που μπορούν να βελτιώσουν τις επαγγελματικές σας προοπτικές και
-        συνδυάστέ τις με κατάλληλες ευκαιρίες μάθησης. Οι ψηφιακές δεξιότητες είναι ιδιαίτερα
-        τονισμένες για να σας βοηθήσουν να εντοπίσετε τεχνολογικές ικανότητες.
+        συνδυάστέ τις με κατάλληλες ευκαιρίες μάθησης. Οι ψηφιακές και πράσινες δεξιότητες είναι ιδιαίτερα
+        τονισμένες για να σας βοηθήσουν να εντοπίσετε τεχνολογικές και περιβαλλοντικές ικανότητες.
       </p>
 
-      {/* Digital skills info banner */}
-      <div className="mt-6 rounded-lg border border-emerald-200 bg-emerald-50 p-4">
-        <div className="flex items-center">
-          <svg className="h-5 w-5 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
-            <path
-              fillRule="evenodd"
-              d="M3 5a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2h-2.22l.123.489.804.804A1 1 0 0113 18H7a1 1 0 01-.707-1.707l.804-.804L7.22 15H5a2 2 0 01-2-2V5zm5.771 7H5V5h10v7H8.771z"
-              clipRule="evenodd"
-            />
-          </svg>
-          <p className="ml-2 text-sm font-medium text-emerald-800">
-            <span className="mr-2 inline-flex items-center rounded-full bg-emerald-600 px-2 py-0.5 text-xs font-medium text-white">
-              Ψηφιακή
-            </span>
-            Οι δεξιότητες που σημειώνονται ως "Ψηφιακές" είναι τεχνολογικές ικανότητες που
-            εντοπίζονται από το Ευρωπαϊκό πλαίσιο Δεξιοτήτων, Ικανοτήτων και Επαγγελμάτων (ESCO).
-          </p>
+      {/* Digital and Green skills info banner */}
+      <div className="mt-6 space-y-4">
+        <div className="rounded-lg border border-purple-200 bg-purple-50 p-4">
+          <div className="flex items-center">
+            <svg className="h-5 w-5 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                fillRule="evenodd"
+                d="M3 5a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2h-2.22l.123.489.804.804A1 1 0 0113 18H7a1 1 0 01-.707-1.707l.804-.804L7.22 15H5a2 2 0 01-2-2V5zm5.771 7H5V5h10v7H8.771z"
+                clipRule="evenodd"
+              />
+            </svg>
+            <p className="ml-2 text-sm font-medium text-purple-800">
+              <span className="mr-2 inline-flex items-center rounded-full bg-purple-600 px-2 py-0.5 text-xs font-medium text-white">
+                Ψηφιακή
+              </span>
+              Οι δεξιότητες που σημειώνονται ως "Ψηφιακές" είναι τεχνολογικές ικανότητες που
+              εντοπίζονται από το Ευρωπαϊκό πλαίσιο Δεξιοτήτων, Ικανοτήτων και Επαγγελμάτων (ESCO).
+            </p>
+          </div>
+        </div>
+        
+        <div className="rounded-lg border border-green-200 bg-green-50 p-4">
+          <div className="flex items-center">
+            <svg className="h-5 w-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
+              />
+            </svg>
+            <p className="ml-2 text-sm font-medium text-green-800">
+              <span className="mr-2 inline-flex items-center rounded-full bg-green-600 px-2 py-0.5 text-xs font-medium text-white">
+                Πράσινη
+              </span>
+              Οι δεξιότητες που σημειώνονται ως "Πράσινες" είναι περιβαλλοντικές και βιώσιμες ικανότητες
+              που συμβάλλουν στην πράσινη μετάβαση και την αειφόρο ανάπτυξη.
+            </p>
+          </div>
         </div>
       </div>
 
@@ -46,8 +68,10 @@ export default async function SkillsPage() {
               key={skill.id}
               className={`rounded-lg border p-6 shadow-sm transition-shadow hover:shadow-md ${
                 skill.is_digital_skill
-                  ? 'border-emerald-200 bg-gradient-to-br from-emerald-50 to-emerald-100'
-                  : 'border-gray-200 bg-white'
+                  ? 'border-purple-200 bg-gradient-to-br from-purple-50 to-purple-100'
+                  : skill.is_green_skill
+                    ? 'border-green-200 bg-gradient-to-br from-green-50 to-green-100'
+                    : 'border-gray-200 bg-white'
               }`}
             >
               <div className="flex items-start justify-between">
@@ -56,18 +80,33 @@ export default async function SkillsPage() {
                     {skill.preferred_label}
                   </Link>
                 </h3>
-                {skill.is_digital_skill && (
-                  <span className="ml-2 inline-flex items-center rounded-full bg-emerald-600 px-2.5 py-0.5 text-xs font-medium text-white">
-                    <svg className="mr-1 h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
-                      <path
-                        fillRule="evenodd"
-                        d="M3 5a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2h-2.22l.123.489.804.804A1 1 0 0113 18H7a1 1 0 01-.707-1.707l.804-.804L7.22 15H5a2 2 0 01-2-2V5zm5.771 7H5V5h10v7H8.771z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    Ψηφιακή
-                  </span>
-                )}
+                <div className="flex gap-2">
+                  {skill.is_digital_skill && (
+                    <span className="inline-flex items-center rounded-full bg-purple-600 px-2.5 py-0.5 text-xs font-medium text-white">
+                      <svg className="mr-1 h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
+                        <path
+                          fillRule="evenodd"
+                          d="M3 5a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2h-2.22l.123.489.804.804A1 1 0 0113 18H7a1 1 0 01-.707-1.707l.804-.804L7.22 15H5a2 2 0 01-2-2V5zm5.771 7H5V5h10v7H8.771z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                      Ψηφιακή
+                    </span>
+                  )}
+                  {skill.is_green_skill && (
+                    <span className="inline-flex items-center rounded-full bg-green-600 px-2.5 py-0.5 text-xs font-medium text-white">
+                      <svg className="mr-1 h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
+                        />
+                      </svg>
+                      Πράσινη
+                    </span>
+                  )}
+                </div>
               </div>
 
               <p className="mt-2 line-clamp-3 text-sm text-gray-500">{skill.description}</p>

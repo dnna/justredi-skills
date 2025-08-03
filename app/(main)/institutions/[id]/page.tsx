@@ -145,8 +145,13 @@ export default async function InstitutionPage({ params }: Props) {
                           >
                             {skill.preferred_label}
                             {Boolean(skill.is_digital_skill) && (
-                              <span className="ml-1 rounded-full bg-emerald-600 px-1.5 py-0.5 text-xs text-white">
+                              <span className="ml-1 rounded-full bg-purple-600 px-1.5 py-0.5 text-xs text-white">
                                 Ψηφιακή
+                              </span>
+                            )}
+                            {Boolean(skill.is_green_skill) && (
+                              <span className="ml-1 rounded-full bg-green-600 px-1.5 py-0.5 text-xs text-white">
+                                Πράσινη
                               </span>
                             )}
                             {skill.skill_type === 'knowledge' && (

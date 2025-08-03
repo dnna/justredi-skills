@@ -3,6 +3,7 @@ interface Skill {
   preferred_label: string;
   skill_type?: string;
   is_digital_skill?: boolean | number | string;
+  is_green_skill?: boolean | number | string;
   is_essential?: boolean;
   description?: string;
 }
@@ -11,6 +12,7 @@ interface SkillTagsProps {
   skills: Skill[];
   maxDisplay?: number;
   showDigitalIcon?: boolean;
+  showGreenIcon?: boolean;
   size?: 'sm' | 'md' | 'lg';
   variant?: 'default' | 'compact';
   colorScheme?: 'default' | 'essential' | 'red' | 'gray';
@@ -21,6 +23,7 @@ export function SkillTags({
   skills,
   maxDisplay = 6,
   showDigitalIcon = true,
+  showGreenIcon = true,
   size = 'sm',
   variant = 'default',
   colorScheme = 'default',
@@ -45,6 +48,13 @@ export function SkillTags({
   const isDigitalSkill = (skill: Skill) => {
     return Boolean(
       skill.is_digital_skill && skill.is_digital_skill !== 0 && skill.is_digital_skill !== '0'
+    );
+  };
+
+  // Helper function to check if skill is green
+  const isGreenSkill = (skill: Skill) => {
+    return Boolean(
+      skill.is_green_skill && skill.is_green_skill !== 0 && skill.is_green_skill !== '0'
     );
   };
 
@@ -82,6 +92,21 @@ export function SkillTags({
               strokeLinejoin="round"
               strokeWidth={2}
               d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"
+            />
+          </svg>
+        )}
+        {showGreenIcon && isGreenSkill(skill) && (
+          <svg
+            className={`mr-1 ${iconSizeClasses[size]}`}
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
             />
           </svg>
         )}

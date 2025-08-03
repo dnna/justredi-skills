@@ -288,8 +288,13 @@ export default function CourseSkillManagement() {
                               {skill.esco_id}
                             </div>
                             {skill.is_digital_skill && (
-                              <span className="mt-1 inline-flex items-center rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-800">
+                              <span className="mt-1 inline-flex items-center rounded-full bg-purple-100 px-2 py-0.5 text-xs font-medium text-purple-800">
                                 Ψηφιακή
+                              </span>
+                            )}
+                            {skill.is_green_skill && (
+                              <span className="mt-1 inline-flex items-center rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-800">
+                                Πράσινη
                               </span>
                             )}
                           </div>
@@ -398,8 +403,13 @@ export default function CourseSkillManagement() {
                       <div className="mt-1 flex items-center">
                         <span className="text-xs text-gray-500">{skill.skill_type}</span>
                         {skill.is_digital_skill && (
-                          <span className="ml-2 inline-flex items-center rounded bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-800">
+                          <span className="ml-2 inline-flex items-center rounded bg-purple-100 px-2 py-0.5 text-xs font-medium text-purple-800">
                             Ψηφιακή
+                          </span>
+                        )}
+                        {skill.is_green_skill && (
+                          <span className="ml-2 inline-flex items-center rounded bg-green-100 px-2 py-0.5 text-xs font-medium text-green-800">
+                            Πράσινη
                           </span>
                         )}
                       </div>

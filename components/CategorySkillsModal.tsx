@@ -16,6 +16,7 @@ type CategoryItem = {
   name: string;
   skill_type?: 'knowledge' | 'skill/competence';
   is_digital_skill?: boolean;
+  is_green_skill?: boolean;
   children?: CategoryItem[];
 };
 
@@ -214,8 +215,13 @@ export function CategorySkillsModal({ isOpen, onClose, categories }: CategoryMod
                               >
                                 {skill.name.charAt(0).toUpperCase() + skill.name.slice(1)}
                                 {Boolean(skill.is_digital_skill) && (
-                                  <span className="ml-2 rounded-full bg-emerald-600 px-2 py-0.5 text-xs text-white">
+                                  <span className="ml-2 rounded-full bg-purple-600 px-2 py-0.5 text-xs text-white">
                                     Ψηφιακή
+                                  </span>
+                                )}
+                                {Boolean(skill.is_green_skill) && (
+                                  <span className="ml-2 rounded-full bg-green-600 px-2 py-0.5 text-xs text-white">
+                                    Πράσινη
                                   </span>
                                 )}
                                 {skill.skill_type === 'knowledge' && (
