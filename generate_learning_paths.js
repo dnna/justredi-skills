@@ -228,7 +228,7 @@ function generatePathsWithSimulatedAnnealing(
   const courses = Array.from(courseMap.values());
   const allSkills = new Set([...essentialSkills, ...additionalSkills]);
   const maxPaths = 10; // Generate up to 10 diverse paths
-  const maxIterations = 1000;
+  const maxIterations = 2000; // Increased iterations for better exploration
   const maxCourses = 10;
 
   const paths = [];
@@ -237,8 +237,14 @@ function generatePathsWithSimulatedAnnealing(
     let bestPath = null;
     let bestFitness = -Infinity;
 
-    // Start with a random valid path
-    let currentPath = generateRandomPath(courses, essentialSkills, additionalSkills, maxCourses);
+    // Start with either a greedy path (first iteration) or random path
+    let currentPath;
+    if (pathIndex === 0) {
+      currentPath = generateGreedyPath(courses, essentialSkills, additionalSkills, maxCourses);
+    } else {
+      currentPath = generateRandomPath(courses, essentialSkills, additionalSkills, maxCourses);
+    }
+
     let currentFitness = calculateFitness(
       currentPath,
       essentialSkills,
@@ -246,10 +252,10 @@ function generatePathsWithSimulatedAnnealing(
       totalSkills
     );
 
-    // Simulated annealing parameters
-    let temperature = 100;
-    const coolingRate = 0.95;
-    const minTemperature = 0.1;
+    // Simulated annealing parameters - slower cooling for better exploration
+    let temperature = 200;
+    const coolingRate = 0.98;
+    const minTemperature = 0.01;
 
     for (
       let iteration = 0;
@@ -319,38 +325,96 @@ function generatePathsWithSimulatedAnnealing(
     }
   }
 
-  // Remove duplicate paths and sort by fitness
+  // Remove duplicate paths and sort by actual fitness score
   const uniquePaths = removeDuplicatePaths(paths);
   uniquePaths.sort((a, b) => {
-    // Prioritize essential skills coverage, then total coverage, then fewer courses
-    const aScore = a.essentialMatch * 100 + a.totalMatch - a.courses.length;
-    const bScore = b.essentialMatch * 100 + b.totalMatch - b.courses.length;
-    return bScore - aScore;
+    // Use the actual calculated fitness score which accounts for all factors
+    return b.score - a.score;
   });
 
   return uniquePaths.slice(0, 10); // Return top 10 paths
 }
 
-function generateRandomPath(courses, essentialSkills, additionalSkills, maxCourses) {
+function generateGreedyPath(courses, essentialSkills, additionalSkills, maxCourses) {
   const path = [];
   const coveredSkills = new Set();
-  const shuffledCourses = [...courses].sort(() => Math.random() - 0.5);
+  const remainingCourses = [...courses];
 
-  for (const course of shuffledCourses) {
-    if (path.length >= maxCourses) break;
+  // Greedily select courses that maximize uncovered essential skills
+  while (path.length < maxCourses && remainingCourses.length > 0) {
+    let bestCourse = null;
+    let bestScore = -1;
 
-    // Check if this course adds any new skills
-    const newSkills = [...course.skills].filter(
-      (s) => (essentialSkills.has(s) || additionalSkills.has(s)) && !coveredSkills.has(s)
-    );
+    for (const course of remainingCourses) {
+      // Calculate score based on new essential skills this course would add
+      const newEssentialSkills = [...course.essentialSkills].filter(
+        (s) => essentialSkills.has(s) && !coveredSkills.has(s)
+      ).length;
 
-    if (newSkills.length > 0) {
-      path.push(course);
-      newSkills.forEach((s) => coveredSkills.add(s));
+      const newAdditionalSkills = [...course.additionalSkills].filter(
+        (s) => additionalSkills.has(s) && !coveredSkills.has(s)
+      ).length;
+
+      // Heavily weight essential skills
+      const score = newEssentialSkills * 10 + newAdditionalSkills * 1;
+
+      if (score > bestScore) {
+        bestScore = score;
+        bestCourse = course;
+      }
+    }
+
+    if (bestCourse && bestScore > 0) {
+      path.push(bestCourse);
+      // Update covered skills
+      bestCourse.skills.forEach((skillId) => {
+        if (essentialSkills.has(skillId) || additionalSkills.has(skillId)) {
+          coveredSkills.add(skillId);
+        }
+      });
+      // Remove from remaining courses
+      const index = remainingCourses.findIndex((c) => c.course_id === bestCourse.course_id);
+      if (index > -1) remainingCourses.splice(index, 1);
+    } else {
+      break; // No more beneficial courses
     }
   }
 
-  return path;
+  return path.length > 0 ? path : [courses[0]]; // Ensure at least one course
+}
+
+function generateRandomPath(courses, essentialSkills, additionalSkills, maxCourses) {
+  const path = [];
+  const shuffledCourses = [...courses].sort(() => Math.random() - 0.5);
+
+  // Build initial path focusing on essential skills coverage first
+  const essentialCourses = shuffledCourses.filter((course) =>
+    [...course.essentialSkills].some((s) => essentialSkills.has(s))
+  );
+  const otherCourses = shuffledCourses.filter((course) => !essentialCourses.includes(course));
+
+  // Add courses that cover essential skills first
+  for (const course of essentialCourses) {
+    if (path.length >= maxCourses) break;
+    path.push(course);
+  }
+
+  // Then add other courses to improve coverage
+  for (const course of otherCourses) {
+    if (path.length >= maxCourses) break;
+
+    // Check if this course adds value (new skills or better scores)
+    const hasRelevantSkills = [...course.skills].some(
+      (s) => essentialSkills.has(s) || additionalSkills.has(s)
+    );
+
+    if (hasRelevantSkills && Math.random() < 0.7) {
+      // 70% chance to add
+      path.push(course);
+    }
+  }
+
+  return path.length > 0 ? path : [shuffledCourses[0]]; // Ensure at least one course
 }
 
 function generateNeighborPath(
@@ -360,7 +424,7 @@ function generateNeighborPath(
   additionalSkills,
   maxCourses
 ) {
-  const operations = ['add', 'remove', 'replace'];
+  const operations = ['add', 'remove', 'replace', 'smart_add'];
   const operation = operations[Math.floor(Math.random() * operations.length)];
 
   let newPath = [...currentPath];
@@ -372,6 +436,45 @@ function generateNeighborPath(
           (c) => !newPath.some((p) => p.course_id === c.course_id)
         );
         if (availableCourses.length > 0) {
+          const randomCourse =
+            availableCourses[Math.floor(Math.random() * availableCourses.length)];
+          newPath.push(randomCourse);
+        }
+      }
+      break;
+
+    case 'smart_add':
+      // Intelligently add courses that cover uncovered essential skills
+      if (newPath.length < maxCourses) {
+        const coveredSkills = new Set();
+        newPath.forEach((course) => {
+          course.skills.forEach((skillId) => coveredSkills.add(skillId));
+        });
+
+        const uncoveredEssential = [...essentialSkills].filter((s) => !coveredSkills.has(s));
+        const availableCourses = allCourses.filter(
+          (c) => !newPath.some((p) => p.course_id === c.course_id)
+        );
+
+        // Find courses that cover uncovered essential skills
+        const beneficialCourses = availableCourses.filter((course) =>
+          [...course.essentialSkills].some((s) => uncoveredEssential.includes(s))
+        );
+
+        if (beneficialCourses.length > 0) {
+          // Sort by how many uncovered essential skills they provide
+          beneficialCourses.sort((a, b) => {
+            const aCount = [...a.essentialSkills].filter((s) =>
+              uncoveredEssential.includes(s)
+            ).length;
+            const bCount = [...b.essentialSkills].filter((s) =>
+              uncoveredEssential.includes(s)
+            ).length;
+            return bCount - aCount;
+          });
+          newPath.push(beneficialCourses[0]);
+        } else if (availableCourses.length > 0) {
+          // Fallback to random course
           const randomCourse =
             availableCourses[Math.floor(Math.random() * availableCourses.length)];
           newPath.push(randomCourse);
@@ -436,32 +539,17 @@ function calculateFitness(path, essentialSkills, additionalSkills, totalSkills) 
   const efficiencyPenalty = Math.max(0, path.length - 8) * 5; // Penalty for too many courses
   const coursePenalty = path.length * 2; // Additional penalty for more courses to break ties
 
-  // Heavy penalty for skill duplicates
+  // Moderate penalty for skill duplicates (reduced from 200 to 20)
   let duplicatePenalty = 0;
   for (const [skillId, count] of skillDuplicates) {
     if (count > 1) {
-      duplicatePenalty += (count - 1) * 200; // Very heavy penalty for duplicates
+      // Smaller penalty allows beneficial overlaps while still discouraging excessive duplication
+      duplicatePenalty += (count - 1) * 20;
     }
   }
 
-  // Provider consolidation bonus - reward fewer providers
+  // Provider consolidation bonus - REMOVED to prioritize fewer courses
   let providerBonus = 0;
-  const totalProviders = providerCount.size;
-  const totalCourses = path.length;
-
-  if (totalCourses > 1 && totalProviders > 0) {
-    // Calculate bonus based on how consolidated the providers are
-    // More courses from fewer providers = higher bonus
-    const consolidationRatio = totalCourses / totalProviders;
-    providerBonus = (consolidationRatio - 1) * 15; // Bonus multiplier for provider consolidation
-
-    // Additional bonus for having multiple courses from the same provider
-    for (const [providerId, courseCount] of providerCount) {
-      if (courseCount > 1) {
-        providerBonus += (courseCount - 1) * 10; // Extra bonus for each additional course from same provider
-      }
-    }
-  }
 
   // Bonus for covering all essential skills
   const essentialBonus = essentialCoverage >= 1.0 ? 50 : 0;

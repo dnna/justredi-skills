@@ -42,10 +42,11 @@ export async function getCategoryHierarchy(): Promise<CategoryItem[]> {
       const originalGroupName = group.id; // Keep original English name for DB query
 
       const skillsQuery = `
-        SELECT id, COALESCE(preferred_label_el, preferred_label) as name, skill_type, is_digital_skill, is_green_skill
-        FROM skills
-        WHERE skill_group = ?
-        ORDER BY COALESCE(preferred_label_el, preferred_label)
+        SELECT DISTINCT s.id, COALESCE(s.preferred_label_el, s.preferred_label) as name, s.skill_type, s.is_digital_skill, s.is_green_skill
+        FROM skills s
+        INNER JOIN course_skills cs ON s.id = cs.skill_id
+        WHERE s.skill_group = ?
+        ORDER BY COALESCE(s.preferred_label_el, s.preferred_label)
         LIMIT 50
       `;
 

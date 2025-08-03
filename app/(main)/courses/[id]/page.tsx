@@ -46,12 +46,7 @@ export default async function CoursePage({ params, searchParams }: Props) {
       </h1>
 
       <div className="mt-6 text-lg leading-8 text-gray-600">
-        {!hasStructuredContent && (
-          <p>
-            {course.description ||
-              'This course is part of our education catalog. Learn more about the specific skills and knowledge you can gain by enrolling.'}
-          </p>
-        )}
+        {!hasStructuredContent && <p>{course.description}</p>}
       </div>
 
       <div className="mt-10">

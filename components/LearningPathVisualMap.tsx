@@ -139,10 +139,19 @@ export function LearningPathVisualMap({
       // Add course nodes for this path
       const courseStartX = containerWidth < 768 ? startNodeWidth + 20 : startNodeWidth + 50;
       path.courses.forEach((course, courseIndex) => {
+        // For single course paths, center the course between start and goal
+        let courseX = courseStartX + courseIndex * (courseWidth + courseSpacing) + courseWidth / 2;
+        if (coursesCount === 1) {
+          // Center single course between start and goal nodes
+          const startX = containerWidth < 768 ? 30 : 50;
+          const goalX = containerWidth < 768 ? containerWidth - 40 : containerWidth - 100;
+          courseX = (startX + goalX) / 2;
+        }
+
         calculatedNodes.push({
           id: `course-${pathIndex}-${courseIndex}`,
           type: 'course',
-          x: courseStartX + courseIndex * (courseWidth + courseSpacing) + courseWidth / 2,
+          x: courseX,
           y: pathY,
           data: course,
           pathIndex,
