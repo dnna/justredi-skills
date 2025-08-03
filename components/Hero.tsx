@@ -89,46 +89,46 @@ export function Hero({ onOpenCategoryModal }: HeroProps) {
   return (
     <div className="overflow-hidden pb-32 pt-16">
       <Container>
-        <div className="gap-y-10 lg:grid lg:grid-cols-12 lg:gap-x-8">
-          <div className="relative z-10 mx-auto max-w-2xl lg:col-span-12 lg:max-w-none xl:col-span-12">
-            <BackgroundIllustration className="absolute left-1/2 top-4 h-[1026px] w-[1026px] -translate-x-1/3 stroke-gray-300/70 [mask-image:linear-gradient(to_bottom,white_20%,transparent_75%)] sm:top-16 sm:-translate-x-1/2 lg:-top-16 lg:ml-12 xl:-top-14 xl:ml-0" />
-          </div>
-          <div className="relative z-10 mx-auto max-w-2xl lg:col-span-12 lg:max-w-none xl:col-span-12">
+        <div className="relative">
+          <BackgroundIllustration className="absolute left-1/2 top-4 h-[1026px] w-[1026px] -translate-x-1/3 stroke-gray-300/70 [mask-image:linear-gradient(to_bottom,white_20%,transparent_75%)] sm:top-16 sm:-translate-x-1/2 lg:-top-16 lg:ml-12 xl:-top-14 xl:ml-0" />
+          <div className="relative z-10">
             <h1 className="text-center text-2xl font-bold font-medium tracking-tight text-[#6DAB51]">
               Καλώς ήρθατε στο JustReDI Skills
             </h1>
-          </div>
-          <div className="relative z-10 mx-auto mt-10 max-w-2xl lg:col-span-12 lg:mt-0 lg:max-w-none xl:col-span-12">
-            <h1 className="mx-auto text-center text-4xl font-medium tracking-tight text-gray-900 lg:w-4/5">
-              Αναζητήστε εργασιακά προφίλ και ευκαιρίες μάθησης για να βελτιώσετε τις δεξιότητές σας
-            </h1>
-            <form
-              action="/search"
-              method="GET"
-              className="mx-auto mt-10 flex w-2/3 flex-col items-center gap-4 lg:mt-0 lg:mt-8 lg:flex-row"
-            >
-              <button
-                type="button"
-                onClick={handleCategoryClick}
-                className="flex cursor-pointer items-center justify-center rounded-md px-4 py-2 font-medium text-gray-700 shadow-sm transition-colors hover:bg-gray-100 hover:text-gray-900"
+            <div className="mt-10">
+              <h1 className="mx-auto text-center text-4xl font-medium tracking-tight text-gray-900 lg:w-4/5">
+                <span className="block">Οι δεξιότητες του μέλλοντος για την</span>
+                <span className="text-green-600">Πράσινη</span> και{' '}
+                <span className="text-purple-600">Ψηφιακή</span> μετάβαση
+              </h1>
+              <form
+                action="/search"
+                method="GET"
+                className="mx-auto mt-10 flex w-2/3 flex-col items-center gap-4 lg:mt-0 lg:mt-8 lg:flex-row"
               >
-                Εξερευνήστε εργασιακά προφίλ <IoIosArrowDown className="ml-1 h-4 w-4" />
-              </button>
-              <div className="flex-grow">
-                <input
-                  type="text"
-                  name="q"
-                  placeholder="Αναζητήστε εργασιακά προφίλ, ευκαιρίες ή δεξιότητες"
-                  className="w-full rounded border border-gray-300 p-2 text-sm text-gray-600"
-                />
-              </div>
-              <div className="flex flex-wrap gap-x-6 gap-y-4">
-                <Button type="submit" color="green">
-                  <CiSearch className="h-6 w-6 flex-none" />
-                  <span className="ml-2.5">Αναζήτηση</span>
-                </Button>
-              </div>
-            </form>
+                <button
+                  type="button"
+                  onClick={handleCategoryClick}
+                  className="flex cursor-pointer items-center justify-center rounded-md px-4 py-2 font-medium text-gray-700 shadow-sm transition-colors hover:bg-gray-100 hover:text-gray-900"
+                >
+                  Εξερευνήστε εργασιακά προφίλ <IoIosArrowDown className="ml-1 h-4 w-4" />
+                </button>
+                <div className="flex-grow">
+                  <input
+                    type="text"
+                    name="q"
+                    placeholder="Αναζητήστε εργασιακά προφίλ, ευκαιρίες ή δεξιότητες"
+                    className="w-full rounded border border-gray-300 p-2 text-sm text-gray-600"
+                  />
+                </div>
+                <div className="flex flex-wrap gap-x-6 gap-y-4">
+                  <Button type="submit" color="green">
+                    <CiSearch className="h-6 w-6 flex-none" />
+                    <span className="ml-2.5">Αναζήτηση</span>
+                  </Button>
+                </div>
+              </form>
+            </div>
           </div>
           {/*<div className="relative -mt-4 lg:col-span-12 lg:mt-0 xl:col-span-12">
             <p className="mt-12 text-center text-sm font-semibold text-gray-900 lg:mt-0 lg:text-left">

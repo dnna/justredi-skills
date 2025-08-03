@@ -195,11 +195,23 @@ export function CategorySkillsModal({ isOpen, onClose, categories }: CategoryMod
                                 )
                             )
                             .sort((a, b) => {
-                              // Sort by digital skills first, then alphabetically
-                              if (Boolean(a.is_digital_skill) && !Boolean(b.is_digital_skill))
-                                return -1;
-                              if (!Boolean(a.is_digital_skill) && Boolean(b.is_digital_skill))
-                                return 1;
+                              // Sort by green skills first, then digital skills, then alphabetically
+                              const aIsDigital = Boolean(a.is_digital_skill);
+                              const bIsDigital = Boolean(b.is_digital_skill);
+                              const aIsGreen = Boolean(a.is_green_skill);
+                              const bIsGreen = Boolean(b.is_green_skill);
+
+                              // Green skills first
+                              if (aIsGreen && !bIsGreen) return -1;
+                              if (!aIsGreen && bIsGreen) return 1;
+
+                              // If both or neither are green, then digital skills next
+                              if (aIsGreen === bIsGreen) {
+                                if (aIsDigital && !bIsDigital) return -1;
+                                if (!aIsDigital && bIsDigital) return 1;
+                              }
+
+                              // Finally, sort alphabetically
                               return a.name.localeCompare(b.name);
                             })
                             .map((skill) => (

@@ -48,12 +48,7 @@ export function CollapsibleSkillSection({
               title={skill.description}
             >
               {skill.is_digital_skill && (
-                <svg
-                  className="mr-1 h-3 w-3"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
+                <svg className="mr-1 h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -63,12 +58,7 @@ export function CollapsibleSkillSection({
                 </svg>
               )}
               {skill.is_green_skill && (
-                <svg
-                  className="mr-1 h-3 w-3"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
+                <svg className="mr-1 h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"

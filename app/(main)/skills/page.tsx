@@ -15,8 +15,9 @@ export default async function SkillsPage() {
 
       <p className="mt-6 text-lg leading-8 text-gray-600">
         Εξερευνήστε δεξιότητες που μπορούν να βελτιώσουν τις επαγγελματικές σας προοπτικές και
-        συνδυάστέ τις με κατάλληλες ευκαιρίες μάθησης. Οι ψηφιακές και πράσινες δεξιότητες είναι ιδιαίτερα
-        τονισμένες για να σας βοηθήσουν να εντοπίσετε τεχνολογικές και περιβαλλοντικές ικανότητες.
+        συνδυάστέ τις με κατάλληλες ευκαιρίες μάθησης. Οι ψηφιακές και πράσινες δεξιότητες είναι
+        ιδιαίτερα τονισμένες για να σας βοηθήσουν να εντοπίσετε τεχνολογικές και περιβαλλοντικές
+        ικανότητες.
       </p>
 
       {/* Digital and Green skills info banner */}
@@ -39,10 +40,15 @@ export default async function SkillsPage() {
             </p>
           </div>
         </div>
-        
+
         <div className="rounded-lg border border-green-200 bg-green-50 p-4">
           <div className="flex items-center">
-            <svg className="h-5 w-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg
+              className="h-5 w-5 text-green-600"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -54,8 +60,8 @@ export default async function SkillsPage() {
               <span className="mr-2 inline-flex items-center rounded-full bg-green-600 px-2 py-0.5 text-xs font-medium text-white">
                 Πράσινη
               </span>
-              Οι δεξιότητες που σημειώνονται ως "Πράσινες" είναι περιβαλλοντικές και βιώσιμες ικανότητες
-              που συμβάλλουν στην πράσινη μετάβαση και την αειφόρο ανάπτυξη.
+              Οι δεξιότητες που σημειώνονται ως "Πράσινες" είναι περιβαλλοντικές και βιώσιμες
+              ικανότητες που συμβάλλουν στην πράσινη μετάβαση και την αειφόρο ανάπτυξη.
             </p>
           </div>
         </div>
@@ -95,7 +101,12 @@ export default async function SkillsPage() {
                   )}
                   {skill.is_green_skill && (
                     <span className="inline-flex items-center rounded-full bg-green-600 px-2.5 py-0.5 text-xs font-medium text-white">
-                      <svg className="mr-1 h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg
+                        className="mr-1 h-3 w-3"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
